@@ -1,7 +1,7 @@
 import { Outlet, ScrollRestoration } from "react-router-dom";
-import Footer from "./footer";
+import Footer from "./Footer";
 import ExperienceBanner from "./ExperienceBanner";
-import Navbar from "./navbar";
+import Navbar from "./Navbar";
 
 export default function PublicLayout() {
   return (
