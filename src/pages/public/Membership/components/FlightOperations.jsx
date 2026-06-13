@@ -3,7 +3,7 @@ import React from "react";
 const FlightOperations = () => {
   return (
     <section className="w-full bg-[#FFFFFF] font-sans selection:bg-blue-100">
-      <div className="container mx-auto px-4 md:px-6 lg:px-6 pt-8 md:pt-16 lg:pt-24 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+      <div className="container mx-auto px-4 md:px-6 lg:px-6 pt-8 md:pt-16 lg:pt-24 grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 items-center">
         {/* Left Column: Content (6 Cols) */}
         <div className="lg:col-span-6 flex flex-col items-start space-y-5 max-w-2xl">
           {/* Badge */}
@@ -57,11 +57,11 @@ const FlightOperations = () => {
         </div>
 
         {/* Right Column: Single Image (6 Cols) */}
-        <div className="lg:col-span-6 w-full h-[320px] sm:h-[400px] overflow-hidden rounded-2xl bg-slate-100 shadow-sm relative group">
+        <div className="lg:col-span-6 w-full h-[320px] sm:h-[400px] overflow-hidden rounded-2xl ">
           <img
             src="OPERATIONAL_EXCELLENCE.png"
             alt="Private jet with steps down on airport runway"
-            className="w-full h-full object-cover object-center"
+            className="w-full h-full object-contain object-center"
           />
         </div>
       </div>
