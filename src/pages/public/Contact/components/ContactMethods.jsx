@@ -1,5 +1,5 @@
 import React from 'react';
-// lucide-react থেকে নিখুঁত ম্যাচিং আইকনগুলো নেওয়া হয়েছে
+// Perfect matching icons imported from lucide-react
 import { Crown, Headphones, Link2 } from 'lucide-react';
 
 const ContactMethods = () => {
