@@ -2,7 +2,6 @@ const HeroSection = () => {
   return (
     <section className="  mx-auto container px-4 md:px-6 lg:px-8 w-full bg-white pt-4">
       <div className="relative w-full rounded-lg overflow-hidden">
-        {/* Full Width Image */}
         <div className="w-full mx-auto h-[550px]">
           <img
             src="/Subtract.png"
