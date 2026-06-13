@@ -35,7 +35,7 @@ const TermsAndConditionsHeader = () => {
         {/* Bottom large banner image section */}
         <div className="w-full overflow-hidden rounded-[24px] md:rounded-[32px] shadow-sm aspect-[21/9] relative">
           <img 
-            src="https://images.unsplash.com/photo-1542744094-3a31f103e35f?auto=format&fit=crop&q=80&w=2070" 
+            src="terms.png" 
             alt="Raven Private Aviation Meeting" 
             className="w-full h-full object-cover object-center brightness-[0.85] contrast-[1.05]"
           />

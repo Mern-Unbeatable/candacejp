@@ -11,7 +11,7 @@ import PublicRoute from './PublicRoute'
 
 import Home from '../pages/public/Home/Home'
 import Membership from '../pages/public/Membership/Membership'
-import Terms from '../pages/public/Terms'
+import Terms from '../pages/public/Terms/Terms'
 import FAQ from '../pages/public/FAQ/FAQ'
 import Contact from '../pages/public/Contact/Contact'
 import Login from '../pages/public/Login'
