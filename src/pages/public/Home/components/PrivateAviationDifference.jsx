@@ -5,7 +5,7 @@ const PrivateAviationDifference = () => {
     <section className="container mx-auto bg-[#FFFFFF] font-sans px-4 md:px-6 lg:px-6 pt-16 md:pt-16 lg:pt-24 selection:bg-blue-100">
       <div className="flex flex-col lg:flex-row justify-between gap-12 lg:gap-8 items-center">
         {/* Left Column: Content (5 Cols) */}
-        <div className="w-full lg:w-[45%] flex flex-col items-start space-y-4">
+        <div className="w-full lg:w-[55%] flex flex-col items-start space-y-4">
           {/* Badge */}
           <span className="text-[#10336A] font-medium text-[12px] uppercase tracking-[0.2em]">
             Experience
@@ -20,14 +20,14 @@ const PrivateAviationDifference = () => {
           </h2>
 
           {/* Description */}
-          <p className="text-[#475569] text-sm md:text-base leading-relaxed font-normal pt-2 max-w-md">
+          <p className="text-[#475569] text-sm md:text-base leading-relaxed font-normal pt-2">
             See how Raven redefines what travel means. Travel on your terms. No
-            queues. No delays. Just pure, unfiltered luxury.
+            queues. <br/> No delays. Just pure, unfiltered luxury.
           </p>
         </div>
 
         {/* Right Column: Premium Image Showcase (7 Cols) */}
-        <div className="w-full lg:w-[50%]">
+        <div className="w-full lg:w-[40%]">
           <div className="overflow-hidden rounded-2xl bg-slate-100 shadow-sm relative">
             <img
               src="/Rectangle4.png"
