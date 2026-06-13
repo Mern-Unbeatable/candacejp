@@ -28,8 +28,8 @@ const WhatYouReceive = () => {
   ];
 
   return (
-    <section className="w-full bg-[#FFFFFF] font-sans px-6 py-16 md:px-16 md:py-24 selection:bg-blue-100">
-      <div className="max-w-7xl mx-auto">
+    <section className="w-full bg-[#FFFFFF] font-sans  selection:bg-blue-100">
+      <div className="container mx-auto px-4 md:px-6 lg:px-6 py-8 md:py-16 lg:py-24">
         
         {/* Top Header Section */}
         <div className="mb-12 flex flex-col space-y-2">
