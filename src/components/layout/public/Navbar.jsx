@@ -174,15 +174,14 @@ const Navbar = () => {
     <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
       <div className="mx-auto flex h-16 container items-center px-4 sm:px-6">
 
-        {/* Logo - left, fixed width to match buttons side */}
         <div className="w-[220px] flex-shrink-0">
           <Link to="/">
-            <img src="/Raven_logo.png" alt="Raven Logo" className="h-10 md:h-12" />
+            <img src="/Raven_logo.png" alt="Raven Logo" className="h-10 lg:h-12" />
           </Link>
         </div>
 
         {/* Nav - true center */}
-        <nav className="hidden md:flex flex-1 justify-center items-center gap-1">
+        <nav className="hidden lg:flex flex-1 justify-center items-center gap-1">
           {navLinks.map((link) => {
             const isActive = location.pathname === link.to;
             return (
@@ -202,7 +201,7 @@ const Navbar = () => {
         </nav>
 
         {/* Buttons - right, same fixed width as logo div */}
-        <div className="hidden md:flex items-center justify-end gap-3 w-[220px] flex-shrink-0">
+        <div className="hidden lg:flex items-center justify-end gap-3 w-[220px] flex-shrink-0">
           {isAuthenticated ? (
             <button
               onClick={logout}
@@ -230,7 +229,7 @@ const Navbar = () => {
 
         {/* Mobile hamburger */}
         <button
-          className="rounded-lg p-2 md:hidden ml-auto text-gray-700 hover:bg-gray-100 transition-colors"
+          className="rounded-lg p-2 lg:hidden ml-auto text-gray-700 hover:bg-gray-100 transition-colors"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
@@ -240,7 +239,7 @@ const Navbar = () => {
 
       {/* Mobile menu */}
       <div
-        className={`md:hidden absolute left-0 right-0 bg-white shadow-lg border-t border-gray-100 transition-all duration-300 ease-in-out transform ${
+        className={`lg:hidden absolute left-0 right-0 bg-white shadow-lg border-t border-gray-100 transition-all duration-300 ease-in-out transform ${
           menuOpen ? 'opacity-100 translate-y-0 visible' : 'opacity-0 -translate-y-4 invisible pointer-events-none'
         }`}
       >
