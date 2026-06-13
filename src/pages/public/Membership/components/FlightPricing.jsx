@@ -3,17 +3,17 @@ import { Users, Shield, Plane, PiggyBank } from 'lucide-react';
 
 const FlightPricing = () => {
   return (
-    <div className=" bg-white text-[#111111] px-6 md:px-16  font-sans py-14 md:pt-20 flex items-center">
-      <div className="container mx-auto">
+    <div className=" bg-white text-[#111111] flex items-center">
+      <div className="container mx-auto px-4 md:px-6 lg:px-6 py-8 md:py-16 lg:py-24">
         
         <div className=" pb-8 ">
           <span className="text-[#2563eb] text-xs uppercase  font-bold block mb-3">
             HOW FLIGHT PRICING WORKS
           </span>
-          <h2 className="text-3xl md:text-4xl font-normal tracking-tight font-serif text-[#111111] mb-4 leading-tight">
+          <h2 className="text-3xl md:text-4xl font-semibold tracking-tight font-serif text-[#101828] mb-4 leading-tight">
             Private Jet Travel, Shared Intelligently
           </h2>
-          <p className="text-gray-500 text-sm md:text-base leading-relaxed max-w-2xl">
+          <p className="text-gray-500 text-base leading-relaxed max-w-xl ">
             By allowing members to co-charter flights on popular routes, Raven reduces 
             individual costs by up to 70% while maintaining the uncompromising standards of 
             private aviation.
@@ -30,7 +30,7 @@ const FlightPricing = () => {
               <h4 className="text-base font-bold font-serif text-[#111111] mb-2">
                 Shared Charter Model
               </h4>
-              <p className="text-gray-500 text-xs md:text-sm leading-relaxed">
+              <p className="text-gray-500 text-sm md:text-base leading-relaxed">
                 Pool members for a semi-private shared charter experience.
               </p>
             </div>
@@ -44,63 +44,74 @@ const FlightPricing = () => {
               <h4 className="text-base font-bold font-serif text-[#111111] mb-2">
                 Concierge Coordination
               </h4>
-              <p className="text-gray-500 text-xs md:text-sm leading-relaxed">
+              <p className="text-gray-500 text-sm md:text-base leading-relaxed">
                 Dedicated specialists manage member logistics, ensuring seamless boarding and arrivals.
               </p>
             </div>
           </div>
 
-          <div className="bg-[#eef4ff] rounded-2xl p-8 md:col-span-6 flex flex-col justify-between min-h-[300px]">
-            <div>
-              <span className="text-[#2563eb] text-xs uppercase tracking-widest font-bold block mb-6">
+          <div className="bg-[#F0F6FF] rounded-[24px] p-8 md:p-10 md:col-span-6 flex flex-col justify-center min-h-[300px]">
+            <div className="relative">
+              <span className="text-[#3b82f6] text-sm md:text-base  uppercase tracking-wide font-semibold block mb-8">
                 EXAMPLE FLIGHT COST BREAKDOWN
               </span>
               
-              <div className="space-y-6">
-                <div className="flex items-center gap-4">
-                  <div className="bg-white border border-[#b4d2ff] rounded-lg p-2.5 flex items-center justify-center">
-                    <Plane className="w-5 h-5 text-[#2563eb] stroke-[1.5]" />
+              {/* Vertical line connecting text and box */}
+              <div className="absolute left-[39px] top-[16px] w-[1px] h-[34px] bg-[#3b82f6]/40"></div>
+              
+              <div className="space-y-8 pl-1">
+                {/* Row 1: Total Charter Cost */}
+                <div className="flex items-center gap-5">
+                  <div className="w-[72px] h-[72px] bg-[#F0F6FF] border border-[#3b82f6] rounded-[20px] flex items-center justify-center flex-shrink-0 z-10 relative">
+                    <Plane className="w-6 h-6 text-[#3b82f6] stroke-[2] fill-current" />
                   </div>
-                  <div>
-                    <span className="text-gray-400 text-[10px] uppercase tracking-wider block">
+                  <div className="flex flex-col gap-0.5">
+                    <span className="text-[#6B7280] text-sm md:text-base  uppercase font-medium tracking-wide">
                       TOTAL CHARTER COST
                     </span>
-                    <span className="text-base font-bold text-[#2563eb] font-mono">$20,000</span>
+                    <span className="text-3xl font-bold text-[#3b82f6] tracking-tight">
+                      $20,000
+                    </span>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center bg-black rounded-lg p-1 pr-3 border border-gray-800">
-                    <div className="w-7 h-7 rounded-md bg-gray-700 border border-gray-600 overflow-hidden flex items-center justify-center text-[10px] text-white font-bold">M1</div>
-                    <div className="w-7 h-7 rounded-md bg-gray-600 border border-gray-600 overflow-hidden flex items-center justify-center text-[10px] text-white font-bold -ml-2">M2</div>
-                    <div className="bg-[#2563eb] text-white text-[10px] font-bold px-1.5 py-1 rounded md:ml-1 text-center min-w-[24px]">
+                {/* Row 2: Members Join Flight */}
+                <div className="flex items-center gap-5">
+                  <div className="flex items-center justify-between bg-[#111111] rounded-[16px] p-1 pr-1 w-[140px] h-[52px] flex-shrink-0">
+                    <div className="flex -space-x-3 pl-1">
+                      <img src="https://i.pravatar.cc/100?img=11" alt="Member" className="w-[40px] h-[40px] rounded-[12px] border-2 border-[#111111] object-cover" />
+                      <img src="https://i.pravatar.cc/100?img=5" alt="Member" className="w-[40px] h-[40px] rounded-[12px] border-2 border-[#111111] object-cover" />
+                    </div>
+                    <div className="w-[44px] h-[44px] bg-[#3b82f6] rounded-[12px] flex items-center justify-center text-white text-[15px] font-medium">
                       +6
                     </div>
                   </div>
-                  <div>
-                    <span className="text-gray-400 text-[10px] uppercase tracking-wider block">
+                  <div className="flex flex-col gap-0.5">
+                    <span className="text-[#6B7280] text-[10px] uppercase font-medium tracking-wide">
                       MEMBERS JOIN FLIGHT
                     </span>
-                    <span className="text-sm font-semibold text-gray-700">8 Members</span>
+                    <span className="text-[22px] font-serif text-[#111111] font-normal leading-tight mt-0.5">
+                      8 Members
+                    </span>
+                  </div>
+                </div>
+
+                {/* Row 3: Estimated Cost */}
+                <div className="flex items-center gap-5">
+                  <div className="w-[72px] h-[72px] bg-[#3b82f6] rounded-[20px] flex items-center justify-center flex-shrink-0">
+                    <PiggyBank className="w-8 h-8 text-white stroke-[1.5]" />
+                  </div>
+                  <div className="flex flex-col gap-0.5">
+                    <span className="text-[#6B7280] text-[12px] uppercase font-medium tracking-wide">
+                      ESTIMATED COST PER MEMBER
+                    </span>
+                    <span className="text-[44px] leading-none font-bold text-[#3b82f6] tracking-tight mt-1">
+                      $2,500
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
-
-            <div className="mt-8 pt-6 border-t border-[#b4d2ff]/40 flex items-center gap-4">
-              <div className="bg-[#2563eb] rounded-xl p-3 flex items-center justify-center shadow-md shadow-blue-500/10">
-                <PiggyBank className="w-6 h-6 text-white stroke-[1.5]" />
-              </div>
-              <div>
-                <span className="text-gray-500 text-[11px] uppercase tracking-wider block font-medium">
-                  ESTIMATED COST PER MEMBER
-                </span>
-                <span className="text-3xl md:text-4xl font-normal text-[#2563eb] tracking-tight font-sans">
-                  $2,500
-                </span>
-              </div>
-            </div>
-
           </div>
 
         </div>
