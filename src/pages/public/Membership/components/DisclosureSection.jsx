@@ -3,8 +3,8 @@ import { Info, CheckCircle2 } from 'lucide-react';
 
 const DisclosureSection = () => {
   return (
-    <div className="w-full bg-white px-6 py-12 md:py-16 font-sans">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+    <div className="w-full bg-white font-sans">
+      <div className="container mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center px-4 md:px-6 lg:px-6 pt-4 md:pt-8 lg:pt-16 ">
         
         {/* বাম পাশের অংশ: Quotation Disclosure বক্স */}
         <div className="lg:col-span-8 bg-[#16376b] text-white rounded-xl p-6 md:p-8 flex items-start gap-4 shadow-sm">
