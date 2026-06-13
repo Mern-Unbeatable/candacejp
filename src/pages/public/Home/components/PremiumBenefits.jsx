@@ -27,8 +27,8 @@ const PremiumBenefits = () => {
   ];
 
   return (
-    <section className="w-full bg-[#FFFFFF] font-sans px-6  md:px-16 selection:bg-blue-100">
-      <div className="max-w-7xl mx-auto">
+    <section className="w-full bg-[#FFFFFF] font-sans selection:bg-blue-100">
+      <div className="container mx-auto px-4 md:px-6 lg:px-6 pt-4 md:pt-8">
         {/* Section Header */}
         <div className="mb-12 flex flex-col space-y-2">
           <span className="text-[#10336A] font-medium text-[12px] uppercase tracking-[0.2em]">
@@ -44,14 +44,14 @@ const PremiumBenefits = () => {
           {benefits.map((benefit, index) => (
             <div
               key={index}
-              className="group flex flex-col overflow-hidden rounded-2xl bg-[#F1F5F9] border border-[#E2E8F0] transition-all duration-300 hover:shadow-md"
+              className="group flex flex-col overflow-hidden rounded-xl bg-[#E9F2FF80]"
             >
               {/* Card Image Wrapper */}
-              <div className="w-full h-[240px] overflow-hidden relative bg-slate-200">
+              <div className="w-full h-[240px] md:h-[350px] overflow-hidden relative bg-slate-200">
                 <img
                   src={benefit.image}
                   alt={benefit.title}
-                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-container object-center"
                 />
               </div>
 
