@@ -18,7 +18,7 @@ const DisclosureSection = () => {
             <h4 className="text-xs md:text-sm font-semibold tracking-wider uppercase text-white/95">
               QUOTATION DISCLOSURE
             </h4>
-            <p className="text-[11px] md:text-xs leading-relaxed text-gray-300 font-normal">
+            <p className="text-[14px] md:text-base leading-relaxed text-gray-300 font-normal">
               Why exact pricing cannot be guaranteed: Final costs are subject to the total number of committed members 48 hours before departure. If a flight does not reach minimum occupancy, members may opt to share a higher split or reschedule without penalty.
             </p>
           </div>
@@ -30,7 +30,7 @@ const DisclosureSection = () => {
           {/* আইটেম ১ */}
           <div className="flex items-center gap-3 group">
             <CheckCircle2 className="w-5 h-5 text-[#2563eb] fill-[#2563eb]/10 stroke-[2] flex-shrink-0" />
-            <span className="text-[10px] md:text-[11px] font-bold tracking-wider text-[#1e3a8a] uppercase">
+            <span className="text-xs md:text-sm font-bold tracking-wider text-[#1e3a8a] uppercase">
               FAA PART 135 CERTIFIED OPERATORS
             </span>
           </div>
@@ -38,7 +38,7 @@ const DisclosureSection = () => {
           {/* আইটেম ২ */}
           <div className="flex items-center gap-3 group">
             <CheckCircle2 className="w-5 h-5 text-[#2563eb] fill-[#2563eb]/10 stroke-[2] flex-shrink-0" />
-            <span className="text-[10px] md:text-[11px] font-bold tracking-wider text-[#1e3a8a] uppercase">
+            <span className="text-xs md:text-sm font-bold tracking-wider text-[#1e3a8a] uppercase">
               GUARANTEED COMPLIMENTARY CATERING
             </span>
           </div>
@@ -46,7 +46,7 @@ const DisclosureSection = () => {
           {/* আইটেম ৩ */}
           <div className="flex items-center gap-3 group">
             <CheckCircle2 className="w-5 h-5 text-[#2563eb] fill-[#2563eb]/10 stroke-[2] flex-shrink-0" />
-            <span className="text-[10px] md:text-[11px] font-bold tracking-wider text-[#1e3a8a] uppercase">
+            <span className="text-xs md:text-sm font-bold tracking-wider text-[#1e3a8a] uppercase">
               REAL-TIME OPERATIONAL TRANSPARENCY
             </span>
           </div>
