@@ -1,8 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 // Phone icon imported from lucide-react
 import { Phone } from 'lucide-react';
 
+gsap.registerPlugin(ScrollTrigger);
+
 const ContactForm = () => {
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(".contact-form-left", {
+        x: -50,
+        opacity: 0,
+        duration: 0.9,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 70%",
+        }
+      });
+      gsap.from(".contact-form-right", {
+        x: 50,
+        opacity: 0,
+        duration: 0.9,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 70%",
+        }
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -17,11 +50,11 @@ const ContactForm = () => {
   };
 
   return (
-    <section className="w-full bg-[#FFFFFF] font-sans selection:bg-blue-100">
+    <section ref={sectionRef} className="w-full bg-[#FFFFFF] font-sans selection:bg-blue-100">
       <div className="container mx-auto px-4 md:px-6 lg:px-6 pb-8 md:pb-16 lg:pb-24 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
         
         {/* Left Column: Text & Phone Contact Info (5 Columns) */}
-        <div className="lg:col-span-5 flex flex-col items-start space-y-6 max-w-lg">
+        <div className="contact-form-left lg:col-span-5 flex flex-col items-start space-y-6 max-w-lg">
           <div className="flex flex-col space-y-2">
             {/* Subtitle Badge */}
             <span className="text-[#64748B] font-medium text-[12px] uppercase tracking-[0.2em]">
@@ -34,7 +67,7 @@ const ContactForm = () => {
           </div>
           
           {/* Description */}
-          <p className="text-[#475569] text-[14.5px] md:text-[15px] leading-relaxed font-normal">
+          <p className="text-[#475569] text-sm md:text-base leading-relaxed font-normal">
             Use this form or give us a call at the number below to speak with a concierge directly.
           </p>
           
@@ -51,7 +84,7 @@ const ContactForm = () => {
               </span>
               <a 
                 href="tel:3103754545" 
-                className="text-[#0F172A] font-medium text-[14.5px] hover:text-[#2563EB] transition-colors"
+                className="text-[#0F172A] font-medium text-sm md:text-base hover:text-[#2563EB] transition-colors"
               >
                 (310) 375-4545
               </a>
@@ -60,7 +93,7 @@ const ContactForm = () => {
         </div>
 
         {/* Right Column: Contact Form Area (7 Columns) */}
-        <div className="lg:col-span-7 w-full bg-white">
+        <div className="contact-form-right lg:col-span-7 w-full bg-white">
           <form onSubmit={handleSubmit} className="flex flex-col space-y-5">
             
             {/* Name Input */}
