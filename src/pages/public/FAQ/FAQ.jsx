@@ -1,6 +1,5 @@
 import BoxStyleFAQ from "./components/BoxStyleFAQ";
 import FAQHeroBanner from "./components/FAQHeroBanner";
-import TermsAndConditionsHeader from "./components/TermsAndConditionsHeader";
 
 // const faqs = [
 //   { q: 'How do I become a member?', a: 'Register and choose a membership plan.' },
@@ -11,7 +10,6 @@ import TermsAndConditionsHeader from "./components/TermsAndConditionsHeader";
 export default function FAQ() {
   return (
     <section>
-      {/* <TermsAndConditionsHeader /> */}
       <FAQHeroBanner />
       <BoxStyleFAQ />
     </section>

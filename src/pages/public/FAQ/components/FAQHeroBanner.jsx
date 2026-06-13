@@ -16,7 +16,7 @@ const FAQHeroBanner = () => {
       </div>
 
       {/* Text content area */}
-      <div className="w-full max-w-7xl mx-auto px-6 md:px-12 relative z-10 pt-12 pb-20">
+      <div className="w-full container mx-auto px-6 md:px-12 relative z-10 pt-12 pb-20">
         <div className="max-w-xl text-white">
           {/* Main large title */}
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-normal font-serif tracking-tight leading-[1.15] mb-4 text-white drop-shadow-sm">
