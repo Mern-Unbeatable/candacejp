@@ -4,7 +4,7 @@ import { Users, Shield, Plane, PiggyBank } from 'lucide-react';
 const FlightPricing = () => {
   return (
     <div className=" bg-white text-[#111111] flex items-center">
-      <div className="container mx-auto px-4 md:px-6 lg:px-6 py-8 md:py-16 lg:py-24">
+      <div className="container mx-auto px-4 md:px-6 lg:px-6 pt-8 md:pt-16 lg:pt-24">
         
         <div className=" pb-8 ">
           <span className="text-[#2563eb] text-xs uppercase  font-bold block mb-3">
@@ -20,9 +20,9 @@ const FlightPricing = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch">
+        <div className="grid grid-cols-2 md:grid-cols-12 gap-4 md:gap-6 items-stretch">
           
-          <div className="bg-[#f5f5f5] rounded-2xl p-8 md:col-span-3 flex flex-col justify-center min-h-[260px]">
+          <div className="bg-[#f5f5f5] rounded-2xl p-5 md:p-8 col-span-1 md:col-span-3 flex flex-col justify-center min-h-[220px] md:min-h-[260px]">
             <div className="mb-6">
               <Users className="w-6 h-6 text-[#2563eb] stroke-[1.5]" />
             </div>
@@ -36,7 +36,7 @@ const FlightPricing = () => {
             </div>
           </div>
 
-          <div className="bg-[#f5f5f5] rounded-2xl p-8 md:col-span-3 flex flex-col justify-center min-h-[260px]">
+          <div className="bg-[#f5f5f5] rounded-2xl p-5 md:p-8 col-span-1 md:col-span-3 flex flex-col justify-center min-h-[220px] md:min-h-[260px]">
             <div className="mb-6">
               <Shield className="w-6 h-6 text-[#2563eb] stroke-[1.5]" />
             </div>
@@ -50,7 +50,7 @@ const FlightPricing = () => {
             </div>
           </div>
 
-          <div className="bg-[#F0F6FF] rounded-[24px] p-8 md:p-10 md:col-span-6 flex flex-col justify-center min-h-[300px]">
+          <div className="bg-[#F0F6FF] rounded-[24px] p-6 md:p-10 col-span-2 md:col-span-6 flex flex-col justify-center min-h-[300px]">
             <div className="relative">
               <span className="text-[#3b82f6] text-sm md:text-base  uppercase tracking-wide font-semibold block mb-8">
                 EXAMPLE FLIGHT COST BREAKDOWN
