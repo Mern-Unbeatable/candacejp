@@ -1,9 +1,44 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Users, Shield, Plane, PiggyBank } from 'lucide-react';
 
+gsap.registerPlugin(ScrollTrigger);
+
 const FlightPricing = () => {
+  const sectionRef = useRef(null);
+  const gridRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(".flight-pricing-left", {
+        x: -50,
+        opacity: 0,
+        duration: 1.0,
+        stagger: 0.2,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: gridRef.current,
+          start: "top 70%",
+        }
+      });
+      gsap.from(".flight-pricing-right", {
+        x: 50,
+        opacity: 0,
+        duration: 1.0,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: gridRef.current,
+          start: "top 70%",
+        }
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <div className=" bg-white text-[#111111] flex items-center">
+    <div ref={sectionRef} className=" bg-white text-[#111111] flex items-center">
       <div className="container mx-auto px-4 md:px-6 lg:px-6 pt-8 md:pt-16 lg:pt-24">
         
         <div className=" pb-8 ">
@@ -20,9 +55,9 @@ const FlightPricing = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-12 gap-4 lg:gap-6 items-stretch">
+        <div ref={gridRef} className="grid grid-cols-2 lg:grid-cols-12 gap-4 lg:gap-6 items-stretch">
           
-          <div className="bg-[#f5f5f5] rounded-2xl p-5 lg:p-8 col-span-1 lg:col-span-3 flex flex-col justify-center min-h-[220px] lg:min-h-[260px]">
+          <div className="flight-pricing-left bg-[#f5f5f5] rounded-2xl p-5 lg:p-8 col-span-1 lg:col-span-3 flex flex-col justify-center min-h-[220px] lg:min-h-[260px]">
             <div className="mb-6">
               <Users className="w-6 h-6 text-[#2563eb] stroke-[1.5]" />
             </div>
@@ -36,7 +71,7 @@ const FlightPricing = () => {
             </div>
           </div>
 
-          <div className="bg-[#f5f5f5] rounded-2xl p-5 lg:p-8 col-span-1 lg:col-span-3 flex flex-col justify-center min-h-[220px] lg:min-h-[260px]">
+          <div className="flight-pricing-left bg-[#f5f5f5] rounded-2xl p-5 lg:p-8 col-span-1 lg:col-span-3 flex flex-col justify-center min-h-[220px] lg:min-h-[260px]">
             <div className="mb-6">
               <Shield className="w-6 h-6 text-[#2563eb] stroke-[1.5]" />
             </div>
@@ -50,7 +85,7 @@ const FlightPricing = () => {
             </div>
           </div>
 
-          <div className="bg-[#F0F6FF] rounded-[24px] p-6 lg:p-10 col-span-2 lg:col-span-6 flex flex-col justify-center min-h-[300px]">
+          <div className="flight-pricing-right bg-[#F0F6FF] rounded-[24px] p-6 lg:p-10 col-span-2 lg:col-span-6 flex flex-col justify-center min-h-[300px]">
             <div className="relative">
               <span className="text-[#3b82f6] text-sm md:text-base  uppercase tracking-wide font-semibold block mb-8">
                 EXAMPLE FLIGHT COST BREAKDOWN
