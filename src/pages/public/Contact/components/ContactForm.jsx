@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// lucide-react থেকে ফোন আইকন নেওয়া হয়েছে
+// Phone icon imported from lucide-react
 import { Phone } from 'lucide-react';
 
 const ContactForm = () => {
@@ -12,13 +12,13 @@ const ContactForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // ফর্ম সাবমিট হ্যান্ডলিং লজিক এখানে যুক্ত করতে পারেন
+    // Form submit handling logic can be added here
     console.log('Submitted Data:', formData);
   };
 
   return (
-    <section className="w-full bg-[#FFFFFF] font-sans px-6 py-16 md:px-16 md:py-24 selection:bg-blue-100">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+    <section className="w-full bg-[#FFFFFF] font-sans selection:bg-blue-100">
+      <div className="container mx-auto px-4 md:px-6 lg:px-6 pb-8 md:pb-16 lg:pb-24 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
         
         {/* Left Column: Text & Phone Contact Info (5 Columns) */}
         <div className="lg:col-span-5 flex flex-col items-start space-y-6 max-w-lg">
@@ -46,7 +46,7 @@ const ContactForm = () => {
             </div>
             {/* Phone Typography */}
             <div className="flex flex-col">
-              <span className="text-[#64748B] text-[10px] uppercase tracking-wider font-semibold">
+              <span className="text-[#64748B] text-sm md:text-base uppercase tracking-wider font-semibold">
                 Phone
               </span>
               <a 
