@@ -1,9 +1,9 @@
 import React from 'react';
-// lucide-react থেকে ইমেজের সাথে মিল রেখে আইকনগুলো নেওয়া হয়েছে
+// Icons matching the image are imported from lucide-react
 import { User, Headphones, Fingerprint, ShieldCheck } from 'lucide-react';
 
 const WhatYouReceive = () => {
-  // কার্ডের ডেটা অবজেক্ট অ্যারে
+  // Array of card data objects
   const items = [
     {
       icon: <User className="w-5 h-5 text-[#2563EB]" />, // Exclusive Network Access
