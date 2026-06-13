@@ -1,8 +1,32 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 // Perfect matching icons imported from lucide-react
 import { Crown, Headphones, Link2 } from 'lucide-react';
 
+gsap.registerPlugin(ScrollTrigger);
+
 const ContactMethods = () => {
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(".contact-method-card", {
+        y: 50,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+        }
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   const contacts = [
     {
       icon: <Crown className="w-5 h-5 text-[#2563EB]" />,
@@ -25,7 +49,7 @@ const ContactMethods = () => {
   ];
 
   return (
-    <section className="w-full bg-[#FFFFFF] font-sans selection:bg-blue-100">
+    <section ref={sectionRef} className="w-full bg-[#FFFFFF] font-sans selection:bg-blue-100">
       <div className="container mx-auto px-4 md:px-6 lg:px-6 py-8 md:py-16 lg:py-24">
         
         {/* Top Header Section */}
@@ -43,7 +67,7 @@ const ContactMethods = () => {
           {contacts.map((contact, index) => (
             <div 
               key={index} 
-              className="bg-[#F8FAFC] border border-[#BFDBFE] rounded-2xl p-6 flex flex-col justify-between min-h-[220px]"
+              className="contact-method-card bg-[#F8FAFC] border border-[#BFDBFE] rounded-2xl p-6 flex flex-col justify-between min-h-[220px]"
             >
               {/* Card Top: Icon & Text Info */}
               <div className="flex flex-col space-y-4">
