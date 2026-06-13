@@ -1,8 +1,32 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 // Icons matching the image are imported from lucide-react
 import { User, Headphones, Fingerprint, ShieldCheck } from 'lucide-react';
 
+gsap.registerPlugin(ScrollTrigger);
+
 const WhatYouReceive = () => {
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(".what-you-receive-card", {
+        y: 50,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+        }
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   // Array of card data objects
   const items = [
     {
@@ -28,7 +52,7 @@ const WhatYouReceive = () => {
   ];
 
   return (
-    <section className="w-full bg-[#FFFFFF] font-sans  selection:bg-blue-100">
+    <section ref={sectionRef} className="w-full bg-[#FFFFFF] font-sans  selection:bg-blue-100">
       <div className="container mx-auto px-4 md:px-6 lg:px-6 py-8 md:py-16 lg:py-24">
         
         {/* Top Header Section */}
@@ -48,25 +72,26 @@ const WhatYouReceive = () => {
         {/* Benefits Cards Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           {items.map((item, index) => (
-            <div 
-              key={index} 
-              className="bg-[#FFFFFF] border border-[#E2E8F0] rounded-2xl p-4 md:p-6 pt-8 flex flex-col justify-start min-h-[250px]"
-            >
-              {/* Square Icon Wrapper with Soft Blue Tint */}
-              <div className="w-11 h-11 rounded-xl bg-[#EFF6FF] flex items-center justify-center flex-shrink-0 mb-6">
-                {item.icon}
-              </div>
+            <div key={index} className="what-you-receive-card">
+              <div 
+                className="bg-[#FFFFFF] border border-[#E2E8F0] rounded-2xl p-4 md:p-6 pt-8 flex flex-col justify-start min-h-[250px] h-full"
+              >
+                {/* Square Icon Wrapper with Soft Blue Tint */}
+                <div className="w-11 h-11 rounded-xl bg-[#EFF6FF] flex items-center justify-center flex-shrink-0 mb-6">
+                  {item.icon}
+                </div>
 
-              {/* Content Area */}
-              <div className="flex flex-col space-y-3">
-                {/* Title */}
-                <h3 className="text-[#0F172A] font-bold text-[16px] tracking-wide font-serif">
-                  {item.title}
-                </h3>
-                {/* Description */}
-                <p className="text-[#475569] text-[13.5px] leading-relaxed font-normal">
-                  {item.description}
-                </p>
+                {/* Content Area */}
+                <div className="flex flex-col space-y-3">
+                  {/* Title */}
+                  <h3 className="text-[#0F172A] font-bold text-[16px] tracking-wide font-serif">
+                    {item.title}
+                  </h3>
+                  {/* Description */}
+                  <p className="text-[#475569] text-[13.5px] leading-relaxed font-normal">
+                    {item.description}
+                  </p>
+                </div>
               </div>
             </div>
           ))}
