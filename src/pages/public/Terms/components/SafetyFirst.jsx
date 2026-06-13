@@ -7,7 +7,7 @@ export default function SafetyFirst() {
       
       <div className="border-t-2 border-gray-200 pt-8">
         <h4 className="text-[10px] uppercase tracking-[0.2em] text-[#888888] font-semibold mb-6">SAMPLE FLEET STANDARDS</h4>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6">
           <div className="font-serif text-[#0f172a] text-lg">Citation Latitude</div>
           <div className="font-serif text-[#0f172a] text-lg">Challenger 350</div>
           <div className="font-serif text-[#0f172a] text-lg">Phenom 300</div>

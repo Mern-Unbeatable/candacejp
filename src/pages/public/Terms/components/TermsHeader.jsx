@@ -33,14 +33,13 @@ const TermsAndConditionsHeader = () => {
         </div>
 
         {/* Bottom large banner image section */}
-        <div className="w-full overflow-hidden rounded-[24px] md:rounded-[32px] shadow-sm aspect-[21/9] relative">
+        <div className="w-full overflow-hidden rounded-[24px] md:rounded-[32px] shadow-sm aspect-[21/9] relative h-[300px] md:h-full">
           <img 
             src="terms.png" 
             alt="Raven Private Aviation Meeting" 
-            className="w-full h-full object-cover object-center brightness-[0.85] contrast-[1.05]"
+            className="w-full h-full object-cover object-center"
           />
           {/* Light dark overlay to match image mood or tone */}
-          <div className="absolute inset-0 bg-black/5 pointer-events-none"></div>
         </div>
 
       </div>

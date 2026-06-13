@@ -1,12 +1,12 @@
 export default function HowItWorksTerms() {
   return (
-    <div className="mt-20 mb-16">
-      <div className="mb-10">
+    <div className="mt-12 md:mt-20 mb-10 md:mb-16">
+      <div className="mb-6 md:mb-10">
         <span className="text-sm md:text-base uppercase tracking-widest text-[#888888] font-semibold mb-3 block">PROCESS</span>
         <h2 className="text-4xl font-serif text-[#0f172a] tracking-tight">How It Works</h2>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
         {/* Step 1 */}
         <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm">
           <div className="text-4xl font-serif text-[#0f172a] mb-6">1</div>

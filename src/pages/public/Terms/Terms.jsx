@@ -8,7 +8,7 @@ import SafetyFirst from './components/SafetyFirst';
 
 export default function Terms() {
   return (
-    <main className="w-full bg-white pb-32">
+    <main className="w-full bg-white pb-16 md:pb-32">
       {/* Hero Header Section */}
       <TermsHeader />
       
