@@ -32,8 +32,8 @@ const FAQ = () => {
   ];
 
   return (
-    <div className="w-full bg-white text-[#111111] px-6 py-16 md:px-16 font-sans">
-      <div className="container mx-auto grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
+    <div className="w-full bg-white text-[#111111]  font-sans">
+      <div className="container mx-auto grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 px-4 md:px-6 lg:px-6 py-16 md:py-16 lg:py-24">
         
         <div className="md:col-span-5 flex flex-col items-start">
           <span className="bg-black text-white text-[10px] uppercase tracking-widest px-3 py-1 rounded-full font-semibold mb-6">
