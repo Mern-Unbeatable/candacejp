@@ -16,7 +16,7 @@ const GetInTouchHero = () => {
       </div>
 
       {/* Text content area */}
-      <div className="w-full max-w-7xl mx-auto px-6 md:px-12 relative z-10 pt-16 pb-24">
+      <div className="w-full container mx-auto px-6 md:px-12 relative z-10 pt-16 pb-24">
         <div className="max-w-xl text-white">
           {/* Main large title */}
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-normal font-serif tracking-tight leading-tight mb-4 drop-shadow-md text-white">
