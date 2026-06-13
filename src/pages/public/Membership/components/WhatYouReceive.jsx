@@ -46,11 +46,11 @@ const WhatYouReceive = () => {
         </div>
 
         {/* Benefits Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           {items.map((item, index) => (
             <div 
               key={index} 
-              className="bg-[#FFFFFF] border border-[#E2E8F0] rounded-2xl p-6 pt-8 flex flex-col justify-start min-h-[250px] transition-all duration-300 hover:shadow-md hover:border-blue-300"
+              className="bg-[#FFFFFF] border border-[#E2E8F0] rounded-2xl p-4 md:p-6 pt-8 flex flex-col justify-start min-h-[250px]"
             >
               {/* Square Icon Wrapper with Soft Blue Tint */}
               <div className="w-11 h-11 rounded-xl bg-[#EFF6FF] flex items-center justify-center flex-shrink-0 mb-6">
