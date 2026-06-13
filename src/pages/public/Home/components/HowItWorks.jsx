@@ -1,6 +1,30 @@
+import React, { useEffect, useRef } from "react";
 import { Send, Layers, UserCheck, Crown } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const HowItWorks = () => {
+  const sectionRef = useRef(null);
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(".how-it-works-card", {
+        y: 50,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+        },
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   const steps = [
     {
       number: "01",
@@ -33,8 +57,8 @@ const HowItWorks = () => {
   ];
 
   return (
-    <section className="w-full bg-[#FFFFFF] font-sans selection:bg-blue-100">
-      <div className="mx-auto container px-4 md:px-6 lg:px-6 pt-8 md:pt-16 lg:pt-24 w-full">
+    <section ref={sectionRef} className="w-full bg-[#FFFFFF] font-sans selection:bg-blue-100">
+      <div className="mx-auto container px-4 md:px-6 lg:px-6 py-8 md:py-16 lg:py-24 w-full">
         {/* Top Header Section */}
         <div className="mb-6 flex flex-col space-y-2">
           <span className="text-[#10336A] font-medium text-[12px] uppercase tracking-[0.2em]">
@@ -50,7 +74,7 @@ const HowItWorks = () => {
           {steps.map((step, index) => (
             <div
               key={index}
-              className="bg-[#F8FAFC] border border-[#BFDBFE] rounded-2xl p-3 md:p-4 flex flex-col transition-all duration-300 "
+              className="how-it-works-card bg-[#F8FAFC] border border-[#BFDBFE] rounded-2xl p-3 md:p-4 flex flex-col"
             >
               {/* Card Top: Icon & Number */}
               <div className="flex justify-between items-center mb-6">

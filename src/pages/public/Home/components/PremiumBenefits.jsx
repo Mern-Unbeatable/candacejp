@@ -1,7 +1,30 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Users, Headset, CreditCard } from 'lucide-react';
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const PremiumBenefits = () => {
+  const sectionRef = useRef(null);
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(".premium-benefit-card", {
+        y: 50,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+        },
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   const benefits = [
     {
       image: '/Rectangle.png',
@@ -27,7 +50,7 @@ const PremiumBenefits = () => {
   ];
 
   return (
-    <section className="w-full bg-[#FFFFFF] font-sans selection:bg-blue-100">
+    <section ref={sectionRef} className="w-full bg-[#FFFFFF] font-sans selection:bg-blue-100">
       <div className="container mx-auto px-4 md:px-6 lg:px-6 pt-4 md:pt-8">
         {/* Section Header */}
         <div className="mb-12 flex flex-col space-y-2">
@@ -44,7 +67,7 @@ const PremiumBenefits = () => {
           {benefits.map((benefit, index) => (
             <div
               key={index}
-              className="group flex flex-col overflow-hidden rounded-xl bg-[#E9F2FF80]"
+              className="premium-benefit-card group flex flex-col overflow-hidden rounded-xl bg-[#E9F2FF80]"
             >
               {/* Card Image Wrapper */}
               <div className="w-full h-[240px] md:h-[350px] overflow-hidden relative bg-slate-200">
