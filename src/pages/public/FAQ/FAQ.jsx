@@ -1,6 +1,6 @@
-import BoxStyleFAQ from "./components/BoxStyleFAQ"
-import FAQHeroBanner from "./components/FAQHeroBanner"
-import TermsAndConditionsHeader from "./components/TermsAndConditionsHeader"
+import BoxStyleFAQ from "./components/BoxStyleFAQ";
+import FAQHeroBanner from "./components/FAQHeroBanner";
+import TermsAndConditionsHeader from "./components/TermsAndConditionsHeader";
 
 // const faqs = [
 //   { q: 'How do I become a member?', a: 'Register and choose a membership plan.' },
@@ -11,9 +11,9 @@ import TermsAndConditionsHeader from "./components/TermsAndConditionsHeader"
 export default function FAQ() {
   return (
     <section className="mx-auto container px-4 py-12 sm:px-6">
-<TermsAndConditionsHeader/>
-      <FAQHeroBanner/>
-      <BoxStyleFAQ/>
+      <TermsAndConditionsHeader />
+      <FAQHeroBanner />
+      <BoxStyleFAQ />
     </section>
-  )
+  );
 }
