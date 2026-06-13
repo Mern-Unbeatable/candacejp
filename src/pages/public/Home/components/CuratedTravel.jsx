@@ -1,11 +1,45 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const CuratedTravel = () => {
+  const sectionRef = useRef(null);
+  const leftRef = useRef(null);
+  const rightRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(leftRef.current, {
+        x: -100,
+        opacity: 0,
+        duration: 1,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+        },
+      });
+
+      gsap.from(rightRef.current, {
+        x: 100,
+        opacity: 0,
+        duration: 1,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+        },
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section className="w-full bg-[#FAFAFA] font-sans selection:bg-blue-100">
+    <section ref={sectionRef} className="w-full bg-[#FAFAFA] font-sans selection:bg-blue-100 overflow-hidden">
       <div className="container mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center px-4 py-8 my-8 md:px-6 md:py-12 md:mt-12">
         {/* Left Column: Content (5 Cols) */}
-        <div className="lg:col-span-6 flex flex-col items-start space-y-6 max-w-md lg:max-w-full">
+        <div ref={leftRef} className="lg:col-span-6 flex flex-col items-start space-y-6 max-w-md lg:max-w-full">
           <h2 className="text-[#0F172A] text-3xl md:text-4xl  font-serif font-semibold tracking-tight leading-tight">
             Curated Travel
           </h2>
@@ -20,7 +54,7 @@ const CuratedTravel = () => {
         </div>
 
         {/* Right Column: Image */}
-        <div className="lg:col-span-6 w-full h-[350px] lg:h-[500px] rounded-2xl overflow-hidden">
+        <div ref={rightRef} className="lg:col-span-6 w-full h-[350px] lg:h-[500px] rounded-2xl overflow-hidden">
           <img
             src="/Curated_Travel.png"
             alt="Private jet"

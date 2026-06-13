@@ -1,11 +1,45 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const SafetyStandards = () => {
+  const sectionRef = useRef(null);
+  const leftRef = useRef(null);
+  const rightRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(leftRef.current, {
+        x: -100,
+        opacity: 0,
+        duration: 1,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+        },
+      });
+
+      gsap.from(rightRef.current, {
+        x: 100,
+        opacity: 0,
+        duration: 1,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+        },
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section className="container mx-auto bg-[#FFFFFF] font-sans px-4 md:px-6 lg:px-6 pt-16 md:pt-16 lg:pt-24 selection:bg-blue-100">
+    <section ref={sectionRef} className="container mx-auto bg-[#FFFFFF] font-sans px-4 md:px-6 lg:px-6 pt-16 md:pt-16 lg:pt-24 selection:bg-blue-100 overflow-hidden">
       <div className="flex flex-col-reverse lg:flex-row justify-between gap-12 lg:gap-8 items-center">
         {/* Left Column: Content (5 Cols) */}
-        <div className="w-full lg:w-[40%]">
+        <div ref={leftRef} className="w-full lg:w-[40%]">
           <div className="overflow-hidden rounded-2xl bg-slate-100 shadow-sm relative">
             <img
               src="/Rectangle5.png"
@@ -17,7 +51,7 @@ const SafetyStandards = () => {
 
         {/* Right Column: Premium Image Showcase (7 Cols) */}
 
-        <div className="w-full lg:w-[55%] flex flex-col items-start space-y-4">
+        <div ref={rightRef} className="w-full lg:w-[55%] flex flex-col items-start space-y-4">
           {/* Badge */}
           <span className="text-[#10336A] font-medium text-[12px] uppercase tracking-[0.2em]">
             SAFETY
