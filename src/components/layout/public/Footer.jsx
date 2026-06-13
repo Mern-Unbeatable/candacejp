@@ -34,7 +34,11 @@ const Footer = () => {
                 aria-label="Facebook"
                 className="w-9 h-9 rounded-full bg-white border border-gray-200 flex items-center justify-center text-[#3b82f6] hover:bg-[#3b82f6] hover:text-white hover:border-[#3b82f6] transition-all duration-200 shadow-sm"
               >
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <svg
+                  className="w-4 h-4"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
                   <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
                 </svg>
               </a>
@@ -46,7 +50,11 @@ const Footer = () => {
                 aria-label="Twitter"
                 className="w-9 h-9 rounded-full bg-white border border-gray-200 flex items-center justify-center text-[#3b82f6] hover:bg-[#3b82f6] hover:text-white hover:border-[#3b82f6] transition-all duration-200 shadow-sm"
               >
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <svg
+                  className="w-4 h-4"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
                   <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
                 </svg>
               </a>
@@ -58,10 +66,24 @@ const Footer = () => {
                 aria-label="Instagram"
                 className="w-9 h-9 rounded-full bg-white border border-gray-200 flex items-center justify-center text-[#3b82f6] hover:bg-[#3b82f6] hover:text-white hover:border-[#3b82f6] transition-all duration-200 shadow-sm"
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  viewBox="0 0 24 24"
+                >
                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
                   <circle cx="12" cy="12" r="4" />
-                  <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none" />
+                  <circle
+                    cx="17.5"
+                    cy="6.5"
+                    r="0.5"
+                    fill="currentColor"
+                    stroke="none"
+                  />
                 </svg>
               </a>
             </div>
@@ -73,21 +95,30 @@ const Footer = () => {
               <h3 className="font-bold text-gray-900 mb-4 tracking-wider text-sm">
                 PLATFORM
               </h3>
-              <ul className="flex flex-col gap-3 text-sm text-gray-500">
+              <ul className="flex flex-col gap-3 text-sm md:text-base text-gray-500">
                 <li>
-                  <a href="#" className="hover:text-blue-600">
+                  <Link
+                    to="/"
+                    className="hover:text-blue-600 transition-colors"
+                  >
                     Home
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-blue-600">
+                  <Link
+                    to="/membership"
+                    className="hover:text-blue-600 transition-colors"
+                  >
                     Membership
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-blue-600">
-                    login
-                  </a>
+                  <Link
+                    to="/register"
+                    className="hover:text-blue-600 transition-colors"
+                  >
+                    Become a Member
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -99,21 +130,30 @@ const Footer = () => {
               <h3 className="font-bold text-gray-900 mb-4 tracking-wider text-sm">
                 COMPANY
               </h3>
-              <ul className="flex flex-col gap-3 text-sm text-gray-500">
+              <ul className="flex flex-col gap-3 text-sm md:text-base text-gray-500">
                 <li>
-                  <a href="#" className="hover:text-blue-600">
+                  <Link
+                    to="/faq"
+                    className="hover:text-blue-600 transition-colors"
+                  >
                     FAQ
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-blue-600">
+                  <Link
+                    to="/contact"
+                    className="hover:text-blue-600 transition-colors"
+                  >
                     Contact
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-blue-600">
+                  <Link
+                    to="/terms"
+                    className="hover:text-blue-600 transition-colors"
+                  >
                     Terms
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -126,9 +166,9 @@ const Footer = () => {
             © 2026 Raven Aviation. All rights reserved.
           </p>
           <div className="text-xs text-gray-500 mt-2 md:mt-0">
-            <a href="#" className="hover:text-gray-800">
-              Terms & Conditions
-            </a>
+            <Link to="/terms" className="hover:text-gray-800 transition-colors">
+              Terms &amp; Conditions
+            </Link>
           </div>
         </div>
       </div>
