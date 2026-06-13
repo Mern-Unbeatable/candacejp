@@ -2,7 +2,7 @@ import React from 'react';
 
 const CuratedTravel = () => {
   return (
-    <section className="w-full bg-[#FFFFFF] font-sans px-6 py-16 md:px-16 md:py-24 selection:bg-blue-100">
+    <section className="w-full bg-[#FFFFFF] font-sans px-6 pt-16 md:px-16 md:pt-24 selection:bg-blue-100">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
         
         {/* Left Column: Content (5 Cols) */}

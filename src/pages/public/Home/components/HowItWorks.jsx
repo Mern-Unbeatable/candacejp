@@ -1,37 +1,40 @@
-
-import { Send, Layers, UserCheck, Crown } from 'lucide-react';
+import { Send, Layers, UserCheck, Crown } from "lucide-react";
 
 const HowItWorks = () => {
   const steps = [
     {
-      number: '01',
-      icon: <Send className="w-5 h-5 text-[#2563EB]" />, 
-      title: 'Become a Member',
-      description: 'Create an account and share your travel preferences through our private platform.',
+      number: "01",
+      icon: <Send className="w-5 h-5 text-[#2563EB]" />,
+      title: "Become a Member",
+      description:
+        "Create an account and share your travel preferences through our private platform.",
     },
     {
-      number: '02',
-      icon: <Layers className="w-5 h-5 text-[#2563EB]" />, 
-      title: 'Concierge Matching',
-      description: 'Raven matches your travel preference with other members seeking similar travel, and curates the optimal shared charter.',
+      number: "02",
+      icon: <Layers className="w-5 h-5 text-[#2563EB]" />,
+      title: "Concierge Matching",
+      description:
+        "Raven matches your travel preference with other members seeking similar travel, and curates the optimal shared charter.",
     },
     {
-      number: '03',
+      number: "03",
       icon: <UserCheck className="w-5 h-5 text-[#2563EB]" />,
-      title: 'Operator Coordination',
-      description: 'we coordinate with certified operators to secure premium aircraft availability, timing and up to date communication with our members.',
+      title: "Operator Coordination",
+      description:
+        "we coordinate with certified operators to secure premium aircraft availability, timing and up to date communication with our members.",
     },
     {
-      number: '04',
-      icon: <Crown className="w-5 h-5 text-[#2563EB]" />, 
-      title: 'Shared Charter Experience',
-      description: 'Enjoy the luxury of private aviation at a fraction of the cost.',
+      number: "04",
+      icon: <Crown className="w-5 h-5 text-[#2563EB]" />,
+      title: "Shared Charter Experience",
+      description:
+        "Enjoy the luxury of private aviation at a fraction of the cost.",
     },
   ];
 
   return (
-    <section className="w-full bg-[#FFFFFF] font-sans px-6 pt-16 md:px-16  selection:bg-blue-100">
-      <div className="container mx-auto">
+    <section className="w-full bg-[#FFFFFF] font-sans selection:bg-blue-100">
+      <div className="mx-auto container px-4 md:px-6 lg:px-6 pt-8 md:pt-16 lg:pt-24 w-full">
         {/* Top Header Section */}
         <div className="mb-6 flex flex-col space-y-2">
           <span className="text-[#10336A] font-medium text-[12px] uppercase tracking-[0.2em]">
@@ -43,11 +46,11 @@ const HowItWorks = () => {
         </div>
 
         {/* Process Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {steps.map((step, index) => (
             <div
               key={index}
-              className="bg-[#F8FAFC] border border-[#BFDBFE] rounded-2xl p-6 flex flex-col min-h-[260px] transition-all duration-300 hover:shadow-md hover:border-blue-400"
+              className="bg-[#F8FAFC] border border-[#BFDBFE] rounded-2xl p-3 md:p-4 flex flex-col transition-all duration-300 "
             >
               {/* Card Top: Icon & Number */}
               <div className="flex justify-between items-center mb-6">
@@ -59,13 +62,12 @@ const HowItWorks = () => {
                 </span>
               </div>
 
-            
               <h3 className="text-[#1E293B] font-semibold text-[16px] tracking-wide mb-3">
                 {step.title}
               </h3>
 
               {/* Description */}
-              <p className="text-[#475569] text-sm leading-relaxed font-normal text-justify">
+              <p className="text-[#475569] text-sm leading-relaxed font-normal">
                 {step.description}
               </p>
             </div>
