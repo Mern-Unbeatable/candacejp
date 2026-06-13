@@ -20,9 +20,9 @@ const FlightPricing = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-12 gap-4 md:gap-6 items-stretch">
+        <div className="grid grid-cols-2 lg:grid-cols-12 gap-4 lg:gap-6 items-stretch">
           
-          <div className="bg-[#f5f5f5] rounded-2xl p-5 md:p-8 col-span-1 md:col-span-3 flex flex-col justify-center min-h-[220px] md:min-h-[260px]">
+          <div className="bg-[#f5f5f5] rounded-2xl p-5 lg:p-8 col-span-1 lg:col-span-3 flex flex-col justify-center min-h-[220px] lg:min-h-[260px]">
             <div className="mb-6">
               <Users className="w-6 h-6 text-[#2563eb] stroke-[1.5]" />
             </div>
@@ -36,7 +36,7 @@ const FlightPricing = () => {
             </div>
           </div>
 
-          <div className="bg-[#f5f5f5] rounded-2xl p-5 md:p-8 col-span-1 md:col-span-3 flex flex-col justify-center min-h-[220px] md:min-h-[260px]">
+          <div className="bg-[#f5f5f5] rounded-2xl p-5 lg:p-8 col-span-1 lg:col-span-3 flex flex-col justify-center min-h-[220px] lg:min-h-[260px]">
             <div className="mb-6">
               <Shield className="w-6 h-6 text-[#2563eb] stroke-[1.5]" />
             </div>
@@ -50,7 +50,7 @@ const FlightPricing = () => {
             </div>
           </div>
 
-          <div className="bg-[#F0F6FF] rounded-[24px] p-6 md:p-10 col-span-2 md:col-span-6 flex flex-col justify-center min-h-[300px]">
+          <div className="bg-[#F0F6FF] rounded-[24px] p-6 lg:p-10 col-span-2 lg:col-span-6 flex flex-col justify-center min-h-[300px]">
             <div className="relative">
               <span className="text-[#3b82f6] text-sm md:text-base  uppercase tracking-wide font-semibold block mb-8">
                 EXAMPLE FLIGHT COST BREAKDOWN
