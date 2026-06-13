@@ -58,16 +58,16 @@ const Navbar = () => {
           ) : (
             <>
               <Link
-                to="/login"
-                className="rounded-lg px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors"
+                to="/register"
+                className="rounded-full bg-[#2563EB] px-6 py-2.5 text-sm font-medium text-white hover:bg-blue-700 transition-colors"
               >
-                Login
+                Become a Member
               </Link>
               <Link
-                to="/register"
-                className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 transition-colors"
+                to="/login"
+                className="rounded-full bg-[#10336A] px-6 py-2.5 text-sm font-medium text-white hover:bg-opacity-90 transition-colors"
               >
-                Register
+                Log In
               </Link>
             </>
           )}
@@ -82,57 +82,61 @@ const Navbar = () => {
         </button>
       </div>
 
-      {menuOpen && (
-        <div className="border-t border-gray-100 bg-white px-4 py-4 md:hidden absolute left-0 right-0 shadow-lg transition-all">
-          <nav className="flex flex-col gap-2">
-            {navLinks.map((link) => {
-              const isActive = location.pathname === link.to;
-              return (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  onClick={() => setMenuOpen(false)}
-                  className={`text-sm font-medium px-3 py-2.5 rounded-lg transition-colors ${
-                    isActive
-                      ? 'text-white bg-blue-600'
-                      : 'text-gray-700 hover:bg-gray-50'
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              );
-            })}
-            
-            <div className="h-[1px] bg-gray-100 my-2"></div>
+      <div
+        className={`md:hidden absolute left-0 right-0 bg-white shadow-lg border-t border-gray-100 transition-all duration-300 ease-in-out transform ${
+          menuOpen ? "opacity-100 translate-y-0 visible" : "opacity-0 -translate-y-4 invisible pointer-events-none"
+        }`}
+      >
+        <div className="px-4 py-4">
+            <nav className="flex flex-col gap-2">
+              {navLinks.map((link) => {
+                const isActive = location.pathname === link.to;
+                return (
+                  <Link
+                    key={link.to}
+                    to={link.to}
+                    onClick={() => setMenuOpen(false)}
+                    className={`text-sm font-medium px-3 py-2.5 rounded-lg transition-colors ${
+                      isActive
+                        ? 'text-white bg-blue-600'
+                        : 'text-gray-700 hover:bg-gray-50'
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
+              
+              <div className="h-[1px] bg-gray-100 my-2"></div>
 
-            {isAuthenticated ? (
-              <button 
-                onClick={handleLogout} 
-                className="text-left text-sm font-medium text-red-600 px-3 py-2.5 rounded-lg hover:bg-red-50 transition-colors"
-              >
-                Logout
-              </button>
-            ) : (
-              <>
-                <Link 
-                  to="/login" 
-                  onClick={() => setMenuOpen(false)} 
-                  className={`text-sm font-medium px-3 py-2.5 rounded-lg ${location.pathname === '/login' ? 'text-white bg-blue-600' : 'text-gray-700 hover:bg-gray-50'}`}
+              {isAuthenticated ? (
+                <button 
+                  onClick={handleLogout} 
+                  className="text-left text-sm font-medium text-red-600 px-3 py-2.5 rounded-lg hover:bg-red-50 transition-colors"
                 >
-                  Login
-                </Link>
-                <Link 
-                  to="/register" 
-                  onClick={() => setMenuOpen(false)} 
-                  className="text-sm font-medium text-center text-white bg-blue-600 px-3 py-2.5 rounded-lg hover:bg-blue-700 transition-colors mt-1"
-                >
-                  Register
-                </Link>
-              </>
-            )}
-          </nav>
-        </div>
-      )}
+                  Logout
+                </button>
+              ) : (
+                <>
+                  <Link 
+                    to="/register" 
+                    onClick={() => setMenuOpen(false)} 
+                    className="text-sm font-medium text-center text-white bg-[#2563EB] px-3 py-2.5 rounded-lg hover:bg-blue-700 transition-colors mt-1"
+                  >
+                    Become a Member
+                  </Link>
+                  <Link 
+                    to="/login" 
+                    onClick={() => setMenuOpen(false)} 
+                    className={`text-sm font-medium px-3 py-2.5 rounded-lg text-center text-white bg-[#10336A] hover:bg-opacity-90 mt-1`}
+                  >
+                    Log In
+                  </Link>
+                </>
+              )}
+            </nav>
+          </div>
+      </div>
     </header>
   );
 };
