@@ -39,7 +39,6 @@ const TermsAndConditionsHeader = () => {
             alt="Raven Private Aviation Meeting" 
             className="w-full h-full object-cover object-center"
           />
-          {/* Light dark overlay to match image mood or tone */}
         </div>
 
       </div>

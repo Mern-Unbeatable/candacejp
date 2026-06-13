@@ -1,3 +1,7 @@
+import React, { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
 import TermsHeader from './components/TermsHeader';
 import SectionHeader from './components/SectionHeader';
 import RequiredDisclosures from './components/RequiredDisclosures';
@@ -6,27 +10,75 @@ import MembershipTerms from './components/MembershipTerms';
 import HowItWorksTerms from './components/HowItWorksTerms';
 import SafetyFirst from './components/SafetyFirst';
 
+gsap.registerPlugin(ScrollTrigger);
+
 export default function Terms() {
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Fade up animation for sections on scroll
+      const sections = gsap.utils.toArray('.gsap-fade-up');
+      
+      sections.forEach((section) => {
+        gsap.from(section, {
+          y: 40,
+          opacity: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 85%',
+          },
+        });
+      });
+      
+      // Initial fade in for the header section
+      gsap.from('.header-section', {
+        y: 20,
+        opacity: 0,
+        duration: 0.8,
+        ease: 'power3.out',
+        stagger: 0.2
+      });
+
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <main className="w-full bg-white pb-16 md:pb-32">
+    <main ref={containerRef} className="w-full bg-white pb-16 md:pb-32">
       {/* Hero Header Section */}
-      <TermsHeader />
+      <div className="header-section">
+        <TermsHeader />
+      </div>
       
       {/* Main Content Area */}
-      <div className="container mx-auto  px-4 md:px-6 lg:px-4">
-        <SectionHeader number="01" title="REQUIRED DISCLOSURES" />
-        <RequiredDisclosures />
+      <div className="container mx-auto px-4 md:px-6 lg:px-4">
+        <div className="gsap-fade-up">
+          <SectionHeader number="01" title="REQUIRED DISCLOSURES" />
+          <RequiredDisclosures />
+        </div>
         
-        <SectionHeader number="02" title="PROTECTIVE CLAUSES" />
-        <ProtectiveClauses />
+        <div className="gsap-fade-up">
+          <SectionHeader number="02" title="PROTECTIVE CLAUSES" />
+          <ProtectiveClauses />
+        </div>
         
-        <SectionHeader number="03" title="MEMBERSHIP" />
-        <MembershipTerms />
+        <div className="gsap-fade-up">
+          <SectionHeader number="03" title="MEMBERSHIP" />
+          <MembershipTerms />
+        </div>
         
-        <HowItWorksTerms />
+        <div className="gsap-fade-up">
+          <HowItWorksTerms />
+        </div>
         
-        <SectionHeader number="04" title="SAFETY FIRST" />
-        <SafetyFirst />
+        <div className="gsap-fade-up">
+          <SectionHeader number="04" title="SAFETY FIRST" />
+          <SafetyFirst />
+        </div>
       </div>
     </main>
   );
