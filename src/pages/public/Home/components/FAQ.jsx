@@ -2,14 +2,12 @@ import React, { useState } from 'react';
 import { Plus, Minus } from 'lucide-react';
 
 const FAQ = () => {
-  // কোন প্রশ্নটি ওপেন থাকবে তার স্টেট ট্র্যাকিং (null মানে সব বন্ধ)
   const [openIndex, setOpenIndex] = useState(null);
 
   const toggleFAQ = (index) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
-  // ইমেজে থাকা প্রশ্ন এবং ডামি উত্তরসমূহ
   const faqData = [
     {
       question: "What is Raven?",
@@ -34,10 +32,9 @@ const FAQ = () => {
   ];
 
   return (
-    <div className="w-full bg-white text-[#111111] px-6 py-16 md:py-24 font-sans">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
+    <div className="w-full bg-white text-[#111111] px-6 py-16 md:px-16 font-sans">
+      <div className="container mx-auto grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
         
-        {/* বাম পাশের অংশ: হেডিং */}
         <div className="md:col-span-5 flex flex-col items-start">
           <span className="bg-black text-white text-[10px] uppercase tracking-widest px-3 py-1 rounded-full font-semibold mb-6">
             FAQs
@@ -47,7 +44,6 @@ const FAQ = () => {
           </h2>
         </div>
 
-        {/* ডান পাশের অংশ: অ্যাকর্ডিয়ন লিস্ট */}
         <div className="md:col-span-7 flex flex-col justify-start">
           {faqData.map((item, index) => {
             const isOpen = openIndex === index;
@@ -69,10 +65,9 @@ const FAQ = () => {
                   </div>
                 </button>
                 
-                {/* অ্যানিমেটেড উত্তর অংশ */}
                 <div
                   className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                    isOpen ? 'max-h-40 opacity-100 pb-6' : 'max-h-0 opacity-0'
+                    isOpen ? 'max-h-30 opacity-100 pb-6' : 'max-h-0 opacity-0'
                   }`}
                 >
                   <p className="text-gray-600 text-base leading-relaxed max-w-2xl">

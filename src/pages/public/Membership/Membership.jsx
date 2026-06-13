@@ -6,7 +6,7 @@ import WhatYouReceive from "./components/WhatYouReceive";
 
 export default function Membership() {
   return (
-    <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
+    <section >
      
       <MembershipJourney/>
       <FlightPricing/>
