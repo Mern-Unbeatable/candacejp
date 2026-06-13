@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 
 const BoxStyleFAQ = () => {
-  // ইমেজের মতো প্রথম প্রশ্নটি (index 0) ডিফল্টভাবে ওপেন রাখার জন্য ইনিশিয়াল স্টেট 0 দেওয়া হয়েছে
+  // Initial state 0 to keep the first question (index 0) open by default like the image
   const [openIndex, setOpenIndex] = useState(0);
 
   const toggleFAQ = (index) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
-  // ইমেজে থাকা প্রশ্নগুলোর তালিকা (সবগুলো প্রশ্ন ডামি উত্তরসহ যুক্ত করা হয়েছে)
+  // List of questions from the image (all questions added with dummy answers)
   const faqData = [
     {
       question: "What is Raven?",
@@ -54,18 +54,18 @@ const BoxStyleFAQ = () => {
   ];
 
   return (
-    <div className="w-full bg-[#f8fafc] text-[#0f172a] px-4 py-16 md:py-24 font-sans min-h-screen">
+    <div className="w-full bg-white text-[#0f172a] px-4 py-16 md:py-24 font-sans min-h-screen">
       <div className="max-w-4xl mx-auto">
         
-        {/* সেন্টারে থাকা মেইন হেডিং */}
+        {/* Main heading in the center */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-normal font-serif text-[#1e293b] tracking-tight">
             Frequently Ask Questions
           </h2>
         </div>
 
-        {/* অ্যাকর্ডিয়ন বক্স লিস্ট */}
-        <div className="space-y-4">
+        {/* Accordion box list */}
+        <div className="space-y-2">
           {faqData.map((item, index) => {
             const isOpen = openIndex === index;
             return (
@@ -74,10 +74,10 @@ const BoxStyleFAQ = () => {
                 className={`rounded-xl transition-all duration-300 ${
                   isOpen 
                     ? 'bg-[#eef4ff] border border-[#b4d2ff] shadow-sm' 
-                    : 'bg-[#f1f5f9]/60 hover:bg-[#f1f5f9] border border-transparent'
+                    : 'bg-[#fafafa] hover:bg-gray-50 border border-transparent'
                 }`}
               >
-                {/* প্রশ্ন বা বাটন অংশ */}
+                {/* Question or button part */}
                 <button
                   className="w-full px-6 py-5 flex justify-between items-center text-left focus:outline-none"
                   onClick={() => toggleFAQ(index)}
@@ -94,7 +94,7 @@ const BoxStyleFAQ = () => {
                   </div>
                 </button>
                 
-                {/* অ্যানিমেটেড উত্তর অংশ */}
+                {/* Animated answer part */}
                 <div
                   className={`overflow-hidden transition-all duration-300 ease-in-out ${
                     isOpen ? 'max-h-[200px] opacity-100' : 'max-h-0 opacity-0'

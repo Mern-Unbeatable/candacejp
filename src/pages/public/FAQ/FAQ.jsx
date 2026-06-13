@@ -10,8 +10,8 @@ import TermsAndConditionsHeader from "./components/TermsAndConditionsHeader";
 
 export default function FAQ() {
   return (
-    <section className="mx-auto container px-4 py-12 sm:px-6">
-      <TermsAndConditionsHeader />
+    <section>
+      {/* <TermsAndConditionsHeader /> */}
       <FAQHeroBanner />
       <BoxStyleFAQ />
     </section>

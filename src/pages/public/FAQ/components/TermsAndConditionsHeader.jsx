@@ -2,8 +2,8 @@ import React from 'react';
 
 const TermsAndConditionsHeader = () => {
   return (
-    <div className="w-full bg-white text-[#0f172a] px-6 py-12 md:py-16 font-sans">
-      <div className="max-w-7xl mx-auto">
+    <div className="w-full bg-white text-[#0f172a] font-sans">
+      <div className="container mx-auto px-6 py-12 md:py-16 ">
         
         {/* Top text and header section */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
