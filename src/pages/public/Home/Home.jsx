@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import HowItWorks from "./components/HowItWorks";
 import CuratedTravel from "./components/CuratedTravel";
@@ -8,6 +9,10 @@ import FAQ from "./components/FAQ";
 import HeroSection from "./components/HeroSection";
 
 export default function Home() {
+  useEffect(() => {
+    document.title = "Home - RAVEN";
+  }, []);
+
   return (
     <section>
       <HeroSection />
