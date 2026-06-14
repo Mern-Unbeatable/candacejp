@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, Plus, X } from "lucide-react";
+import { ArrowRight, Plus, X, ChevronDown } from "lucide-react";
 
 export default function RecurringTravelForm({ forms, onAddForm, onRemoveForm, onChange }) {
   return (
@@ -55,33 +55,43 @@ export default function RecurringTravelForm({ forms, onAddForm, onRemoveForm, on
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-semibold text-gray-700 mb-2">Day of Week</label>
-                  <select 
-                    value={form.day}
-                    onChange={(e) => onChange(form.id, 'day', e.target.value)}
-                    className="w-full rounded-xl border border-gray-200 bg-[#F8FAFC] px-4 py-3 text-sm text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all appearance-none"
-                  >
-                    <option value="" disabled>Select day</option>
-                    <option value="Mondays">Mondays</option>
-                    <option value="Tuesdays">Tuesdays</option>
-                    <option value="Wednesdays">Wednesdays</option>
-                    <option value="Thursdays">Thursdays</option>
-                    <option value="Fridays">Fridays</option>
-                    <option value="Saturdays">Saturdays</option>
-                    <option value="Sundays">Sundays</option>
-                  </select>
+                  <div className="relative">
+                    <select 
+                      value={form.day}
+                      onChange={(e) => onChange(form.id, 'day', e.target.value)}
+                      className="w-full rounded-xl border border-gray-200 bg-[#F8FAFC] px-4 py-3 pr-10 text-sm text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all appearance-none cursor-pointer"
+                    >
+                      <option value="" disabled>Select day</option>
+                      <option value="Mondays">Mondays</option>
+                      <option value="Tuesdays">Tuesdays</option>
+                      <option value="Wednesdays">Wednesdays</option>
+                      <option value="Thursdays">Thursdays</option>
+                      <option value="Fridays">Fridays</option>
+                      <option value="Saturdays">Saturdays</option>
+                      <option value="Sundays">Sundays</option>
+                    </select>
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
+                      <ChevronDown size={16} className="text-gray-400" />
+                    </div>
+                  </div>
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-gray-700 mb-2">Preferred Time</label>
-                  <select 
-                    value={form.time}
-                    onChange={(e) => onChange(form.id, 'time', e.target.value)}
-                    className="w-full rounded-xl border border-gray-200 bg-[#F8FAFC] px-4 py-3 text-sm text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all appearance-none"
-                  >
-                    <option value="" disabled>Select time</option>
-                    <option value="Morning">Morning</option>
-                    <option value="Afternoon">Afternoon</option>
-                    <option value="Evening">Evening</option>
-                  </select>
+                  <div className="relative">
+                    <select 
+                      value={form.time}
+                      onChange={(e) => onChange(form.id, 'time', e.target.value)}
+                      className="w-full rounded-xl border border-gray-200 bg-[#F8FAFC] px-4 py-3 pr-10 text-sm text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all appearance-none cursor-pointer"
+                    >
+                      <option value="" disabled>Select time</option>
+                      <option value="Morning">Morning</option>
+                      <option value="Afternoon">Afternoon</option>
+                      <option value="Evening">Evening</option>
+                    </select>
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
+                      <ChevronDown size={16} className="text-gray-400" />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

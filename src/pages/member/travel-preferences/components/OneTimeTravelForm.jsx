@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, Plus, X } from "lucide-react";
+import { ArrowRight, Plus, X, ChevronDown } from "lucide-react";
 
 export default function OneTimeTravelForm({ forms, onAddForm, onRemoveForm, onChange }) {
   return (
@@ -69,16 +69,21 @@ export default function OneTimeTravelForm({ forms, onAddForm, onRemoveForm, onCh
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-gray-700 mb-2">Preferred Time</label>
-                  <select 
-                    value={form.time}
-                    onChange={(e) => onChange(form.id, 'time', e.target.value)}
-                    className="w-full rounded-xl border border-gray-200 bg-[#F8FAFC] px-4 py-3 text-sm text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all appearance-none"
-                  >
-                    <option value="" disabled>Select time</option>
-                    <option value="Morning">Morning</option>
-                    <option value="Afternoon">Afternoon</option>
-                    <option value="Evening">Evening</option>
-                  </select>
+                  <div className="relative">
+                    <select 
+                      value={form.time}
+                      onChange={(e) => onChange(form.id, 'time', e.target.value)}
+                      className="w-full rounded-xl border border-gray-200 bg-[#F8FAFC] px-4 py-3 pr-10 text-sm text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all appearance-none cursor-pointer"
+                    >
+                      <option value="" disabled>Select time</option>
+                      <option value="Morning">Morning</option>
+                      <option value="Afternoon">Afternoon</option>
+                      <option value="Evening">Evening</option>
+                    </select>
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
+                      <ChevronDown size={16} className="text-gray-400" />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
