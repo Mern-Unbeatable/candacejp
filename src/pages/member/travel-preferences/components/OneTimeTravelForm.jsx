@@ -8,7 +8,7 @@ export default function OneTimeTravelForm({ forms, onAddForm, onRemoveForm, onCh
         <h2 className="font-serif text-xl font-bold text-gray-900 tracking-tight mb-1">
           One-Time Travel Requests
         </h2>
-        <p className="text-sm md:text-base text-gray-500">
+        <p className="text-sm md:text-base text-gray-600">
           Add specific trips you're planning. These help us identify demand spikes for curated flights.
         </p>
       </div>
@@ -20,7 +20,7 @@ export default function OneTimeTravelForm({ forms, onAddForm, onRemoveForm, onCh
             {forms.length > 1 && (
               <button 
                 onClick={() => onRemoveForm(form.id)}
-                className="absolute top-4 right-4 p-1 text-gray-400 hover:text-gray-700 transition-colors"
+                className="absolute top-4 right-4 p-1 text-gray-500 hover:text-gray-700 transition-colors"
               >
                 <X size={16} />
               </button>
@@ -39,7 +39,7 @@ export default function OneTimeTravelForm({ forms, onAddForm, onRemoveForm, onCh
                     className="w-full rounded-xl border border-gray-200 bg-[#F8FAFC] px-4 py-3 text-sm text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all"
                   />
                   <div className="flex justify-center hidden md:block">
-                    <ArrowRight size={16} className="text-gray-400" />
+                    <ArrowRight size={16} className="text-gray-500" />
                   </div>
                   <input
                     type="text"

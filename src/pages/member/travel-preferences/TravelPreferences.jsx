@@ -105,7 +105,7 @@ export default function TravelPreferences() {
       <div className="space-y-6 pt-4">
         {/* Info Banner */}
         <div className="flex items-center gap-3 rounded-xl border border-gray-100 bg-[#F8FAFC] p-4 text-sm text-gray-600 shadow-sm">
-          <Info size={18} className="text-gray-400" />
+          <Info size={18} className="text-gray-500" />
           <p>Your preferences help us match you with other members and create curated flight opportunities.</p>
         </div>
 
@@ -117,7 +117,7 @@ export default function TravelPreferences() {
           >
             Save Preferences
           </button>
-          <p className="text-xs text-gray-400 mt-3">You can update your preferences anytime</p>
+          <p className="text-xs text-gray-500 mt-3">You can update your preferences anytime</p>
         </div>
       </div>
     </div>
