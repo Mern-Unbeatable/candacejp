@@ -1,6 +1,26 @@
 import useAuth from '../../hooks/useAuth'
 import { Calendar, Plane, MapPin, Settings, FileText, ArrowRight, TrendingUp, CalendarDays } from 'lucide-react'
 
+const HIGH_DEMAND_ROUTES = [
+  { route: 'NYC → Tampa', time: 'Monday Evenings', stat: '+12%' },
+  { route: 'Tampa → NYC', time: 'Tuesday Evenings', stat: '+8%' },
+  { route: 'NYC → Tampa', time: 'Thursday Mornings', stat: '+15%' },
+  { route: 'Tampa → NYC', time: 'Friday Evenings', stat: '+5%' },
+];
+
+const POPULAR_TRAVEL_DATES = [
+  { date: 'Jun 15, 2026', details: '8 routes · 42 members' },
+  { date: 'Jun 22, 2026', details: '6 routes · 35 members' },
+  { date: 'Jul 4, 2026', details: '12 routes · 68 members' },
+  { date: 'Jul 10, 2028', details: '5 routes · 28 members' },
+];
+
+const UPCOMING_TRIPS = [
+  { route: 'Tampa → New York', time: 'Mondays, Morning', type: 'Recurring' },
+  { route: 'New York → Tampa', time: 'Fridays, Evening', type: 'Recurring' },
+  { route: 'Miami → Los Angeles', time: 'Jul 15, 2026, Afternoon', type: 'One-Time' },
+];
+
 export default function Overview() {
   const { user } = useAuth()
   
@@ -104,12 +124,7 @@ export default function Overview() {
               <h3 className="text-sm font-semibold text-gray-900">High-Demand Routes</h3>
             </div>
             <div className="space-y-2">
-              {[
-                { route: 'NYC → Tampa', time: 'Monday Evenings', stat: '+12%' },
-                { route: 'Tampa → NYC', time: 'Tuesday Evenings', stat: '+8%' },
-                { route: 'NYC → Tampa', time: 'Thursday Mornings', stat: '+15%' },
-                { route: 'Tampa → NYC', time: 'Friday Evenings', stat: '+5%' },
-              ].map((item, i) => (
+              {HIGH_DEMAND_ROUTES.map((item, i) => (
                 <div key={i} className="flex items-center justify-between rounded-lg bg-[#F1F5F980] p-4 border border-transparent hover:border-gray-200 transition-colors cursor-pointer">
                   <div>
                     <p className="text-sm md:text-base font-semibold text-gray-900">{item.route}</p>
@@ -128,15 +143,10 @@ export default function Overview() {
               <h3 className="text-sm font-semibold text-gray-900">Popular Travel Dates</h3>
             </div>
             <div className="space-y-2">
-              {[
-                { date: 'Jun 15, 2026', details: '8 routes · 42 members' },
-                { date: 'Jun 22, 2026', details: '6 routes · 35 members' },
-                { date: 'Jul 4, 2026', details: '12 routes · 68 members' },
-                { date: 'Jul 10, 2028', details: '5 routes · 28 members' },
-              ].map((item, i) => (
+              {POPULAR_TRAVEL_DATES.map((item, i) => (
                 <div key={i} className="flex flex-col justify-center rounded-lg bg-[#F1F5F980] p-4 border border-transparent hover:border-gray-200 transition-colors cursor-pointer">
                   <p className="text-sm md:text-base font-semibold text-gray-900">{item.date}</p>
-                  <p className="text-xs md:text-sm text-gray-500 mt-0.5">{item.details}</p>
+                  <p className="text-xs md:text-sm text-gray-700 mt-0.5">{item.details}</p>
                 </div>
               ))}
             </div>
@@ -154,11 +164,7 @@ export default function Overview() {
         </div>
 
         <div className="space-y-3">
-          {[
-            { route: 'Tampa → New York', time: 'Mondays, Morning', type: 'Recurring' },
-            { route: 'New York → Tampa', time: 'Fridays, Evening', type: 'Recurring' },
-            { route: 'Miami → Los Angeles', time: 'Jul 15, 2026, Afternoon', type: 'One-Time' },
-          ].map((item, i) => (
+          {UPCOMING_TRIPS.map((item, i) => (
             <div key={i} className="flex items-center justify-between rounded-lg bg-[#F1F5F980] p-4 border border-transparent hover:border-gray-200 transition-colors cursor-pointer">
               <div>
                 <p className="text-sm md:text-base font-semibold text-gray-900">{item.route}</p>
