@@ -5,11 +5,24 @@ export default function Pagination({ currentPage, totalPages, totalItems, itemsP
   const startItem = (currentPage - 1) * itemsPerPage + 1;
   const endItem = Math.min(currentPage * itemsPerPage, totalItems);
 
-  // Generate an array of page numbers to render
-  const pageNumbers = [];
-  for (let i = 1; i <= totalPages; i++) {
-    pageNumbers.push(i);
-  }
+  // Calculate visible pages with ellipses
+  const getVisiblePages = () => {
+    if (totalPages <= 5) {
+      return Array.from({ length: totalPages }, (_, i) => i + 1);
+    }
+    
+    if (currentPage <= 3) {
+      return [1, 2, 3, 4, '...', totalPages];
+    }
+    
+    if (currentPage >= totalPages - 2) {
+      return [1, '...', totalPages - 3, totalPages - 2, totalPages - 1, totalPages];
+    }
+    
+    return [1, '...', currentPage - 1, currentPage, currentPage + 1, '...', totalPages];
+  };
+
+  const visiblePages = getVisiblePages();
 
   // If no items, don't show pagination
   if (totalItems === 0) return null;
@@ -49,20 +62,33 @@ export default function Pagination({ currentPage, totalPages, totalItems, itemsP
               <ChevronLeft size={20} aria-hidden="true" />
             </button>
             
-            {pageNumbers.map(page => (
-              <button 
-                key={page}
-                onClick={() => onPageChange(page)}
-                aria-current={currentPage === page ? "page" : undefined}
-                className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold focus:z-20 transition-colors ${
-                  currentPage === page 
-                    ? 'z-10 bg-[#257AFC] text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#257AFC]' 
-                    : 'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0'
-                }`}
-              >
-                {page}
-              </button>
-            ))}
+            {visiblePages.map((page, index) => {
+              if (page === '...') {
+                return (
+                  <span 
+                    key={`ellipsis-${index}`} 
+                    className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0"
+                  >
+                    ...
+                  </span>
+                );
+              }
+
+              return (
+                <button 
+                  key={page}
+                  onClick={() => onPageChange(page)}
+                  aria-current={currentPage === page ? "page" : undefined}
+                  className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold focus:z-20 transition-colors ${
+                    currentPage === page 
+                      ? 'z-10 bg-[#257AFC] text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#257AFC]' 
+                      : 'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0'
+                  }`}
+                >
+                  {page}
+                </button>
+              );
+            })}
 
             <button 
               onClick={() => onPageChange(currentPage + 1)}
