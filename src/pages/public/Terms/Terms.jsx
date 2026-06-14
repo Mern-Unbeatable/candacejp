@@ -16,6 +16,18 @@ export default function Terms() {
   const containerRef = useRef(null);
 
   useEffect(() => {
+    // SEO Optimization
+    document.title = "Terms & Conditions - RAVEN";
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'Terms and conditions for Raven Private Aviation Membership. Understand our policies, protective clauses, and safety standards.');
+    } else {
+      const newMeta = document.createElement('meta');
+      newMeta.name = 'description';
+      newMeta.content = 'Terms and conditions for Raven Private Aviation Membership. Understand our policies, protective clauses, and safety standards.';
+      document.head.appendChild(newMeta);
+    }
+
     const ctx = gsap.context(() => {
       // Fade up animation for sections on scroll
       const sections = gsap.utils.toArray('.gsap-fade-up');
