@@ -1,9 +1,22 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
 import toast from 'react-hot-toast'
 
 export default function ResetPassword() {
+  useEffect(() => {
+    document.title = "Reset Password - RAVEN";
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'Securely set a new password for your Raven Private Aviation membership account.');
+    } else {
+      const newMeta = document.createElement('meta');
+      newMeta.name = 'description';
+      newMeta.content = 'Securely set a new password for your Raven Private Aviation membership account.';
+      document.head.appendChild(newMeta);
+    }
+  }, []);
+
   const navigate = useNavigate()
   const [passwords, setPasswords] = useState({ newPassword: '', confirmPassword: '' })
   const [isLoading, setIsLoading] = useState(false)
