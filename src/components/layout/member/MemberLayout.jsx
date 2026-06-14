@@ -52,7 +52,7 @@ export default function MemberLayout() {
               onClick={() => setSidebarOpen(false)}
               className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
                 isActive
-                  ? 'bg-blue-50 text-blue-700'
+                  ? 'bg-[#257AFC] text-white'
                   : 'text-ink-300 hover:bg-ink-50 hover:text-ink-500'
               }`}
             >
@@ -76,7 +76,7 @@ export default function MemberLayout() {
   )
 
   return (
-    <div className="flex min-h-screen bg-blue-50">
+    <div className="flex min-h-screen bg-[#F9FAFB]">
       <aside className="hidden w-64 flex-col border-r border-ink-50 bg-white lg:flex">
         <SidebarContent />
       </aside>
@@ -96,7 +96,7 @@ export default function MemberLayout() {
         </div>
       )}
 
-      <div className="flex flex-1 flex-col">
+      {/* <div className="flex flex-1 flex-col">
         <header className="flex h-14 items-center gap-4 border-b border-ink-50 bg-white px-4 lg:px-6">
           <button
             className="rounded-lg p-2 lg:hidden"
@@ -113,7 +113,7 @@ export default function MemberLayout() {
         <main className="flex-1 p-4 lg:p-8">
           <Outlet />
         </main>
-      </div>
+      </div> */}
     </div>
   )
 }
