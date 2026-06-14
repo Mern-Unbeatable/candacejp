@@ -17,7 +17,7 @@ export default function Profile() {
   }, []);
 
   return (
-    <div className="mx-auto pb-12">
+    <div className="mx-auto">
       <div className="mb-6 mt-4">
         <h1 className="font-serif text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
           Profile Settings
