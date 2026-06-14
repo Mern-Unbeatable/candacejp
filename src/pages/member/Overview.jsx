@@ -11,10 +11,10 @@ export default function Overview() {
     <div className="mx-auto  space-y-8">
       {/* Header section */}
       <div className='mt-4'>
-        <h1 className="font-serif text-4xl font-bold text-gray-900 tracking-tight">
+        <h1 className="font-serif text-2xl md:text-4xl font-bold text-gray-900 tracking-tight">
           Welcome back, {firstName}
         </h1>
-        <p className="mt-2 text-[15px] text-gray-500">
+        <p className="mt-2 text-base text-gray-800">
           Here's what's happening with your private travel
         </p>
       </div>
@@ -28,7 +28,7 @@ export default function Overview() {
           </div>
           <div>
             <p className="text-3xl font-semibold text-gray-900 leading-none">3</p>
-            <p className="mt-1 text-sm md:text=base text-gray-500">Travel Opportunities</p>
+            <p className="mt-1 text-sm md:text=base text-gray-700">Travel Opportunities</p>
           </div>
         </div>
 
@@ -39,7 +39,7 @@ export default function Overview() {
           </div>
           <div>
             <p className="text-3xl font-semibold text-gray-900 leading-none">2</p>
-            <p className="mt-1 text-sm md:text=base text-gray-500">Pending Reservations</p>
+            <p className="mt-1 text-sm md:text=base text-gray-700">Pending Reservations</p>
           </div>
         </div>
 
@@ -50,7 +50,7 @@ export default function Overview() {
           </div>
           <div>
             <p className="text-3xl font-semibold text-gray-900 leading-none">2</p>
-            <p className="mt-1 text-sm md:text=base text-gray-500">Upcoming Trips</p>
+            <p className="mt-1 text-sm md:text=base text-gray-700">Upcoming Trips</p>
           </div>
         </div>
       </div>
@@ -79,7 +79,7 @@ export default function Overview() {
             </div>
             <div>
               <p className="text-base md:text-lg font-semibold text-[#257AFC]">Submit Custom Travel Request</p>
-              <p className="mt-0.5 text-sm text-gray-500">Request a specific trip for concierge review</p>
+              <p className="mt-0.5 text-sm text-gray-700">Request a specific trip for concierge review</p>
             </div>
           </div>
           <ArrowRight className="text-[#257AFC]" size={20} />
@@ -92,7 +92,7 @@ export default function Overview() {
           <TrendingUp className="text-[#257AFC] mt-1" size={20} strokeWidth={2} />
           <div>
             <h2 className="font-serif text-xl font-semibold text-gray-900 tracking-tight">Demand Insights</h2>
-            <p className="text-sm md:text-base text-gray-500 mt-1">Members with similar travel intent are being grouped for curated flight opportunities</p>
+            <p className="text-sm md:text-base text-gray-700 mt-1">Members with similar travel intent are being grouped for curated flight opportunities</p>
           </div>
         </div>
 
@@ -164,7 +164,7 @@ export default function Overview() {
                 <p className="text-sm md:text-base font-semibold text-gray-900">{item.route}</p>
                 <p className="text-xs md:text-sm text-gray-500 mt-0.5">{item.time}</p>
               </div>
-              <span className="rounded-md bg-white border border-gray-100 px-2.5 py-1 text-xs md:text-sm font-medium text-gray-600 shadow-sm">
+              <span className="rounded-md bg-white border border-gray-100 px-2.5 py-1 text-xs md:text-sm font-medium text-gray-700 shadow-sm">
                 {item.type}
               </span>
             </div>
