@@ -20,7 +20,7 @@ import ResetPassword from "../pages/public/ResetPassword";
 import Overview from "../pages/member/overview/Overview";
 import TravelOpportunities from "../pages/member/travel-opportunities/TravelOpportunities";
 import PendingReservations from "../pages/member/pending-reservations/PendingReservations";
-import UpcomingTrips from "../pages/member/UpcomingTrips";
+import UpcomingTrips from "../pages/member/upcoming-trips/UpcomingTrips";
 import TravelPreferences from "../pages/member/TravelPreferences";
 import CustomTravel from "../pages/member/CustomTravel";
 import Message from "../pages/member/Message";
