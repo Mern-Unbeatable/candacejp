@@ -23,8 +23,8 @@ import PendingReservations from "../pages/member/pending-reservations/PendingRes
 import UpcomingTrips from "../pages/member/upcoming-trips/UpcomingTrips";
 import TravelPreferences from "../pages/member/travel-preferences/TravelPreferences";
 import CustomTravel from "../pages/member/custom-travel/CustomTravel";
-import Message from "../pages/member/Message";
-import Notification from "../pages/member/Notification";
+import Message from "../pages/member/message/Message";
+import Notification from "../pages/member/notification/Notification";
 import Profile from "../pages/member/Profile";
 
 import ConciergeDashboard from "../pages/concierge/Dashboard";
