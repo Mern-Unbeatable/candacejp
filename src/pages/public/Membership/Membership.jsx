@@ -7,7 +7,17 @@ import WhatYouReceive from "./components/WhatYouReceive";
 
 export default function Membership() {
   useEffect(() => {
+    // SEO Optimization
     document.title = "Membership - RAVEN";
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'Explore the exclusive benefits of Raven Private Aviation Membership. Access curated travel routes, concierge coordination, and premium private flight opportunities.');
+    } else {
+      const newMeta = document.createElement('meta');
+      newMeta.name = 'description';
+      newMeta.content = 'Explore the exclusive benefits of Raven Private Aviation Membership. Access curated travel routes, concierge coordination, and premium private flight opportunities.';
+      document.head.appendChild(newMeta);
+    }
   }, []);
 
   return (
