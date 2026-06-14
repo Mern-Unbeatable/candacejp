@@ -20,7 +20,7 @@ export default function Overview() {
       </div>
 
       {/* Stats Row */}
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-3 md:gap-5 md:grid-cols-3">
         {/* Card 1 */}
         <div className="flex items-center gap-4 rounded-2xl bg-[#FFFFFF] p-8 border border-gray-100 shadow-sm">
           <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-[#ECEEF2] text-gray-700">
@@ -56,7 +56,7 @@ export default function Overview() {
       </div>
 
       {/* Action Cards Container */}
-      <div className="rounded-2xl bg-[#FFFFFF] p-6 flex flex-col md:flex-row gap-2 md:gap-4 shadow-sm">
+      <div className="rounded-2xl bg-[#FFFFFF] p-6 flex flex-col md:flex-row gap-4 shadow-sm">
         {/* Blue Card */}
         <div className="flex flex-1 items-center justify-between rounded-xl bg-[#257AFC] p-5 cursor-pointer hover:bg-blue-600 transition-colors">
           <div className="flex items-center gap-4">
