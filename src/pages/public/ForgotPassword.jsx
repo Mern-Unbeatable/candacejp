@@ -1,8 +1,21 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
 
 export default function ForgotPassword() {
+  useEffect(() => {
+    document.title = "Forgot Password - RAVEN";
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'Recover your Raven Private Aviation membership account password. Enter your email to receive a secure OTP code.');
+    } else {
+      const newMeta = document.createElement('meta');
+      newMeta.name = 'description';
+      newMeta.content = 'Recover your Raven Private Aviation membership account password. Enter your email to receive a secure OTP code.';
+      document.head.appendChild(newMeta);
+    }
+  }, []);
+
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [isLoading, setIsLoading] = useState(false)
