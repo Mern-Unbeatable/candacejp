@@ -9,7 +9,7 @@ export default function MessageBubble({ message }) {
         <div className="max-w-[85%] md:max-w-[70%] rounded-2xl rounded-tr-sm bg-[#257AFC] px-5 py-3.5 text-sm text-white shadow-sm">
           {message.text}
         </div>
-        <div className="mt-1.5 flex items-center gap-1.5 text-[10px] text-gray-400">
+        <div className="mt-1.5 flex items-center gap-1.5 text-[12px] text-gray-400">
           <span>{message.time}</span>
           {message.status && (
             <>
@@ -33,7 +33,7 @@ export default function MessageBubble({ message }) {
         <div className="max-w-[85%] md:max-w-[70%] rounded-2xl rounded-tl-sm border border-gray-100 bg-white px-5 py-3.5 text-sm text-gray-700 shadow-sm">
           {message.text}
         </div>
-        <div className="mt-1.5 text-[10px] text-gray-400">
+        <div className="mt-1.5 text-[12px] text-gray-400">
           <span>{message.time}</span>
         </div>
       </div>

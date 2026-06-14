@@ -4,8 +4,12 @@ import { Search } from 'lucide-react';
 export default function Sidebar({ chats, activeChatId, onSelectChat }) {
   return (
     <div className="flex h-full flex-col bg-[#F8FAFC] border-r border-gray-100">
-      <div className="p-6 pb-4">
-        <h2 className="text-xl font-bold text-[#257AFC] mb-4">Inboxes</h2>
+      {/* Header */}
+      <div className="flex h-[97px] shrink-0 items-center border-b border-gray-300 px-6">
+        <h2 className="text-xl md:text-2xl font-bold text-[#257AFC]">Inboxes</h2>
+      </div>
+
+      <div className="p-4 md:p-6 pb-4">
         <div className="relative">
           <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
             <Search size={16} className="text-gray-400" />
@@ -42,7 +46,7 @@ export default function Sidebar({ chats, activeChatId, onSelectChat }) {
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between mb-0.5">
                 <span className="text-sm font-bold text-gray-900 truncate pr-2">{chat.name}</span>
-                <span className="text-[10px] text-gray-400 flex-shrink-0">{chat.time}</span>
+                <span className="text-[12px] text-gray-400 flex-shrink-0">{chat.time}</span>
               </div>
               <p className="text-xs text-gray-500 truncate">{chat.lastMessage}</p>
             </div>

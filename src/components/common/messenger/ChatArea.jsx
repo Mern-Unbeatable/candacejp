@@ -26,9 +26,9 @@ export default function ChatArea({ activeChat, messages, onBack, onSendMessage }
   }
 
   return (
-    <div className="flex h-full flex-col bg-[#FFFFF]">
+    <div className="flex h-full flex-col bg-white">
       {/* Header */}
-      <div className="flex items-center gap-4 border-b border-gray-100 bg-white p-4 md:px-6 md:py-5 shadow-sm z-10">
+      <div className="flex h-[97px] shrink-0 items-center gap-4 border-b border-gray-300 bg-white px-4 md:px-6 z-10">
         <button 
           onClick={onBack}
           className="md:hidden flex h-10 w-10 items-center justify-center rounded-full bg-gray-50 text-gray-600 hover:bg-gray-100 transition-colors"
