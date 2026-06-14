@@ -1,57 +1,92 @@
 import React, { useState, useEffect } from 'react';
 import UpcomingTripsHeader from './components/UpcomingTripsHeader';
 import UpcomingTripCard from './components/UpcomingTripCard';
+import TripDetailsModal from './components/TripDetailsModal';
 import Pagination from '../../../components/common/Pagination';
+
+const dummyPassengers = [
+  {
+    name: 'Leslie Alexander',
+    address: '4140 Parker Rd. Allentown, New Mexico 31134',
+    email: 'alma.lawson@example.com',
+    phone: '(205) 555-0100'
+  },
+  {
+    name: 'Leslie Alexander',
+    address: '4140 Parker Rd. Allentown, New Mexico 31134',
+    email: 'alma.lawson@example.com',
+    phone: '(205) 555-0100'
+  },
+  {
+    name: 'Leslie Alexander',
+    address: '4140 Parker Rd. Allentown, New Mexico 31134',
+    email: 'alma.lawson@example.com',
+    phone: '(205) 555-0100'
+  }
+];
 
 const MOCK_TRIPS = [
   {
     id: 1,
     route: 'TAMPA >> NYC',
+    type: 'Opportunities',
     departureDate: 'Jun 18, 2026',
     departureTime: 'Afternoon',
     costFormatted: '4,500',
-    status: 'Confirmed'
+    status: 'Confirmed',
+    passengers: dummyPassengers
   },
   {
     id: 2,
     route: 'NYC >> TAMPA',
+    type: 'Opportunities',
     departureDate: 'Jun 18, 2026',
     departureTime: 'Afternoon',
     costFormatted: '4,500',
-    status: 'Confirmed'
+    status: 'Confirmed',
+    passengers: dummyPassengers
   },
   {
     id: 3,
     route: 'NYC >> TAMPA',
+    type: 'Recurring Travel',
     departureDate: 'Sunday',
     departureTime: 'Afternoon',
-    status: 'Confirmed'
+    status: 'Confirmed',
+    passengers: dummyPassengers
   },
   {
     id: 4,
     route: 'NYC >> TAMPA',
+    type: 'One-Time Travel',
     departureDate: '6/8/2026',
     departureTime: 'Afternoon',
-    status: 'Confirmed'
+    status: 'Confirmed',
+    passengers: dummyPassengers
   },
   {
     id: 5,
     route: 'NYC >> TAMPA',
+    type: 'One Way Trip',
     departureDate: '6/8/2026',
     passengerCount: 6,
-    status: 'Confirmed'
+    status: 'Confirmed',
+    passengers: dummyPassengers
   },
   {
     id: 6,
     route: 'NYC >> TAMPA , TAMPA >> NYC',
+    type: 'Round Trip',
     departureDate: '6/8/2026',
     passengerCount: 6,
-    status: 'Confirmed'
+    status: 'Confirmed',
+    passengers: dummyPassengers
   }
 ];
 
 export default function UpcomingTrips() {
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedTripId, setSelectedTripId] = useState(null);
 
   useEffect(() => {
     document.title = "Upcoming Trips - Member | RAVEN";
@@ -67,8 +102,10 @@ export default function UpcomingTrips() {
   }, []);
 
   const handleViewDetails = (id) => {
-    alert(`Viewing details for trip #${id}`);
+    setSelectedTripId(id);
   };
+
+  const selectedTrip = MOCK_TRIPS.find(trip => trip.id === selectedTripId);
 
   // Pagination logic
   const itemsPerPage = 4;
@@ -109,6 +146,12 @@ export default function UpcomingTrips() {
           onPageChange={setCurrentPage}
         />
       )}
+
+      {/* View Details Modal */}
+      <TripDetailsModal 
+        trip={selectedTrip} 
+        onClose={() => setSelectedTripId(null)} 
+      />
     </div>
   );
 }

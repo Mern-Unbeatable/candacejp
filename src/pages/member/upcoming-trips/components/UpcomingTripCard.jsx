@@ -13,10 +13,15 @@ export default function UpcomingTripCard({ trip, onViewDetails }) {
         
         <div>
           {/* Route */}
-          <div className="flex items-center gap-2">
-            <h3 className="font-serif text-lg font-semibold text-gray-900 tracking-tight uppercase">
-              {trip.route}
-            </h3>
+          <div>
+            <div className="flex items-center gap-2">
+              <h3 className="font-serif text-lg font-semibold text-gray-900 tracking-tight uppercase">
+                {trip.route}
+              </h3>
+            </div>
+            {trip.type && (
+              <p className="text-xs md:text-sm text-gray-500 mt-0.5">{trip.type}</p>
+            )}
           </div>
           
           {/* Icons Row */}
