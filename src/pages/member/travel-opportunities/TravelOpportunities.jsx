@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import TravelOpportunitiesHeader from './components/TravelOpportunitiesHeader';
 import OpportunityCard from './components/OpportunityCard';
+import Pagination from '../../../components/common/Pagination';
 
 const MOCK_OPPORTUNITIES = [
   {
@@ -51,6 +52,7 @@ const MOCK_OPPORTUNITIES = [
 
 export default function TravelOpportunities() {
   const [expandedCardId, setExpandedCardId] = useState(1); // Default first card expanded
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     document.title = "Travel Opportunities - Member | RAVEN";
@@ -71,12 +73,22 @@ export default function TravelOpportunities() {
     setExpandedCardId(prev => prev === id ? null : id);
   };
 
+  // Pagination logic
+  const itemsPerPage = 4;
+  const totalItems = MOCK_OPPORTUNITIES.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  const paginatedOpportunities = MOCK_OPPORTUNITIES.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   return (
     <div className="mx-auto space-y-8">
       <TravelOpportunitiesHeader />
       
       <div className="space-y-4">
-        {MOCK_OPPORTUNITIES.map((flight) => (
+        {paginatedOpportunities.map((flight) => (
           <OpportunityCard 
             key={flight.id} 
             flight={flight}
@@ -85,6 +97,14 @@ export default function TravelOpportunities() {
           />
         ))}
       </div>
+
+      <Pagination 
+        currentPage={currentPage}
+        totalPages={totalPages}
+        totalItems={totalItems}
+        itemsPerPage={itemsPerPage}
+        onPageChange={setCurrentPage}
+      />
     </div>
   );
 }

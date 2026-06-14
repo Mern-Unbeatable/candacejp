@@ -42,12 +42,12 @@ export default function OpportunityCard({ flight, isExpanded, onToggleExpand }) 
             <Calendar size={16} className="text-gray-400" />
             <p className="text-sm font-medium text-gray-900">{flight.departureDate}</p>
           </div>
-          <p className="text-xs text-gray-500">{flight.departureTime}</p>
+          <p className="text-xs text-gray-600">{flight.departureTime}</p>
         </div>
 
         {/* Available Seats */}
         <div>
-          <p className="text-xs text-gray-400 mb-1.5 uppercase tracking-wider font-medium">Available Seats</p>
+          <p className="text-xs text-gray-700 mb-1.5 uppercase tracking-wider font-medium">Available Seats</p>
           <div className="flex items-center gap-2 mb-2">
             <Users size={16} className="text-gray-400" />
             <p className="text-sm font-medium text-gray-900">{flight.seatsAvailable} of {flight.totalSeats} available</p>
@@ -63,7 +63,7 @@ export default function OpportunityCard({ flight, isExpanded, onToggleExpand }) 
 
         {/* Estimated Cost */}
         <div className="md:text-right">
-          <p className="text-xs text-gray-400 mb-1.5 uppercase tracking-wider font-medium">Estimated Cost</p>
+          <p className="text-xs text-gray-600 mb-1.5 uppercase tracking-wider font-medium">Estimated Cost</p>
           <p className="text-xl font-semibold text-gray-900">{flight.costFormatted}</p>
           <p className="text-xs text-gray-500 mt-0.5">per Member</p>
         </div>
