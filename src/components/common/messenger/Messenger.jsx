@@ -20,7 +20,7 @@ export default function Messenger({ chats, messages: initialMessages }) {
   };
 
   return (
-    <div className="flex h-[calc(100vh-120px)] min-h-[600px] w-full overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
+    <div className="flex h-full w-full overflow-hidden bg-white">
       
       {/* Sidebar - Hidden on mobile if a chat is active */}
       <div className={`w-full md:w-80 lg:w-96 flex-shrink-0 ${activeChatId ? 'hidden md:block' : 'block'}`}>

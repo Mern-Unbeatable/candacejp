@@ -98,7 +98,7 @@ export default function Message() {
   }, []);
 
   return (
-    <div className="mx-auto pb-12 h-full">
+    <div className="-mx-4 -mt-4 -mb-4 lg:-mx-8 lg:-mt-8 lg:-mb-8 h-[calc(100vh-56px)] lg:h-screen">
       <Messenger chats={MOCK_CHATS} messages={MOCK_MESSAGES} />
     </div>
   );
