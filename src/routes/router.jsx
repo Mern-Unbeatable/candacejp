@@ -18,7 +18,7 @@ import VerifyOTP from "../pages/public/VerifyOTP";
 import ResetPassword from "../pages/public/ResetPassword";
 
 import Overview from "../pages/member/overview/Overview";
-import TravelOpportunities from "../pages/member/TravelOpportunities";
+import TravelOpportunities from "../pages/member/travel-opportunities/TravelOpportunities";
 import PendingReservations from "../pages/member/PendingReservations";
 import UpcomingTrips from "../pages/member/UpcomingTrips";
 import TravelPreferences from "../pages/member/TravelPreferences";
