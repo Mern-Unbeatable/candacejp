@@ -56,7 +56,7 @@ export default function Overview() {
       </div>
 
       {/* Action Cards Container */}
-      <div className="rounded-2xl bg-[#FFFFFF] p-6 flex flex-col md:flex-row gap-4 shadow-sm">
+      <div className="rounded-2xl bg-[#FFFFFF] p-6 flex flex-col md:flex-row gap-2 md:gap-4 shadow-sm">
         {/* Blue Card */}
         <div className="flex flex-1 items-center justify-between rounded-xl bg-[#257AFC] p-5 cursor-pointer hover:bg-blue-600 transition-colors">
           <div className="flex items-center gap-4">
