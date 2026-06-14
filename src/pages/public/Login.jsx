@@ -27,7 +27,7 @@ export default function Login() {
   }, []);
 
   const { login, isLoginLoading } = useAuth();
-  const [form, setForm] = useState({ email: "", password: "" });
+  const [form, setForm] = useState({ email: "member@demo.com", password: "demo123" });
 
   const handleChange = (e) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
