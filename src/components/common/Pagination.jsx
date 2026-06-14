@@ -28,30 +28,14 @@ export default function Pagination({ currentPage, totalPages, totalItems, itemsP
   if (totalItems === 0) return null;
 
   return (
-    <div className="flex items-center justify-between border border-gray-100 bg-white px-4 py-3 sm:px-6 mt-6 rounded-2xl shadow-sm">
-      <div className="flex flex-1 justify-between sm:hidden">
-        <button 
-          onClick={() => onPageChange(currentPage - 1)}
-          className="relative inline-flex items-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 transition-colors"
-          disabled={currentPage === 1}
-        >
-          Previous
-        </button>
-        <button 
-          onClick={() => onPageChange(currentPage + 1)}
-          className="relative ml-3 inline-flex items-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 transition-colors"
-          disabled={currentPage === totalPages}
-        >
-          Next
-        </button>
-      </div>
-      <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-        <div>
+    <div className="flex items-center justify-center sm:justify-between border border-gray-100 bg-white px-4 py-3 sm:px-6 mt-6 rounded-2xl shadow-sm">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 w-full">
+        <div className="hidden sm:block">
           <p className="text-sm text-gray-700">
             Showing <span className="font-semibold text-gray-900">{startItem}</span> to <span className="font-semibold text-gray-900">{endItem}</span> of <span className="font-semibold text-gray-900">{totalItems}</span> results
           </p>
         </div>
-        <div>
+        <div className="flex justify-center w-full sm:w-auto overflow-x-auto">
           <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
             <button 
               onClick={() => onPageChange(currentPage - 1)}
