@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 import { ArrowLeft, Send } from 'lucide-react';
 import MessageBubble from './MessageBubble';
 
-export default function ChatArea({ activeChat, messages, onBack }) {
+export default function ChatArea({ activeChat, messages, onBack, onSendMessage }) {
   const [inputText, setInputText] = useState('');
 
-  // We mock the send action just for UI demonstration
   const handleSend = () => {
     if (!inputText.trim()) return;
-    alert("Message sent: " + inputText);
+    onSendMessage(inputText);
     setInputText('');
   };
 
