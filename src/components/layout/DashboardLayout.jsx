@@ -18,7 +18,8 @@ import {
   X,
   LogOut,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import gsap from "gsap";
 import useAuth from "../../hooks/useAuth";
 
 const MEMBER_LINKS = [
@@ -79,6 +80,22 @@ export default function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
   const { user, logout } = useAuth();
+
+  const overlayRef = useRef(null);
+  const sidebarRef = useRef(null);
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    if (sidebarOpen) {
+      gsap.to(containerRef.current, { autoAlpha: 1, duration: 0.3 });
+      gsap.to(overlayRef.current, { opacity: 1, duration: 0.3 });
+      gsap.to(sidebarRef.current, { x: 0, duration: 0.3, ease: "power2.out" });
+    } else {
+      gsap.to(overlayRef.current, { opacity: 0, duration: 0.3 });
+      gsap.to(sidebarRef.current, { x: "-100%", duration: 0.3, ease: "power2.in" });
+      gsap.to(containerRef.current, { autoAlpha: 0, duration: 0.3, delay: 0.1 });
+    }
+  }, [sidebarOpen]);
 
   let sidebarLinks = [];
   let headerLabel = "Dashboard";
@@ -163,23 +180,25 @@ export default function DashboardLayout() {
         <SidebarContent />
       </aside>
 
-      {sidebarOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden">
-          <div
-            className="absolute inset-0 bg-ink-900/40"
+      <div ref={containerRef} className="fixed inset-0 z-50 lg:hidden invisible opacity-0">
+        <div
+          ref={overlayRef}
+          className="absolute inset-0 bg-ink-900/40 opacity-0"
+          onClick={() => setSidebarOpen(false)}
+        />
+        <aside 
+          ref={sidebarRef} 
+          className="relative flex h-full w-72 flex-col bg-white shadow-xl -translate-x-full"
+        >
+          <button
+            className="absolute right-4 top-4 rounded-lg p-1"
             onClick={() => setSidebarOpen(false)}
-          />
-          <aside className="relative flex h-full w-72 flex-col bg-white shadow-xl">
-            <button
-              className="absolute right-4 top-4 rounded-lg p-1"
-              onClick={() => setSidebarOpen(false)}
-            >
-              <X size={20} />
-            </button>
-            <SidebarContent />
-          </aside>
-        </div>
-      )}
+          >
+            <X size={20} />
+          </button>
+          <SidebarContent />
+        </aside>
+      </div>
 
       <div className="flex flex-1 flex-col">
         <header className="flex h-14 items-center gap-4 border-b border-ink-50 bg-white px-4 lg:hidden">
