@@ -36,9 +36,10 @@ export default function MemberLayout() {
 
   const SidebarContent = () => (
     <>
-      <div className="border-b border-ink-50 px-6 py-5">
-        <p className="text-lg font-semibold text-ink-500">Member Portal</p>
-        <p className="mt-1 text-sm text-ink-300">{user?.name || user?.email}</p>
+      <div className="border-b border-ink-50 px-6 py-6 flex items-center">
+        <Link to="/member/overview">
+          <img src="/Raven_logo.png" alt="RAVEN" className="h-12 w-auto object-contain" />
+        </Link>
       </div>
 
       <nav className="flex-1 space-y-1 px-3 py-4">
@@ -95,25 +96,6 @@ export default function MemberLayout() {
           </aside>
         </div>
       )}
-
-      {/* <div className="flex flex-1 flex-col">
-        <header className="flex h-14 items-center gap-4 border-b border-ink-50 bg-white px-4 lg:px-6">
-          <button
-            className="rounded-lg p-2 lg:hidden"
-            onClick={() => setSidebarOpen(true)}
-            aria-label="Open menu"
-          >
-            <Menu size={20} />
-          </button>
-          <Link to="/" className="text-sm font-medium text-ink-300 hover:text-ink-500">
-            CandaceJP
-          </Link>
-        </header>
-
-        <main className="flex-1 p-4 lg:p-8">
-          <Outlet />
-        </main>
-      </div> */}
     </div>
   )
 }
