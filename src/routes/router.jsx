@@ -16,6 +16,9 @@ import FAQ from '../pages/public/FAQ/FAQ'
 import Contact from '../pages/public/Contact/Contact'
 import Login from '../pages/public/Login'
 import Register from '../pages/public/Register'
+import ForgotPassword from '../pages/public/ForgotPassword'
+import VerifyOTP from '../pages/public/VerifyOTP'
+import ResetPassword from '../pages/public/ResetPassword'
 
 import Overview from '../pages/member/Overview'
 import TravelOpportunities from '../pages/member/TravelOpportunities'
@@ -60,6 +63,9 @@ export const router = createBrowserRouter([
         children: [
           { path: '/login', element: <Login /> },
           { path: '/register', element: <Register /> },
+          { path: '/forgot-password', element: <ForgotPassword /> },
+          { path: '/verify-otp', element: <VerifyOTP /> },
+          { path: '/reset-password', element: <ResetPassword /> },
         ],
       },
     ],
