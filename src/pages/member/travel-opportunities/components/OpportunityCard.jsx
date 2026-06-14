@@ -26,7 +26,7 @@ export default function OpportunityCard({ flight, isExpanded, onToggleExpand }) 
         </div>
         
         {/* Status Badge */}
-        <span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ${
+        <span className={`inline-flex items-center rounded-full px-3 py-1 text-xs md:text-sm font-medium ${
           flight.status === 'Available' ? 'bg-blue-50 text-blue-700' : 'bg-red-50 text-red-700'
         }`}>
           {flight.status}
@@ -37,17 +37,17 @@ export default function OpportunityCard({ flight, isExpanded, onToggleExpand }) 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-2">
         {/* Departure */}
         <div>
-          <p className="text-xs text-gray-400 mb-1.5 uppercase tracking-wider font-medium">Departure</p>
+          <p className="text-xs md:text-sm text-gray-400 mb-1.5 uppercase tracking-wider font-medium">Departure</p>
           <div className="flex items-center gap-2 mb-1">
             <Calendar size={16} className="text-gray-400" />
             <p className="text-sm font-medium text-gray-900">{flight.departureDate}</p>
           </div>
-          <p className="text-xs text-gray-600">{flight.departureTime}</p>
+          <p className="text-xs md:text-sm text-gray-600">{flight.departureTime}</p>
         </div>
 
         {/* Available Seats */}
         <div>
-          <p className="text-xs text-gray-700 mb-1.5 uppercase tracking-wider font-medium">Available Seats</p>
+          <p className="text-xs md:text-sm text-gray-700 mb-1.5 uppercase tracking-wider font-medium">Available Seats</p>
           <div className="flex items-center gap-2 mb-2">
             <Users size={16} className="text-gray-400" />
             <p className="text-sm font-medium text-gray-900">{flight.seatsAvailable} of {flight.totalSeats} available</p>
@@ -63,16 +63,16 @@ export default function OpportunityCard({ flight, isExpanded, onToggleExpand }) 
 
         {/* Estimated Cost */}
         <div className="md:text-right">
-          <p className="text-xs text-gray-600 mb-1.5 uppercase tracking-wider font-medium">Estimated Cost</p>
+          <p className="text-xs md:text-sm text-gray-600 mb-1.5 uppercase tracking-wider font-medium">Estimated Cost</p>
           <p className="text-xl font-semibold text-gray-900">{flight.costFormatted}</p>
-          <p className="text-xs text-gray-500 mt-0.5">per Member</p>
+          <p className="text-xs md:text-sm text-gray-500 mt-0.5">per Member</p>
         </div>
       </div>
 
       {/* Expanded Section */}
       {isExpanded && (
         <div className="mt-6 pt-6 border-t border-gray-100 animate-in fade-in slide-in-from-top-2 duration-300">
-          <p className="text-xs text-red-500 mb-4 font-medium">
+          <p className="text-xs md:text-sm text-red-500 mb-4 font-medium">
             Note: You will not be charged until the flight is confirmed by Raven. Final aircraft type and operator details will be provided upon confirmation.
           </p>
           <button 
