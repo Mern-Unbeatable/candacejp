@@ -37,7 +37,7 @@ export default function MemberLayout() {
   const SidebarContent = () => (
     <>
       <div className="border-b border-ink-50 px-6 py-6 flex items-center">
-        <Link to="/member/overview">
+        <Link to="/">
           <img src="/Raven_logo.png" alt="RAVEN" className="h-12 w-auto object-contain" />
         </Link>
       </div>
@@ -65,13 +65,23 @@ export default function MemberLayout() {
       </nav>
 
       <div className="border-t border-ink-50 p-4">
-        <button
-          onClick={logout}
-          className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-ink-300 hover:bg-ink-50"
-        >
-          <LogOut size={18} />
-          Logout
-        </button>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#f1f5f9] text-sm font-medium text-gray-700">
+              {user?.name?.split(' ').map(n => n[0]).join('').toUpperCase().substring(0,2) || 'U'}
+            </div>
+            <div>
+              <p className="text-[15px] font-medium text-gray-900">{user?.name || 'User Name'}</p>
+            </div>
+          </div>
+          <button
+            onClick={logout}
+            className="rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 transition-colors"
+            aria-label="Logout"
+          >
+            <LogOut size={20} />
+          </button>
+        </div>
       </div>
     </>
   )
