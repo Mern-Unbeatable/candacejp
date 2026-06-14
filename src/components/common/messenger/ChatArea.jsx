@@ -71,7 +71,7 @@ export default function ChatArea({ activeChat, messages, onBack, onSendMessage }
       </div>
 
       {/* Input Area */}
-      <div className="bg-white p-4 md:p-6 border-t border-gray-100">
+      <div className="bg-white p-4 mb-20 md:mb-0 md:p-6 md:pb-6 border-t border-gray-100">
         <div className="relative flex items-center">
           <input
             type="text"
