@@ -58,8 +58,13 @@ export default function OneTimeTravelForm({ forms, onAddForm, onRemoveForm, onCh
                   <input 
                     type="date"
                     value={form.date}
+                    onClick={(e) => {
+                      if (e.target.showPicker) {
+                        e.target.showPicker();
+                      }
+                    }}
                     onChange={(e) => onChange(form.id, 'date', e.target.value)}
-                    className="w-full rounded-xl border border-gray-200 bg-[#F8FAFC] px-4 py-3 text-sm text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all"
+                    className="w-full rounded-xl border border-gray-200 bg-[#F8FAFC] px-4 py-3 text-sm text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all cursor-pointer"
                   />
                 </div>
                 <div>
