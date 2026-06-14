@@ -62,26 +62,39 @@ const MOCK_NOTIFICATIONS = [
   }
 ];
 
+// Generate 21 items by repeating the base mock notifications
+const ALL_NOTIFICATIONS = [
+  ...MOCK_NOTIFICATIONS,
+  ...MOCK_NOTIFICATIONS.map(n => ({ ...n, id: n.id + 7 })),
+  ...MOCK_NOTIFICATIONS.map(n => ({ ...n, id: n.id + 14 }))
+];
+
 export default function Notification() {
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = 3;
+  
+  const itemsPerPage = 3;
+  const totalItems = ALL_NOTIFICATIONS.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentNotifications = ALL_NOTIFICATIONS.slice(startIndex, startIndex + itemsPerPage);
 
   useEffect(() => {
     document.title = "Notifications - Member | RAVEN";
   }, []);
 
   return (
-    <div className="mx-auto pb-12">
+    <div className="mx-auto">
       <NotificationHeader />
       <div className="mb-8">
-        <NotificationStream notifications={MOCK_NOTIFICATIONS} />
+        <NotificationStream notifications={currentNotifications} />
       </div>
       <Pagination 
         currentPage={currentPage} 
         totalPages={totalPages} 
         onPageChange={setCurrentPage} 
-        totalItems={21}
-        itemsPerPage={7}
+        totalItems={totalItems}
+        itemsPerPage={itemsPerPage}
       />
     </div>
   );
