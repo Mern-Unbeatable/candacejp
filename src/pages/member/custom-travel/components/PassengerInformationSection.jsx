@@ -17,7 +17,7 @@ export default function PassengerInformationSection({
           <div key={index} className="grid grid-cols-2 md:grid-cols-6 gap-3 rounded-xl border border-gray-100 bg-white p-3 md:p-4 shadow-sm">
             {/* First Name */}
             <div>
-              <label className="block text-[10px] md:text-xs font-bold text-gray-900 mb-1.5 whitespace-nowrap">First Name</label>
+              <label className="block text-xs md:text-sm font-bold text-gray-900 mb-1.5 whitespace-nowrap">First Name</label>
               <input
                 type="text"
                 placeholder="John Davis"
@@ -28,7 +28,7 @@ export default function PassengerInformationSection({
             </div>
             {/* Last Name */}
             <div>
-              <label className="block text-[10px] md:text-xs font-bold text-gray-900 mb-1.5 whitespace-nowrap">Last Name</label>
+              <label className="block text-xs md:text-sm font-bold text-gray-900 mb-1.5 whitespace-nowrap">Last Name</label>
               <input
                 type="text"
                 placeholder="John Davis"
@@ -39,7 +39,7 @@ export default function PassengerInformationSection({
             </div>
             {/* Street Address */}
             <div>
-              <label className="block text-[10px] md:text-xs font-bold text-gray-900 mb-1.5 whitespace-nowrap">Street Address</label>
+              <label className="block text-xs md:text-sm font-bold text-gray-900 mb-1.5 whitespace-nowrap">Street Address</label>
               <input
                 type="text"
                 placeholder="New york city"
@@ -50,7 +50,7 @@ export default function PassengerInformationSection({
             </div>
             {/* Zip Code */}
             <div>
-              <label className="block text-[10px] md:text-xs font-bold text-gray-900 mb-1.5 whitespace-nowrap">Zip Code</label>
+              <label className="block text-xs md:text-sm font-bold text-gray-900 mb-1.5 whitespace-nowrap">Zip Code</label>
               <input
                 type="text"
                 placeholder="1212"
@@ -61,7 +61,7 @@ export default function PassengerInformationSection({
             </div>
             {/* Email */}
             <div>
-              <label className="block text-[10px] md:text-xs font-bold text-gray-900 mb-1.5 whitespace-nowrap">Email</label>
+              <label className="block text-xs md:text-sm font-bold text-gray-900 mb-1.5 whitespace-nowrap">Email</label>
               <input
                 type="email"
                 placeholder="john@example.com"
@@ -72,7 +72,7 @@ export default function PassengerInformationSection({
             </div>
             {/* Phone */}
             <div>
-              <label className="block text-[10px] md:text-xs font-bold text-gray-900 mb-1.5 whitespace-nowrap">Phone</label>
+              <label className="block text-xs md:text-sm font-bold text-gray-900 mb-1.5 whitespace-nowrap">Phone</label>
               <input
                 type="tel"
                 placeholder="+1 (555) 123-4567"
