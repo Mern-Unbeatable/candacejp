@@ -8,6 +8,8 @@ export default function CustomTravel() {
   const [tripType, setTripType] = useState('One Way');
   const [origin, setOrigin] = useState('');
   const [destination, setDestination] = useState('');
+  const [returnOrigin, setReturnOrigin] = useState('');
+  const [returnDestination, setReturnDestination] = useState('');
   const [departureDate, setDepartureDate] = useState('');
   const [returnDate, setReturnDate] = useState('');
   
@@ -75,6 +77,10 @@ export default function CustomTravel() {
           setOrigin={setOrigin}
           destination={destination}
           setDestination={setDestination}
+          returnOrigin={returnOrigin}
+          setReturnOrigin={setReturnOrigin}
+          returnDestination={returnDestination}
+          setReturnDestination={setReturnDestination}
           departureDate={departureDate}
           setDepartureDate={setDepartureDate}
           returnDate={returnDate}

@@ -8,6 +8,10 @@ export default function RouteDetailsSection({
   setOrigin,
   destination,
   setDestination,
+  returnOrigin,
+  setReturnOrigin,
+  returnDestination,
+  setReturnDestination,
   departureDate,
   setDepartureDate,
   returnDate,
@@ -80,6 +84,41 @@ export default function RouteDetailsSection({
         </div>
       </div>
 
+      {tripType === 'Round trip' && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          <div>
+            <label className="block text-xs md:text-sm font-semibold text-gray-700 mb-2">Return Origin</label>
+            <div className="relative">
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+                <MapPin size={16} className="text-gray-400" />
+              </div>
+              <input
+                type="text"
+                placeholder="e.g., Tampa (TPA)"
+                value={returnOrigin}
+                onChange={(e) => setReturnOrigin(e.target.value)}
+                className="w-full rounded-xl border border-gray-200 bg-[#F8FAFC] pl-10 pr-4 py-3 text-sm md:text-base text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all"
+              />
+            </div>
+          </div>
+          <div>
+            <label className="block text-xs md:text-sm font-semibold text-gray-700 mb-2">Return Destination</label>
+            <div className="relative">
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+                <MapPin size={16} className="text-gray-400" />
+              </div>
+              <input
+                type="text"
+                placeholder="e.g., New York (TEB)"
+                value={returnDestination}
+                onChange={(e) => setReturnDestination(e.target.value)}
+                className="w-full rounded-xl border border-gray-200 bg-[#F8FAFC] pl-10 pr-4 py-3 text-sm md:text-base text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Dates */}
       <div className={`grid grid-cols-1 ${tripType === 'Round trip' ? 'md:grid-cols-2' : ''} gap-4 mb-8`}>
         <div>
@@ -101,7 +140,7 @@ export default function RouteDetailsSection({
         </div>
         {tripType === 'Round trip' && (
           <div>
-            <label className="block text-xs md:text-sm font-semibold text-gray-700 mb-2">Preferred Return</label>
+            <label className="block text-xs md:text-sm font-semibold text-gray-700 mb-2">Return Date</label>
             <div className="relative">
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
                 <Calendar size={16} className="text-gray-400" />
@@ -130,9 +169,10 @@ export default function RouteDetailsSection({
           >
             <Minus size={18} />
           </button>
-          <div className="text-center">
+          <div className="text-center flex flex-col items-center">
             <span className="block text-3xl font-bold text-gray-900 leading-none">{passengerCount}</span>
-            <span className="text-[10px] md:text-xs uppercase tracking-wider text-gray-500 font-medium">seat{passengerCount !== 1 ? 's' : ''}</span>
+            <span className="text-xs md:text-sm uppercase tracking-wider text-gray-600 font-bold mt-1">seat{passengerCount !== 1 ? 's' : ''}</span>
+            <span className="text-xs font-semibold text-[#257AFC] mt-1">6 seats available</span>
           </div>
           <button
             onClick={() => setPassengerCount(passengerCount + 1)}

@@ -12,73 +12,73 @@ export default function PassengerInformationSection({
     <div>
       <h2 className="text-sm md:text-base font-bold text-gray-900 mb-6">Passenger Information</h2>
       
-      <div className="space-y-6 mb-8">
+      <div className="space-y-4 mb-8">
         {passengers.map((passenger, index) => (
-          <div key={index} className="grid grid-cols-1 md:grid-cols-3 gap-4 rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
+          <div key={index} className="grid grid-cols-2 md:grid-cols-6 gap-3 rounded-xl border border-gray-100 bg-white p-3 md:p-4 shadow-sm">
             {/* First Name */}
             <div>
-              <label className="block text-xs md:text-sm font-bold text-gray-900 mb-1.5">First Name</label>
+              <label className="block text-[10px] md:text-xs font-bold text-gray-900 mb-1.5 whitespace-nowrap">First Name</label>
               <input
                 type="text"
                 placeholder="John Davis"
                 value={passenger.firstName}
                 onChange={(e) => handlePassengerChange(index, 'firstName', e.target.value)}
-                className="w-full rounded-lg border border-gray-200 bg-[#F4F5F6] px-3 py-2 text-xs md:text-sm text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all"
+                className="w-full rounded-lg border border-gray-200 bg-[#F4F5F6] px-2 py-2 text-xs text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all"
               />
             </div>
             {/* Last Name */}
             <div>
-              <label className="block text-xs md:text-sm font-bold text-gray-900 mb-1.5">Last Name</label>
+              <label className="block text-[10px] md:text-xs font-bold text-gray-900 mb-1.5 whitespace-nowrap">Last Name</label>
               <input
                 type="text"
                 placeholder="John Davis"
                 value={passenger.lastName}
                 onChange={(e) => handlePassengerChange(index, 'lastName', e.target.value)}
-                className="w-full rounded-lg border border-gray-200 bg-[#F4F5F6] px-3 py-2 text-xs md:text-sm text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all"
+                className="w-full rounded-lg border border-gray-200 bg-[#F4F5F6] px-2 py-2 text-xs text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all"
               />
             </div>
             {/* Street Address */}
             <div>
-              <label className="block text-xs md:text-sm font-bold text-gray-900 mb-1.5">Street Address</label>
+              <label className="block text-[10px] md:text-xs font-bold text-gray-900 mb-1.5 whitespace-nowrap">Street Address</label>
               <input
                 type="text"
                 placeholder="New york city"
                 value={passenger.address}
                 onChange={(e) => handlePassengerChange(index, 'address', e.target.value)}
-                className="w-full rounded-lg border border-gray-200 bg-[#F4F5F6] px-3 py-2 text-xs md:text-sm text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all"
+                className="w-full rounded-lg border border-gray-200 bg-[#F4F5F6] px-2 py-2 text-xs text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all"
               />
             </div>
             {/* Zip Code */}
             <div>
-              <label className="block text-xs md:text-sm font-bold text-gray-900 mb-1.5">Zip Code</label>
+              <label className="block text-[10px] md:text-xs font-bold text-gray-900 mb-1.5 whitespace-nowrap">Zip Code</label>
               <input
                 type="text"
                 placeholder="1212"
                 value={passenger.zip}
                 onChange={(e) => handlePassengerChange(index, 'zip', e.target.value)}
-                className="w-full rounded-lg border border-gray-200 bg-[#F4F5F6] px-3 py-2 text-xs md:text-sm text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all"
+                className="w-full rounded-lg border border-gray-200 bg-[#F4F5F6] px-2 py-2 text-xs text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all"
               />
             </div>
             {/* Email */}
             <div>
-              <label className="block text-xs md:text-sm font-bold text-gray-900 mb-1.5">Email</label>
+              <label className="block text-[10px] md:text-xs font-bold text-gray-900 mb-1.5 whitespace-nowrap">Email</label>
               <input
                 type="email"
                 placeholder="john@example.com"
                 value={passenger.email}
                 onChange={(e) => handlePassengerChange(index, 'email', e.target.value)}
-                className="w-full rounded-lg border border-gray-200 bg-[#F4F5F6] px-3 py-2 text-xs md:text-sm text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all"
+                className="w-full rounded-lg border border-gray-200 bg-[#F4F5F6] px-2 py-2 text-xs text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all"
               />
             </div>
             {/* Phone */}
             <div>
-              <label className="block text-xs md:text-sm font-bold text-gray-900 mb-1.5">Phone</label>
+              <label className="block text-[10px] md:text-xs font-bold text-gray-900 mb-1.5 whitespace-nowrap">Phone</label>
               <input
                 type="tel"
                 placeholder="+1 (555) 123-4567"
                 value={passenger.phone}
                 onChange={(e) => handlePassengerChange(index, 'phone', e.target.value)}
-                className="w-full rounded-lg border border-gray-200 bg-[#F4F5F6] px-3 py-2 text-xs md:text-sm text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all"
+                className="w-full rounded-lg border border-gray-200 bg-[#F4F5F6] px-2 py-2 text-xs text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all"
               />
             </div>
           </div>
