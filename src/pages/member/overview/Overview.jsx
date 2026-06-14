@@ -33,7 +33,18 @@ const UPCOMING_TRIPS_DATA = [
 export default function Overview() {
   const { user } = useAuth();
   
-
+  useEffect(() => {
+    document.title = "Overview - Member | RAVEN";
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'View your Raven Member dashboard, upcoming trips, and demand insights.');
+    } else {
+      const newMeta = document.createElement('meta');
+      newMeta.name = 'description';
+      newMeta.content = 'View your Raven Member dashboard, upcoming trips, and demand insights.';
+      document.head.appendChild(newMeta);
+    }
+  }, []);
 
   // Get first name from full name
   const firstName = user?.name ? user.name.split(" ")[0] : "Member";
