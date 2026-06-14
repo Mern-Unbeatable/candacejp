@@ -22,7 +22,7 @@ import TravelOpportunities from "../pages/member/travel-opportunities/TravelOppo
 import PendingReservations from "../pages/member/pending-reservations/PendingReservations";
 import UpcomingTrips from "../pages/member/upcoming-trips/UpcomingTrips";
 import TravelPreferences from "../pages/member/travel-preferences/TravelPreferences";
-import CustomTravel from "../pages/member/CustomTravel";
+import CustomTravel from "../pages/member/custom-travel/CustomTravel";
 import Message from "../pages/member/Message";
 import Notification from "../pages/member/Notification";
 import Profile from "../pages/member/Profile";
