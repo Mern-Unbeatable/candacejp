@@ -105,6 +105,15 @@ const MOCK_MESSAGES = [
 export default function Message() {
   useEffect(() => {
     document.title = "Messages - Member | RAVEN";
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'Communicate directly with your dedicated Raven concierge support.');
+    } else {
+      const newMeta = document.createElement('meta');
+      newMeta.name = 'description';
+      newMeta.content = 'Communicate directly with your dedicated Raven concierge support.';
+      document.head.appendChild(newMeta);
+    }
   }, []);
 
   return (
