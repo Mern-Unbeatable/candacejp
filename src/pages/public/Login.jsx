@@ -1,9 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
+import gsap from "gsap";
 import useAuth from "../../hooks/useAuth";
 
 export default function Login() {
+  const formRef = useRef(null);
+
   useEffect(() => {
     document.title = "Login - RAVEN";
     const metaDescription = document.querySelector('meta[name="description"]');
@@ -15,6 +18,12 @@ export default function Login() {
       newMeta.content = 'Sign in to your Raven Private Aviation membership account to access curated travel routes and premium private flight opportunities.';
       document.head.appendChild(newMeta);
     }
+
+    gsap.fromTo(
+      formRef.current,
+      { opacity: 0, x: -30 },
+      { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }
+    );
   }, []);
 
   const { login, isLoginLoading } = useAuth();
@@ -52,7 +61,7 @@ export default function Login() {
       </div>
 
       {/* Right side - Form */}
-      <div className="flex relative w-full items-center justify-center lg:w-1/2">
+      <div className="flex relative w-full items-center justify-center lg:w-1/2" ref={formRef}>
         {/* Back to Home Button */}
         <Link
           to="/"
@@ -62,7 +71,7 @@ export default function Login() {
           Back to Home
         </Link>
 
-        <div className="w-full max-w-xl px-8 py-12 mt-10 lg:mt-0">
+        <div className="w-full max-w-xl px-8 py-12 mt-24 lg:mt-16">
           {/* Toggle buttons */}
           <div className="mb-16 flex w-64 rounded-full bg-[#f1f5f9] p-1">
             <button className="w-1/2 rounded-full bg-[#3b82f6] py-2.5 text-sm font-semibold text-white shadow-sm">
