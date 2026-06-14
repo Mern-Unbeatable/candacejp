@@ -80,6 +80,8 @@ export default function Notification() {
         currentPage={currentPage} 
         totalPages={totalPages} 
         onPageChange={setCurrentPage} 
+        totalItems={21}
+        itemsPerPage={7}
       />
     </div>
   );

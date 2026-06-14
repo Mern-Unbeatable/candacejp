@@ -56,7 +56,7 @@ export default function NotificationCard({ notification }) {
         <p className="text-xs md:text-sm text-gray-500 leading-relaxed max-w-2xl">{notification.description}</p>
       </div>
 
-      <div className="flex items-center gap-6 border-t border-gray-50 pt-4 mt-2">
+      <div className="flex items-center gap-6 border-t border-gray-50 mt-2">
         <div className="flex items-center gap-2 text-gray-500">
           <MapPin size={14} />
           <span className="text-xs font-medium">Route: {notification.route}</span>
