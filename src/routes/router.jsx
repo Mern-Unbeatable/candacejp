@@ -1,9 +1,7 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 
 import PublicLayout from '../components/layout/public/PublicLayout'
-import MemberLayout from '../components/layout/member/MemberLayout'
-import StaffLayout from '../components/layout/staff/StaffLayout'
-import AdminLayout from '../components/layout/admin/AdminLayout'
+import DashboardLayout from '../components/layout/DashboardLayout'
 
 import ProtectedRoute from './ProtectedRoute'
 import PublicRoute from './PublicRoute'
@@ -69,7 +67,7 @@ export const router = createBrowserRouter([
     element: <ProtectedRoute allowedRoles={['member']} />,
     children: [
       {
-        element: <MemberLayout />,
+        element: <DashboardLayout />,
         children: [
           { index: true, element: <Navigate to="overview" replace /> },
           { path: 'overview', element: <Overview /> },
@@ -90,7 +88,7 @@ export const router = createBrowserRouter([
     element: <ProtectedRoute allowedRoles={['concierge']} />,
     children: [
       {
-        element: <StaffLayout />,
+        element: <DashboardLayout />,
         children: [
           { index: true, element: <Navigate to="dashboard" replace /> },
           { path: 'dashboard', element: <ConciergeDashboard /> },
@@ -109,7 +107,7 @@ export const router = createBrowserRouter([
     element: <ProtectedRoute allowedRoles={['admin']} />,
     children: [
       {
-        element: <AdminLayout />,
+        element: <DashboardLayout />,
         children: [
           { index: true, element: <Navigate to="dashboard-overview" replace /> },
           { path: 'dashboard-overview', element: <AdminDashboardOverview /> },

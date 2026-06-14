@@ -1,9 +1,49 @@
 import { Link, Outlet, useLocation } from 'react-router-dom'
-import { LayoutDashboard, Users, UserCog, UserPlus, Settings, Menu, X, LogOut } from 'lucide-react'
+import {
+  LayoutDashboard,
+  Plane,
+  CalendarCheck,
+  MapPin,
+  Sliders,
+  Compass,
+  MessageSquare,
+  Bell,
+  User,
+  Calendar,
+  Users,
+  UserCog,
+  UserPlus,
+  Settings,
+  Menu,
+  X,
+  LogOut
+} from 'lucide-react'
 import { useState } from 'react'
-import useAuth from '../../../hooks/useAuth'
+import useAuth from '../../hooks/useAuth'
 
-const sidebarLinks = [
+const MEMBER_LINKS = [
+  { to: '/member/overview', label: 'Overview', icon: LayoutDashboard },
+  { to: '/member/travel-opportunities', label: 'Travel Opportunities', icon: Plane },
+  { to: '/member/pending-reservations', label: 'Pending Reservations', icon: CalendarCheck },
+  { to: '/member/upcoming-trips', label: 'Upcoming Trips', icon: MapPin },
+  { to: '/member/travel-preferences', label: 'Travel Preferences', icon: Sliders },
+  { to: '/member/custom-travel', label: 'Custom Travel', icon: Compass },
+  { to: '/member/message', label: 'Message', icon: MessageSquare },
+  { to: '/member/notification', label: 'Notification', icon: Bell },
+  { to: '/member/profile', label: 'Profile', icon: User },
+]
+
+const STAFF_LINKS = [
+  { to: '/concierge/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { to: '/concierge/calendar-demand', label: 'Calendar Demand', icon: Calendar },
+  { to: '/concierge/members-interest', label: 'Members Interest', icon: Users },
+  { to: '/concierge/opportunities', label: 'Opportunities', icon: Compass },
+  { to: '/concierge/travel-preferences', label: 'Travel Preferences', icon: Sliders },
+  { to: '/concierge/message', label: 'Message', icon: MessageSquare },
+  { to: '/concierge/profile', label: 'Profile', icon: User },
+]
+
+const ADMIN_LINKS = [
   { to: '/admin/dashboard-overview', label: 'Dashboard Overview', icon: LayoutDashboard },
   { to: '/admin/members', label: 'Members', icon: Users },
   { to: '/admin/concierge-staff', label: 'Concierge Staff', icon: UserCog },
@@ -11,11 +51,24 @@ const sidebarLinks = [
   { to: '/admin/setting', label: 'Setting', icon: Settings },
 ]
 
-
-export default function AdminLayout() {
+export default function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const location = useLocation()
   const { user, logout } = useAuth()
+
+  let sidebarLinks = []
+  let headerLabel = 'Dashboard'
+  
+  if (user?.role === 'member') {
+    sidebarLinks = MEMBER_LINKS
+    headerLabel = 'Member Portal'
+  } else if (user?.role === 'concierge') {
+    sidebarLinks = STAFF_LINKS
+    headerLabel = 'Concierge Panel'
+  } else if (user?.role === 'admin') {
+    sidebarLinks = ADMIN_LINKS
+    headerLabel = 'Admin Dashboard'
+  }
 
   const SidebarContent = () => (
     <>
@@ -99,7 +152,7 @@ export default function AdminLayout() {
           >
             <Menu size={20} />
           </button>
-          <span className="text-sm font-medium text-ink-300">Admin Dashboard</span>
+          <span className="text-sm font-medium text-ink-300">{headerLabel}</span>
         </header>
 
         <main className="flex-1 p-4 lg:p-8">
