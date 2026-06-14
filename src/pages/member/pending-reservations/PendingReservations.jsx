@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PendingReservationsHeader from './components/PendingReservationsHeader';
 import PendingReservationCard from './components/PendingReservationCard';
+import Pagination from '../../../components/common/Pagination';
 
 const MOCK_RESERVATIONS = [
   {
@@ -26,6 +27,8 @@ const MOCK_RESERVATIONS = [
 ];
 
 export default function PendingReservations() {
+  const [currentPage, setCurrentPage] = useState(1);
+
   useEffect(() => {
     document.title = "Pending Reservations - Member | RAVEN";
     const metaDescription = document.querySelector('meta[name="description"]');
@@ -44,13 +47,23 @@ export default function PendingReservations() {
     alert(`Cancel request submitted for reservation #${id}`);
   };
 
+  // Pagination logic
+  const itemsPerPage = 4;
+  const totalItems = MOCK_RESERVATIONS.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage) || 1;
+
+  const paginatedReservations = MOCK_RESERVATIONS.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   return (
     <div className="mx-auto space-y-8">
       <PendingReservationsHeader />
       
       <div className="space-y-4">
-        {MOCK_RESERVATIONS.length > 0 ? (
-          MOCK_RESERVATIONS.map((reservation) => (
+        {paginatedReservations.length > 0 ? (
+          paginatedReservations.map((reservation) => (
             <PendingReservationCard 
               key={reservation.id} 
               reservation={reservation}
@@ -63,6 +76,16 @@ export default function PendingReservations() {
           </div>
         )}
       </div>
+
+      {totalItems > 0 && (
+        <Pagination 
+          currentPage={currentPage}
+          totalPages={totalPages}
+          totalItems={totalItems}
+          itemsPerPage={itemsPerPage}
+          onPageChange={setCurrentPage}
+        />
+      )}
     </div>
   );
 }
