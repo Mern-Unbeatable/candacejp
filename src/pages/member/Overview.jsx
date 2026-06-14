@@ -92,7 +92,7 @@ export default function Overview() {
           <TrendingUp className="text-[#257AFC] mt-1" size={20} strokeWidth={2} />
           <div>
             <h2 className="font-serif text-xl font-semibold text-gray-900 tracking-tight">Demand Insights</h2>
-            <p className="text-[13px] text-gray-500 mt-1">Members with similar travel intent are being grouped for curated flight opportunities</p>
+            <p className="text-sm md:text-base text-gray-500 mt-1">Members with similar travel intent are being grouped for curated flight opportunities</p>
           </div>
         </div>
 
@@ -112,10 +112,10 @@ export default function Overview() {
               ].map((item, i) => (
                 <div key={i} className="flex items-center justify-between rounded-lg bg-[#F1F5F980] p-4 border border-transparent hover:border-gray-200 transition-colors cursor-pointer">
                   <div>
-                    <p className="text-[13px] font-semibold text-gray-900">{item.route}</p>
-                    <p className="text-[12px] text-gray-500 mt-0.5">{item.time}</p>
+                    <p className="text-sm md:text-base font-semibold text-gray-900">{item.route}</p>
+                    <p className="text-xs md:text-sm text-gray-500 mt-0.5">{item.time}</p>
                   </div>
-                  <span className="text-[13px] font-semibold text-green-600">{item.stat}</span>
+                  <span className="text-sm md:text-base font-semibold text-green-600">{item.stat}</span>
                 </div>
               ))}
             </div>
@@ -134,9 +134,9 @@ export default function Overview() {
                 { date: 'Jul 4, 2026', details: '12 routes · 68 members' },
                 { date: 'Jul 10, 2028', details: '5 routes · 28 members' },
               ].map((item, i) => (
-                <div key={i} className="flex flex-col justify-center h-[68px] rounded-lg bg-[#F1F5F980] px-4 border border-transparent hover:border-gray-200 transition-colors cursor-pointer">
-                  <p className="text-[13px] font-semibold text-gray-900">{item.date}</p>
-                  <p className="text-[12px] text-gray-500 mt-0.5">{item.details}</p>
+                <div key={i} className="flex flex-col justify-center rounded-lg bg-[#F1F5F980] p-4 border border-transparent hover:border-gray-200 transition-colors cursor-pointer">
+                  <p className="text-sm md:text-base font-semibold text-gray-900">{item.date}</p>
+                  <p className="text-xs md:text-sm text-gray-500 mt-0.5">{item.details}</p>
                 </div>
               ))}
             </div>
@@ -148,7 +148,7 @@ export default function Overview() {
       <div className="rounded-2xl border border-gray-100 bg-[#FFFFFF] p-6 shadow-sm">
         <div className="flex items-center justify-between mb-6">
           <h2 className="font-serif text-xl font-semibold text-gray-900 tracking-tight">Upcoming Trips</h2>
-          <button className="flex items-center gap-1 text-[13px] font-medium text-[#257AFC] hover:text-blue-700">
+          <button className="flex items-center gap-1 text-sm md:text-base font-medium text-[#257AFC] hover:text-blue-700">
             View all <ArrowRight size={14} />
           </button>
         </div>
@@ -161,10 +161,10 @@ export default function Overview() {
           ].map((item, i) => (
             <div key={i} className="flex items-center justify-between rounded-lg bg-[#F1F5F980] p-4 border border-transparent hover:border-gray-200 transition-colors cursor-pointer">
               <div>
-                <p className="text-[13px] font-semibold text-gray-900">{item.route}</p>
-                <p className="text-[12px] text-gray-500 mt-0.5">{item.time}</p>
+                <p className="text-sm md:text-base font-semibold text-gray-900">{item.route}</p>
+                <p className="text-xs md:text-sm text-gray-500 mt-0.5">{item.time}</p>
               </div>
-              <span className="rounded-md bg-white border border-gray-100 px-2.5 py-1 text-[11px] font-medium text-gray-600 shadow-sm">
+              <span className="rounded-md bg-white border border-gray-100 px-2.5 py-1 text-xs md:text-sm font-medium text-gray-600 shadow-sm">
                 {item.type}
               </span>
             </div>
