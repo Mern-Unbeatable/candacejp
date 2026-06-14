@@ -19,9 +19,10 @@ export default function AdminLayout() {
 
   const SidebarContent = () => (
     <>
-      <div className="border-b border-ink-700 px-6 py-5">
-        <p className="text-lg font-semibold text-white">Admin</p>
-        <p className="mt-1 text-sm text-ink-200">{user?.name || user?.email}</p>
+      <div className="border-b border-ink-50 px-6 py-6 flex items-center">
+        <Link to="/">
+          <img src="/Raven_logo.png" alt="RAVEN" className="h-12 w-auto object-contain" />
+        </Link>
       </div>
 
       <nav className="flex-1 space-y-1 px-3 py-4">
@@ -35,8 +36,8 @@ export default function AdminLayout() {
               onClick={() => setSidebarOpen(false)}
               className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
                 isActive
-                  ? 'bg-ink-700 text-white'
-                  : 'text-ink-200 hover:bg-ink-700/60 hover:text-white'
+                  ? 'bg-[#257AFC] text-white'
+                  : 'text-ink-300 hover:bg-ink-50 hover:text-ink-500'
               }`}
             >
               <Icon size={18} />
@@ -46,30 +47,40 @@ export default function AdminLayout() {
         })}
       </nav>
 
-      <div className="border-t border-ink-700 p-4">
-        <button
-          onClick={logout}
-          className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-ink-200 hover:bg-ink-700"
-        >
-          <LogOut size={18} />
-          Logout
-        </button>
+      <div className="border-t border-ink-50 p-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#f1f5f9] text-sm font-medium text-gray-700">
+              {user?.name?.split(' ').map(n => n[0]).join('').toUpperCase().substring(0,2) || 'U'}
+            </div>
+            <div>
+              <p className="text-[15px] font-medium text-gray-900">{user?.name || 'User Name'}</p>
+            </div>
+          </div>
+          <button
+            onClick={logout}
+            className="rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 transition-colors"
+            aria-label="Logout"
+          >
+            <LogOut size={20} />
+          </button>
+        </div>
       </div>
     </>
   )
 
   return (
-    <div className="flex min-h-screen bg-ink-900">
-      <aside className="hidden w-64 flex-col border-r border-ink-700 bg-ink-800 lg:flex">
+    <div className="flex min-h-screen bg-[#F9FAFB]">
+      <aside className="hidden w-64 flex-col border-r border-ink-50 bg-white lg:flex">
         <SidebarContent />
       </aside>
 
       {sidebarOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
-          <div className="absolute inset-0 bg-ink-900/60" onClick={() => setSidebarOpen(false)} />
-          <aside className="relative flex h-full w-72 flex-col border-r border-ink-700 bg-ink-800 shadow-xl">
+          <div className="absolute inset-0 bg-ink-900/40" onClick={() => setSidebarOpen(false)} />
+          <aside className="relative flex h-full w-72 flex-col bg-white shadow-xl">
             <button
-              className="absolute right-4 top-4 rounded-lg p-1 text-white"
+              className="absolute right-4 top-4 rounded-lg p-1"
               onClick={() => setSidebarOpen(false)}
             >
               <X size={20} />
@@ -79,22 +90,22 @@ export default function AdminLayout() {
         </div>
       )}
 
-      <div className="flex flex-1 flex-col">
-        <header className="flex h-14 items-center gap-4 border-b border-ink-700 bg-ink-800 px-4 lg:px-6">
+      {/* <div className="flex flex-1 flex-col">
+        <header className="flex h-14 items-center gap-4 border-b border-ink-50 bg-white px-4 lg:px-6">
           <button
-            className="rounded-lg p-2 text-ink-100 lg:hidden"
+            className="rounded-lg p-2 lg:hidden"
             onClick={() => setSidebarOpen(true)}
             aria-label="Open menu"
           >
             <Menu size={20} />
           </button>
-          <span className="text-sm font-medium text-ink-100">Admin Dashboard</span>
+          <span className="text-sm font-medium text-ink-300">Admin Dashboard</span>
         </header>
 
-        <main className="flex-1 bg-ink-900 p-4 lg:p-8">
+        <main className="flex-1 p-4 lg:p-8">
           <Outlet />
         </main>
-      </div>
+      </div> */}
     </div>
   )
 }

@@ -2,7 +2,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom'
 
 import PublicLayout from '../components/layout/public/PublicLayout'
 import MemberLayout from '../components/layout/member/MemberLayout'
-import ConciergeLayout from '../components/layout/concierge/ConciergeLayout'
+import StaffLayout from '../components/layout/staff/StaffLayout'
 import AdminLayout from '../components/layout/admin/AdminLayout'
 
 import ProtectedRoute from './ProtectedRoute'
@@ -90,7 +90,7 @@ export const router = createBrowserRouter([
     element: <ProtectedRoute allowedRoles={['concierge']} />,
     children: [
       {
-        element: <ConciergeLayout />,
+        element: <StaffLayout />,
         children: [
           { index: true, element: <Navigate to="dashboard" replace /> },
           { path: 'dashboard', element: <ConciergeDashboard /> },
