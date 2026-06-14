@@ -35,19 +35,39 @@ export default function TripDetailsModal({ trip, onClose }) {
           {/* Route Information */}
           <section>
             <h3 className="text-sm md:text-base font-bold text-gray-900 mb-3">Route Information</h3>
-            <div className="flex items-center gap-3 rounded-xl bg-[#F8FAFC] p-4 border border-gray-50">
-              <div className="flex flex-shrink-0 text-gray-400">
-                <MapPin size={20} strokeWidth={1.5} />
+            {trip.routes && trip.routes.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {trip.routes.map((rt, idx) => (
+                  <div key={idx} className="flex items-center gap-3 rounded-xl bg-[#F8FAFC] p-4 border border-gray-50">
+                    <div className="flex flex-shrink-0 text-gray-400">
+                      <MapPin size={20} strokeWidth={1.5} />
+                    </div>
+                    <div>
+                      <p className="text-sm md:text-base font-semibold text-gray-900">{rt.route}</p>
+                      {rt.departureDate && (
+                        <p className="text-xs md:text-sm text-gray-500 mt-0.5">
+                          Departure: {rt.departureDate}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                ))}
               </div>
-              <div>
-                <p className="text-sm md:text-base font-semibold text-gray-900">{trip.route}</p>
-                {trip.departureDate && (
-                  <p className="text-xs md:text-sm text-gray-500 mt-0.5">
-                    Departure: {trip.departureDate}
-                  </p>
-                )}
+            ) : (
+              <div className="flex items-center gap-3 rounded-xl bg-[#F8FAFC] p-4 border border-gray-50">
+                <div className="flex flex-shrink-0 text-gray-400">
+                  <MapPin size={20} strokeWidth={1.5} />
+                </div>
+                <div>
+                  <p className="text-sm md:text-base font-semibold text-gray-900">{trip.route}</p>
+                  {trip.departureDate && (
+                    <p className="text-xs md:text-sm text-gray-500 mt-0.5">
+                      Departure: {trip.departureDate}
+                    </p>
+                  )}
+                </div>
               </div>
-            </div>
+            )}
           </section>
 
           {/* Passenger Information */}

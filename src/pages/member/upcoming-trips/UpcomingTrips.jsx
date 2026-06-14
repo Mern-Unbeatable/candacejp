@@ -80,7 +80,11 @@ const MOCK_TRIPS = [
     departureDate: '6/8/2026',
     passengerCount: 6,
     status: 'Confirmed',
-    passengers: dummyPassengers
+    passengers: dummyPassengers,
+    routes: [
+      { route: 'NYC → TAMPA', departureDate: 'Jun 15, 2026' },
+      { route: 'TAMPA → NYC', departureDate: 'Jun 18, 2026' }
+    ]
   }
 ];
 
