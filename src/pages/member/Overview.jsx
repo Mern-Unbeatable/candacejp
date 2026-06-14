@@ -64,8 +64,8 @@ export default function Overview() {
               <Settings size={22} strokeWidth={1.5} />
             </div>
             <div>
-              <p className="text-[15px] font-semibold text-white">Adjust Travel Preferences</p>
-              <p className="mt-0.5 text-[13px] text-blue-100">Update your dates, destinations & preferences</p>
+              <p className="text-base md:text-lg font-semibold text-white">Adjust Travel Preferences</p>
+              <p className="mt-0.5 text-sm text-white">Update your dates, destinations & preferences</p>
             </div>
           </div>
           <ArrowRight className="text-white" size={20} />
@@ -78,8 +78,8 @@ export default function Overview() {
               <FileText size={22} strokeWidth={1.5} />
             </div>
             <div>
-              <p className="text-[15px] font-semibold text-[#257AFC]">Submit Custom Travel Request</p>
-              <p className="mt-0.5 text-[13px] text-gray-500">Request a specific trip for concierge review</p>
+              <p className="text-base md:text-lg font-semibold text-[#257AFC]">Submit Custom Travel Request</p>
+              <p className="mt-0.5 text-sm text-gray-500">Request a specific trip for concierge review</p>
             </div>
           </div>
           <ArrowRight className="text-[#257AFC]" size={20} />
