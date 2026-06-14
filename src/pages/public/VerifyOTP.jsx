@@ -98,7 +98,7 @@ export default function VerifyOTP() {
               <label className="mb-4 block text-sm lg:text-base font-medium text-gray-700">
                 Verification Code
               </label>
-              <div className="flex justify-between gap-2">
+              <div className="flex justify-center gap-4 sm:gap-6">
                 {otp.map((digit, index) => (
                   <input
                     key={index}
@@ -108,7 +108,7 @@ export default function VerifyOTP() {
                     ref={(el) => inputRefs.current[index] = el}
                     onChange={(e) => handleChange(index, e.target.value)}
                     onKeyDown={(e) => handleKeyDown(index, e)}
-                    className="w-12 h-12 text-center text-xl font-semibold rounded-md border border-gray-300 text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    className="w-10 md:w-16 h-10 md:h-16 text-center text-xl font-semibold rounded-md border border-gray-300 text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                   />
                 ))}
               </div>
