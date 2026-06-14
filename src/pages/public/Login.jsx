@@ -1,9 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import useAuth from "../../hooks/useAuth";
 
 export default function Login() {
+  useEffect(() => {
+    document.title = "Login - RAVEN";
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'Sign in to your Raven Private Aviation membership account to access curated travel routes and premium private flight opportunities.');
+    } else {
+      const newMeta = document.createElement('meta');
+      newMeta.name = 'description';
+      newMeta.content = 'Sign in to your Raven Private Aviation membership account to access curated travel routes and premium private flight opportunities.';
+      document.head.appendChild(newMeta);
+    }
+  }, []);
+
   const { login, isLoginLoading } = useAuth();
   const [form, setForm] = useState({ email: "", password: "" });
 
