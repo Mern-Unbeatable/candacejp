@@ -76,7 +76,7 @@ export default function VerifyOTP() {
           Back
         </Link>
 
-        <div className="w-full max-w-md px-8 py-12 mt-10 lg:mt-0">
+        <div className="w-full max-w-xl px-8 py-12 mt-10 lg:mt-0">
           <h2 className="mb-2 font-serif text-3xl font-medium text-gray-900">Verify Email</h2>
           <p className="mb-8 text-sm text-gray-500">We have sent a 5-digit verification code to <span className="font-semibold text-gray-800">{email}</span></p>
 

@@ -49,7 +49,7 @@ export default function ForgotPassword() {
           Back to Login
         </Link>
 
-        <div className="w-full max-w-md px-8 py-12 mt-10 lg:mt-0">
+        <div className="w-full max-w-xl px-8 py-12 mt-10 lg:mt-0">
           <h2 className="mb-2 font-serif text-3xl font-medium text-gray-900">Forgot Password</h2>
           <p className="mb-8 text-sm text-gray-500">Enter your email address to receive an OTP verification code.</p>
 
