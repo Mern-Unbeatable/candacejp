@@ -106,7 +106,7 @@ export default function DashboardLayout() {
         </Link>
       </div>
 
-      <nav className="flex-1 space-y-1 px-3 py-4">
+      <nav className="flex-1 space-y-1 px-3 py-4 overflow-y-auto">
         {sidebarLinks.map((link) => {
           const Icon = link.icon;
           const isActive = location.pathname === link.to;
@@ -159,7 +159,7 @@ export default function DashboardLayout() {
 
   return (
     <div className="flex min-h-screen bg-[#F9FAFB]">
-      <aside className="hidden w-64 flex-col border-r border-ink-50 bg-white lg:flex">
+      <aside className="hidden w-64 flex-col border-r border-ink-50 bg-white lg:flex sticky top-0 h-screen">
         <SidebarContent />
       </aside>
 
