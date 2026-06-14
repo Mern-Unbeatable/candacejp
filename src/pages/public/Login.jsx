@@ -52,12 +52,12 @@ export default function Login() {
         <div className="w-full max-w-xl px-8 py-12 mt-10 lg:mt-0">
           {/* Toggle buttons */}
           <div className="mb-16 flex w-64 rounded-full bg-[#f1f5f9] p-1">
-            <button className="w-1/2 rounded-full bg-[#3b82f6] py-2.5 text-xs font-semibold text-white shadow-sm">
+            <button className="w-1/2 rounded-full bg-[#3b82f6] py-2.5 text-sm font-semibold text-white shadow-sm">
               Login
             </button>
             <Link
               to="/register"
-              className="flex w-1/2 items-center justify-center rounded-full py-2.5 text-xs font-semibold text-gray-600 transition-colors hover:text-gray-900"
+              className="flex w-1/2 items-center justify-center rounded-full py-2.5 text-sm font-semibold text-gray-600 transition-colors hover:text-gray-900"
             >
               Sign Up
             </Link>
