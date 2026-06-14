@@ -1,7 +1,6 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 
 import PublicLayout from '../components/layout/public/PublicLayout'
-import AuthLayout from '../components/layout/auth/AuthLayout'
 import MemberLayout from '../components/layout/member/MemberLayout'
 import ConciergeLayout from '../components/layout/concierge/ConciergeLayout'
 import AdminLayout from '../components/layout/admin/AdminLayout'
@@ -58,16 +57,11 @@ export const router = createBrowserRouter([
   {
     element: <PublicRoute />,
     children: [
-      {
-        element: <AuthLayout />,
-        children: [
-          { path: '/login', element: <Login /> },
-          { path: '/register', element: <Register /> },
-          { path: '/forgot-password', element: <ForgotPassword /> },
-          { path: '/verify-otp', element: <VerifyOTP /> },
-          { path: '/reset-password', element: <ResetPassword /> },
-        ],
-      },
+      { path: '/login', element: <Login /> },
+      { path: '/register', element: <Register /> },
+      { path: '/forgot-password', element: <ForgotPassword /> },
+      { path: '/verify-otp', element: <VerifyOTP /> },
+      { path: '/reset-password', element: <ResetPassword /> },
     ],
   },
   {
