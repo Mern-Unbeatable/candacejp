@@ -4,6 +4,7 @@ import { ArrowLeft, CreditCard, Lock } from "lucide-react";
 import gsap from "gsap";
 import toast from "react-hot-toast";
 import { dummyRegister } from "../../features/auth/dummyAuth";
+import useNominatim from "../../hooks/useNominatim";
 
 export default function Register() {
   const formRef = useRef(null);
@@ -43,6 +44,18 @@ export default function Register() {
     password: "",
     confirmPassword: "",
   });
+
+  const { location, isLoading: isZipLoading } = useNominatim(form.zipCode);
+
+  useEffect(() => {
+    if (location.city || location.state) {
+      setForm((prev) => ({
+        ...prev,
+        city: location.city || prev.city,
+        state: location.state || prev.state,
+      }));
+    }
+  }, [location]);
 
   const handleChange = (e) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
