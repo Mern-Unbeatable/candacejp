@@ -25,7 +25,7 @@ import TravelPreferences from "../pages/member/travel-preferences/TravelPreferen
 import CustomTravel from "../pages/member/custom-travel/CustomTravel";
 import Message from "../pages/member/message/Message";
 import Notification from "../pages/member/notification/Notification";
-import Profile from "../pages/member/Profile";
+import Profile from "../pages/member/profile/Profile";
 
 import ConciergeDashboard from "../pages/concierge/Dashboard";
 import CalendarDemand from "../pages/concierge/CalendarDemand";
