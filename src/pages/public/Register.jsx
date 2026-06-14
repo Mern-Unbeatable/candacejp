@@ -11,6 +11,16 @@ export default function Register() {
   useEffect(() => {
     document.title = "Register - RAVEN";
     
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'Create your Raven Private Aviation membership account to access exclusive charter flight opportunities and luxury travel features.');
+    } else {
+      const newMeta = document.createElement('meta');
+      newMeta.name = 'description';
+      newMeta.content = 'Create your Raven Private Aviation membership account to access exclusive charter flight opportunities and luxury travel features.';
+      document.head.appendChild(newMeta);
+    }
+    
     // GSAP Animation for the form entering
     gsap.fromTo(
       formRef.current,
