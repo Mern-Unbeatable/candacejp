@@ -5,7 +5,7 @@ export default function Sidebar({ chats, activeChatId, onSelectChat }) {
   return (
     <div className="flex h-full flex-col bg-[#F8FAFC] border-r border-gray-100">
       {/* Header */}
-      <div className="flex h-[97px] shrink-0 items-center border-b border-gray-300 px-6">
+      <div className="flex h-[97px] shrink-0 items-center border-b border-gray-300 px-6 hidden md:block">
         <h2 className="text-xl md:text-2xl font-bold text-[#257AFC]">Inboxes</h2>
       </div>
 
