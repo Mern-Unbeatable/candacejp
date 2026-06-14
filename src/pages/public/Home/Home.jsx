@@ -10,7 +10,17 @@ import HeroSection from "./components/HeroSection";
 
 export default function Home() {
   useEffect(() => {
+    // SEO Optimization
     document.title = "Home - RAVEN";
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'Welcome to Raven Private Aviation. The premier concierge-assisted private travel membership platform transforming travel demand into shared charter excellence.');
+    } else {
+      const newMeta = document.createElement('meta');
+      newMeta.name = 'description';
+      newMeta.content = 'Welcome to Raven Private Aviation. The premier concierge-assisted private travel membership platform transforming travel demand into shared charter excellence.';
+      document.head.appendChild(newMeta);
+    }
   }, []);
 
   return (
