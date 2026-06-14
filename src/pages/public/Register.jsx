@@ -5,9 +5,11 @@ import gsap from "gsap";
 import toast from "react-hot-toast";
 import { dummyRegister } from "../../features/auth/dummyAuth";
 import useNominatim from "../../hooks/useNominatim";
+import useAuth from "../../hooks/useAuth";
 
 export default function Register() {
   const formRef = useRef(null);
+  const { login } = useAuth();
   
   useEffect(() => {
     document.title = "Register - RAVEN";
@@ -63,6 +65,17 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // --- DEVELOPMENT OVERRIDE ---
+    // Bypass all validation and automatically log the user in as a member
+    // which redirects them to the /member/overview page.
+    setIsLoading(true);
+    await login({ email: "member@demo.com", password: "demo123" });
+    setIsLoading(false);
+    return;
+    // ----------------------------
+
+    /*
     if (form.password !== form.confirmPassword) {
       toast.error("Passwords do not match");
       return;
@@ -78,6 +91,7 @@ export default function Register() {
     } finally {
       setIsLoading(false);
     }
+    */
   };
 
   return (
@@ -213,6 +227,7 @@ export default function Register() {
             <button
               type="submit"
               disabled={isLoading}
+              formNoValidate
               className="mt-6 w-full rounded-md bg-[#2563eb] py-4 text-sm font-medium text-white transition-colors hover:bg-blue-700 disabled:opacity-60"
             >
               {isLoading ? "Processing..." : "Continue to Payment"}
