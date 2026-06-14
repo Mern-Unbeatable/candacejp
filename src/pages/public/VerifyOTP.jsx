@@ -1,8 +1,21 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
 
 export default function VerifyOTP() {
+  useEffect(() => {
+    document.title = "Verify OTP - RAVEN";
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'Verify your identity to reset your Raven Private Aviation account password.');
+    } else {
+      const newMeta = document.createElement('meta');
+      newMeta.name = 'description';
+      newMeta.content = 'Verify your identity to reset your Raven Private Aviation account password.';
+      document.head.appendChild(newMeta);
+    }
+  }, []);
+
   const navigate = useNavigate()
   const location = useLocation()
   const email = location.state?.email || 'your email'
