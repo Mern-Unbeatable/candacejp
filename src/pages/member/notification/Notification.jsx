@@ -81,6 +81,15 @@ export default function Notification() {
 
   useEffect(() => {
     document.title = "Notifications - Member | RAVEN";
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'View your latest travel notifications and updates from Raven.');
+    } else {
+      const newMeta = document.createElement('meta');
+      newMeta.name = 'description';
+      newMeta.content = 'View your latest travel notifications and updates from Raven.';
+      document.head.appendChild(newMeta);
+    }
   }, []);
 
   return (
