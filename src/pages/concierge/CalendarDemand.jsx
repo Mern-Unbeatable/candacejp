@@ -77,38 +77,46 @@ const MATCHED_MEMBERS = [
 
 // Reusable Member Card Component
 const MemberCard = ({ member }) => (
-  <div className="flex flex-col md:flex-row md:items-center justify-between p-5 border border-gray-100 bg-white rounded-xl mb-3 shadow-sm hover:border-gray-200 transition-colors">
-    <div className="flex-1 mb-4 md:mb-0">
-      <div className="flex flex-wrap items-center gap-3 mb-1">
+  <div className="flex flex-col md:flex-row md:items-center p-5 border border-gray-100 bg-white rounded-xl mb-3 shadow-sm hover:border-gray-200 transition-colors gap-4 md:gap-8">
+    
+    {/* Left/Middle Content Area */}
+    <div className="flex-1 flex flex-col justify-between">
+      
+      {/* Top Row: Name and Badges */}
+      <div className="flex flex-wrap items-start justify-between mb-2 gap-y-2">
         <h3 className="font-bold text-gray-900">{member.name}</h3>
         <div className="flex items-center gap-2">
           <span
-            className={`text-[10px] md:text-xs font-semibold px-2 py-0.5 rounded-full ${member.type === "Round Trip" ? "bg-green-100 text-green-700" : "bg-green-100 text-green-600"}`}
+            className={`text-[11px] md:text-xs font-semibold px-2 py-0.5 rounded-full ${member.type === "Round Trip" ? "bg-green-100 text-green-700" : "bg-green-100 text-green-600"}`}
           >
             {member.type}
           </span>
-          <span className="text-[10px] md:text-xs font-semibold px-2 py-0.5 rounded-full bg-gray-100 text-gray-600">
+          <span className="text-[11px] md:text-xs font-semibold px-2 py-0.5 rounded-full bg-gray-100 text-gray-600">
             {member.status}
           </span>
         </div>
       </div>
 
-      <p className="text-xs md:text-sm font-semibold text-gray-500 uppercase tracking-wide mt-2">
+      {/* Middle Row: Route */}
+      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
         {member.route}
       </p>
 
-      <div className="flex flex-wrap items-center gap-x-6 gap-y-1 mt-1 text-xs md:text-sm text-gray-500">
+      {/* Bottom Row: Departure and Passenger */}
+      <div className="flex flex-wrap items-center justify-between text-xs text-gray-500 gap-y-1">
         <p>
           Departure: {member.departure}
           {member.returnDate && `, Return Departure: ${member.returnDate}`}
         </p>
-        <p className="ml-auto md:ml-0 md:mr-8 font-medium">
+        <p className="font-medium mr-1 md:mr-10">
           Passenger: {member.passengers}
         </p>
       </div>
+
     </div>
 
-    <div>
+    {/* Right Action Button */}
+    <div className="shrink-0 flex items-center justify-end mt-2 md:mt-0">
       <button 
         onClick={() => member.onViewDetails(member)}
         className="w-full md:w-auto bg-[#257AFC] hover:bg-blue-700 text-white text-sm font-semibold py-2 md:py-2.5 px-6 rounded-lg transition-colors"
@@ -116,6 +124,7 @@ const MemberCard = ({ member }) => (
         View Details
       </button>
     </div>
+    
   </div>
 );
 

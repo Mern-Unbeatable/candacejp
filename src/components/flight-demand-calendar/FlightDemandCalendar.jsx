@@ -133,10 +133,10 @@ export default function FlightDemandCalendar() {
           
           {event && (
             <div className="mt-auto pb-1">
-              <p className="text-[10px] md:text-sm font-bold text-gray-900 flex items-center gap-1">
+              <p className="text-xs md:text-sm font-bold text-gray-900 flex items-center gap-1">
                 <Plane size={14} className="text-gray-700" fill="currentColor" /> {event.interested} Interested
               </p>
-              <p className="text-[10px] md:text-xs text-gray-400 mt-0.5 flex items-center gap-1">
+              <p className="text-[11px] md:text-xs text-gray-900 mt-0.5 flex items-center gap-1">
                 <ArrowRight size={12} /> {event.route}
               </p>
             </div>
@@ -199,10 +199,10 @@ export default function FlightDemandCalendar() {
           
           {event && (
             <div className="mt-auto pb-1">
-              <p className="text-[10px] md:text-sm font-bold text-gray-900 flex items-center gap-1">
+              <p className="text-xs md:text-sm font-bold text-gray-900 flex items-center gap-1">
                 <Plane size={14} className="text-gray-700" fill="currentColor" /> {event.interested} Interested
               </p>
-              <p className="text-[10px] md:text-xs text-gray-400 mt-0.5 flex items-center gap-1">
+              <p className="text-[11px] md:text-xs text-gray-400 mt-0.5 flex items-center gap-1">
                 <ArrowRight size={12} /> {event.route}
               </p>
             </div>
@@ -319,7 +319,7 @@ export default function FlightDemandCalendar() {
       {/* Days Header */}
       <div className="grid grid-cols-7 gap-2 md:gap-4 mb-2 text-center">
         {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-          <div key={day} className="text-[10px] md:text-sm font-semibold text-gray-400 uppercase tracking-wider py-2">
+          <div key={day} className="text-xs md:text-sm font-semibold text-gray-400 uppercase tracking-wider py-2">
             {day}
           </div>
         ))}
@@ -334,15 +334,15 @@ export default function FlightDemandCalendar() {
       <div className="flex flex-wrap items-center justify-center gap-6 pt-4 border-t border-gray-100">
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 md:w-4 md:h-4 rounded-[3px] border border-yellow-400 bg-yellow-50/30"></div>
-          <span className="text-[11px] md:text-sm font-medium text-gray-500">Medium Demand (2-4)</span>
+          <span className="text-xs md:text-sm font-medium text-gray-500">Medium Demand (2-4)</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 md:w-4 md:h-4 rounded-[3px] border border-green-400 bg-green-50/30"></div>
-          <span className="text-[11px] md:text-sm font-medium text-gray-500">High Demand (5+)</span>
+          <span className="text-xs md:text-sm font-medium text-gray-500">High Demand (5+)</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 md:w-4 md:h-4 rounded-[3px] border border-gray-200 bg-white"></div>
-          <span className="text-[11px] md:text-sm font-medium text-gray-500">Low Demand (1-2)</span>
+          <span className="text-xs md:text-sm font-medium text-gray-500">Low Demand (1-2)</span>
         </div>
       </div>
     </div>
