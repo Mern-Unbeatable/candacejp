@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Filter,
   ChevronDown,
@@ -81,6 +82,7 @@ export default function ConciergeOpportunities() {
   const itemsPerPage = 7;
   const [openDropdownId, setOpenDropdownId] = useState(null);
   const dropdownRef = useRef(null);
+  const navigate = useNavigate();
 
   const filteredData =
     activeTab === "All"
@@ -139,7 +141,10 @@ export default function ConciergeOpportunities() {
             Manage All Opportunities
           </p>
         </div>
-        <button className="bg-[#257AFC] hover:bg-blue-700 text-white font-medium px-6 py-2.5 rounded-full transition-colors shadow-sm">
+        <button 
+          onClick={() => navigate("/concierge/opportunities/new")}
+          className="bg-[#257AFC] hover:bg-blue-700 text-white font-medium px-6 py-2.5 rounded-full transition-colors shadow-sm"
+        >
           Create New Opportunities
         </button>
       </div>
