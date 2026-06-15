@@ -84,7 +84,9 @@ export default function MembersInterestTable({
                   {openDropdownId === row.id && (
                     <div
                       ref={dropdownRef}
-                      className="absolute right-8 top-10 w-32 bg-white rounded-md shadow-lg border border-gray-100 z-10 overflow-hidden text-left"
+                      className={`absolute right-8 w-32 bg-white rounded-md shadow-lg border border-gray-100 z-50 overflow-hidden text-left ${
+                        idx >= paginatedData.length - 1 ? "bottom-10" : "top-10"
+                      }`}
                     >
                       <button className="w-full px-4 py-2 text-sm text-white bg-[#257AFC] hover:bg-blue-700 transition-colors text-left font-medium">
                         See Details
