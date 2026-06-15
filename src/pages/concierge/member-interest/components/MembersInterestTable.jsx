@@ -28,9 +28,6 @@ export default function MembersInterestTable({
               <th className="py-4 px-6 text-sm font-semibold text-gray-600">
                 Passenger
               </th>
-              <th className="py-4 px-6 text-sm font-semibold text-gray-600">
-                Status
-              </th>
               <th className="py-4 px-6 text-sm font-semibold text-gray-600 text-center">
                 Action
               </th>
@@ -63,11 +60,6 @@ export default function MembersInterestTable({
                 </td>
                 <td className="py-4 px-6">
                   <p className="text-base text-gray-900">{row.passengers}</p>
-                </td>
-                <td className="py-4 px-6">
-                  <span className="inline-block bg-gray-500 text-white text-xs font-semibold px-2 py-0.5 rounded">
-                    {row.status}
-                  </span>
                 </td>
                 <td className="py-4 px-6 relative text-center">
                   <button

@@ -72,9 +72,6 @@ export default function MembersInterestMobileCards({
                 <span className="font-medium text-gray-900">
                   {row.passengers}
                 </span>
-                <span className="inline-block bg-gray-500 text-white text-[10px] font-semibold px-1.5 py-0.5 rounded">
-                  {row.status}
-                </span>
               </div>
             </div>
           </div>
