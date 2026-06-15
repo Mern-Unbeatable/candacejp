@@ -7,6 +7,8 @@ import {
   ChevronRight,
 } from "lucide-react";
 import Pagination from "../../../components/common/Pagination";
+import OpportunitiesTable from "./components/OpportunitiesTable";
+import OpportunitiesMobileCards from "./components/OpportunitiesMobileCards";
 
 const OPPORTUNITIES_DATA = [
   {
@@ -188,194 +190,21 @@ export default function ConciergeOpportunities() {
 
       {/* Table */}
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden mb-6">
-        <div className="hidden md:block overflow-x-auto">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="border-b border-gray-100">
-                <th className="py-4 px-6 text-sm font-semibold text-gray-900">
-                  Route
-                </th>
-                <th className="py-4 px-6 text-sm font-semibold text-gray-900">
-                  Trip Type
-                </th>
-                <th className="py-4 px-6 text-sm font-semibold text-gray-900">
-                  Preferred Departure
-                </th>
-                <th className="py-4 px-6 text-sm font-semibold text-gray-900">
-                  Total Seat
-                </th>
-                <th className="py-4 px-6 text-sm font-semibold text-gray-900">
-                  Total Booked
-                </th>
-                <th className="py-4 px-6 text-sm font-semibold text-gray-900">
-                  Available Seat
-                </th>
-                <th className="py-4 px-6 text-sm font-semibold text-gray-900">
-                  Status
-                </th>
-                <th className="py-4 px-6 text-sm font-semibold text-gray-900 text-center">
-                  Action
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {paginatedData.map((row, idx) => (
-                <tr
-                  key={row.id}
-                  className={`hover:bg-gray-50/50 transition-colors ${
-                    idx !== paginatedData.length - 1
-                      ? "border-b border-gray-100"
-                      : ""
-                  }`}
-                >
-                  <td className="py-4 px-6">
-                    <span className="inline-block bg-[#1B325F] text-white text-[11px] md:text-xs font-semibold px-3 py-1.5 rounded-full">
-                      {row.route}
-                    </span>
-                  </td>
-                  <td className="py-4 px-6 text-sm text-gray-900">
-                    {row.type}
-                  </td>
-                  <td className="py-4 px-6 text-sm text-gray-900">
-                    {row.departure}
-                  </td>
-                  <td className="py-4 px-6 text-sm text-gray-900">
-                    {row.totalSeat}
-                  </td>
-                  <td className="py-4 px-6 text-sm text-gray-900">
-                    {row.totalBooked}
-                  </td>
-                  <td className="py-4 px-6 text-sm text-gray-900">
-                    {row.availableSeat}
-                  </td>
-                  <td className="py-4 px-6">
-                    <span
-                      className={`inline-block text-[10px] md:text-xs font-bold px-2.5 py-1 rounded ${getStatusStyle(
-                        row.status,
-                      )}`}
-                    >
-                      {row.status}
-                    </span>
-                  </td>
-                  <td className="py-4 px-6 relative text-center">
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        toggleDropdown(row.id);
-                      }}
-                      className="p-2 hover:bg-gray-100 rounded-full text-gray-500 transition-colors inline-flex"
-                    >
-                      <MoreVertical size={20} />
-                    </button>
+        <OpportunitiesTable
+          paginatedData={paginatedData}
+          getStatusStyle={getStatusStyle}
+          toggleDropdown={toggleDropdown}
+          openDropdownId={openDropdownId}
+          dropdownRef={dropdownRef}
+        />
 
-                    {/* Action Dropdown */}
-                    {openDropdownId === row.id && (
-                      <div
-                        ref={dropdownRef}
-                        className={`absolute right-8 w-32 bg-white rounded-md shadow-lg border border-gray-100 z-50 overflow-hidden text-left ${
-                          idx >= paginatedData.length - 2 &&
-                          paginatedData.length > 2
-                            ? "bottom-10"
-                            : "top-10"
-                        }`}
-                      >
-                        <button className="w-full px-4 py-2 text-sm text-white bg-[#257AFC] hover:bg-blue-700 transition-colors text-left font-medium">
-                          See Details
-                        </button>
-                        <button className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors text-left">
-                          Confirm
-                        </button>
-                        <button className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors text-left">
-                          Completed
-                        </button>
-                      </div>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        {/* Mobile Cards */}
-        <div className="md:hidden divide-y divide-gray-100">
-          {paginatedData.map((row) => (
-            <div
-              key={`mobile-${row.id}`}
-              className="p-4 relative hover:bg-gray-50/50 transition-colors"
-            >
-              <div className="flex justify-between items-start mb-3">
-                <div className="flex flex-col gap-1.5">
-                  <span className="inline-block bg-[#1B325F] text-white text-[11px] font-semibold px-2.5 py-1 rounded-full w-fit">
-                    {row.route}
-                  </span>
-                  <span
-                    className={`inline-block text-[10px] font-bold px-2 py-0.5 rounded w-fit ${getStatusStyle(row.status)}`}
-                  >
-                    {row.status}
-                  </span>
-                </div>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleDropdown(`mobile-${row.id}`);
-                  }}
-                  className="p-1 hover:bg-gray-100 rounded-full text-gray-500 transition-colors"
-                >
-                  <MoreVertical size={20} />
-                </button>
-                {/* Mobile Action Dropdown */}
-                {openDropdownId === `mobile-${row.id}` && (
-                  <div
-                    ref={dropdownRef}
-                    className="absolute right-4 top-12 w-32 bg-white rounded-md shadow-lg border border-gray-100 z-50 overflow-hidden text-left"
-                  >
-                    <button className="w-full px-4 py-2 text-sm text-white bg-[#257AFC] hover:bg-blue-700 transition-colors text-left font-medium">
-                      See Details
-                    </button>
-                    <button className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors text-left">
-                      Confirm
-                    </button>
-                    <button className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors text-left">
-                      Completed
-                    </button>
-                  </div>
-                )}
-              </div>
-
-              <div className="grid grid-cols-2 gap-y-3 gap-x-4 text-sm mt-4">
-                <div>
-                  <p className="text-gray-500 text-xs">Trip Type</p>
-                  <p className="font-medium text-gray-900 mt-0.5">{row.type}</p>
-                </div>
-                <div>
-                  <p className="text-gray-500 text-xs">Preferred Departure</p>
-                  <p className="font-medium text-gray-900 mt-0.5">
-                    {row.departure}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-gray-500 text-xs">Total Seat</p>
-                  <p className="font-medium text-gray-900 mt-0.5">
-                    {row.totalSeat}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-gray-500 text-xs">Total Booked</p>
-                  <p className="font-medium text-gray-900 mt-0.5">
-                    {row.totalBooked}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-gray-500 text-xs">Available Seat</p>
-                  <p className="font-medium text-gray-900 mt-0.5">
-                    {row.availableSeat}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        <OpportunitiesMobileCards
+          paginatedData={paginatedData}
+          getStatusStyle={getStatusStyle}
+          toggleDropdown={toggleDropdown}
+          openDropdownId={openDropdownId}
+          dropdownRef={dropdownRef}
+        />
 
         <Pagination
           currentPage={currentPage}
