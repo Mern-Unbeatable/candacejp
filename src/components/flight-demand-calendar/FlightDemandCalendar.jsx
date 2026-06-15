@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, Square, CheckSquare, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, Square, CheckSquare, X, Plane, ArrowRight } from 'lucide-react';
 
 // Dummy events (Only show in June 2026 for demonstration)
 const EVENTS = {
@@ -116,11 +116,11 @@ export default function FlightDemandCalendar() {
           
           {event && (
             <div className="mt-auto pb-1">
-              <p className="text-[10px] md:text-sm font-bold text-gray-900">
-                ✈️ {event.interested} Interested
+              <p className="text-[10px] md:text-sm font-bold text-gray-900 flex items-center gap-1">
+                <Plane size={14} className="text-gray-700" fill="currentColor" /> {event.interested} Interested
               </p>
-              <p className="text-[10px] md:text-xs text-gray-400 mt-0.5">
-                → {event.route}
+              <p className="text-[10px] md:text-xs text-gray-400 mt-0.5 flex items-center gap-1">
+                <ArrowRight size={12} /> {event.route}
               </p>
             </div>
           )}
@@ -181,11 +181,11 @@ export default function FlightDemandCalendar() {
           
           {event && (
             <div className="mt-auto pb-1">
-              <p className="text-[10px] md:text-sm font-bold text-gray-900">
-                ✈️ {event.interested} Interested
+              <p className="text-[10px] md:text-sm font-bold text-gray-900 flex items-center gap-1">
+                <Plane size={14} className="text-gray-700" fill="currentColor" /> {event.interested} Interested
               </p>
-              <p className="text-[10px] md:text-xs text-gray-400 mt-0.5">
-                → {event.route}
+              <p className="text-[10px] md:text-xs text-gray-400 mt-0.5 flex items-center gap-1">
+                <ArrowRight size={12} /> {event.route}
               </p>
             </div>
           )}
