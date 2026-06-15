@@ -32,6 +32,7 @@ import CalendarDemand from "../pages/concierge/calendar-demand/CalendarDemand";
 import MembersInterest from "../pages/concierge/member-interest/MembersInterest";
 import MemberInterestDetails from "../pages/concierge/member-interest/MemberInterestDetails";
 import ConciergeOpportunities from "../pages/concierge/opportunities/Opportunities";
+import OpportunitiesDetails from "../pages/concierge/opportunities/OpportunitiesDetails";
 import ConciergeTravelPreferences from "../pages/concierge/TravelPreferences";
 import ConciergeMessage from "../pages/concierge/Message";
 import ConciergeProfile from "../pages/concierge/Profile";
@@ -99,6 +100,7 @@ export const router = createBrowserRouter([
           { path: "members-interest", element: <MembersInterest /> },
           { path: "members-interest/:id", element: <MemberInterestDetails /> },
           { path: "opportunities", element: <ConciergeOpportunities /> },
+          { path: "opportunities/:id", element: <OpportunitiesDetails /> },
           {
             path: "travel-preferences",
             element: <ConciergeTravelPreferences />,

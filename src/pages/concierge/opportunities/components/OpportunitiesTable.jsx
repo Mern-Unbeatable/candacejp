@@ -1,5 +1,6 @@
 import React from "react";
 import { MoreVertical } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function OpportunitiesTable({
   paginatedData,
@@ -8,6 +9,8 @@ export default function OpportunitiesTable({
   openDropdownId,
   dropdownRef,
 }) {
+  const navigate = useNavigate();
+
   return (
     <div className="hidden md:block overflow-x-auto">
       <table className="w-full text-left border-collapse">
@@ -66,7 +69,10 @@ export default function OpportunitiesTable({
                       idx >= paginatedData.length - 2 && paginatedData.length > 2 ? "bottom-10" : "top-10"
                     }`}
                   >
-                    <button className="w-full px-4 py-2 text-sm text-white bg-[#257AFC] hover:bg-blue-700 transition-colors text-left font-medium">
+                    <button 
+                      onClick={() => navigate(`/concierge/opportunities/${row.id}`)}
+                      className="w-full px-4 py-2 text-sm text-white bg-[#257AFC] hover:bg-blue-700 transition-colors text-left font-medium"
+                    >
                       See Details
                     </button>
                     <button className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors text-left">
