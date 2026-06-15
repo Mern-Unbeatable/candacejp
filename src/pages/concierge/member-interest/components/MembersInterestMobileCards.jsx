@@ -1,5 +1,6 @@
 import React from "react";
 import { MoreVertical } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function MembersInterestMobileCards({
   paginatedData,
@@ -7,6 +8,8 @@ export default function MembersInterestMobileCards({
   toggleDropdown,
   dropdownRef,
 }) {
+  const navigate = useNavigate();
+
   return (
     <div className="md:hidden space-y-4 mb-6">
       {paginatedData.map((row) => (
@@ -37,7 +40,10 @@ export default function MembersInterestMobileCards({
                 ref={dropdownRef}
                 className="absolute right-4 top-12 w-32 bg-white rounded-md shadow-lg border border-gray-100 z-10 overflow-hidden text-left"
               >
-                <button className="w-full px-4 py-2 text-sm text-white bg-[#257AFC] hover:bg-blue-700 transition-colors text-left font-medium">
+                <button 
+                  onClick={() => navigate(`/concierge/members-interest/${row.id}`)}
+                  className="w-full px-4 py-2 text-sm text-white bg-[#257AFC] hover:bg-blue-700 transition-colors text-left font-medium"
+                >
                   See Details
                 </button>
                 <button className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors text-left">

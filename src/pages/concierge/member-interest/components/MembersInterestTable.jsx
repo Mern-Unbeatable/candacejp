@@ -1,5 +1,6 @@
 import React from "react";
 import { MoreVertical } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function MembersInterestTable({
   paginatedData,
@@ -7,6 +8,8 @@ export default function MembersInterestTable({
   toggleDropdown,
   dropdownRef,
 }) {
+  const navigate = useNavigate();
+
   return (
     <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden mb-6 hidden md:block">
       <div className="overflow-x-auto">
@@ -77,10 +80,13 @@ export default function MembersInterestTable({
                     <div
                       ref={dropdownRef}
                       className={`absolute right-8 w-32 bg-white rounded-md shadow-lg border border-gray-100 z-50 overflow-hidden text-left ${
-                        idx >= paginatedData.length - 1 ? "bottom-10" : "top-10"
+                        idx >= paginatedData.length - 2 ? "bottom-10" : "top-10"
                       }`}
                     >
-                      <button className="w-full px-4 py-2 text-sm text-white bg-[#257AFC] hover:bg-blue-700 transition-colors text-left font-medium">
+                      <button 
+                        onClick={() => navigate(`/concierge/members-interest/${row.id}`)}
+                        className="w-full px-4 py-2 text-sm text-white bg-[#257AFC] hover:bg-blue-700 transition-colors text-left font-medium"
+                      >
                         See Details
                       </button>
                       <button className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors text-left">
