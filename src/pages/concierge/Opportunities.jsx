@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Filter, ChevronDown, MoreVertical } from "lucide-react";
+import { Filter, ChevronDown, MoreVertical, ChevronLeft, ChevronRight } from "lucide-react";
+import Pagination from "../../components/common/Pagination";
 
 const OPPORTUNITIES_DATA = [
   { id: 1, route: "NYC → Tampa", type: "One Way", departure: "2026-04-30", totalSeat: 16, totalBooked: 8, availableSeat: 8, status: "Open For Reservation" },
@@ -10,12 +11,20 @@ const OPPORTUNITIES_DATA = [
   { id: 6, route: "TAMPA → NYC", type: "One Way", departure: "2026-04-28", totalSeat: 12, totalBooked: 9, availableSeat: 2, status: "Open For Reservation" },
 ];
 
-const TABS = ["All", "Draft", "Open For Reservation", "Confirmed", "Completed", "Cancelled"];
+const TABS = ["All","Open For Reservation", "Confirmed", "Completed","Draft"];
 
 export default function ConciergeOpportunities() {
-  const [activeTab, setActiveTab] = useState("All");
+  const [activeTab, setActiveTab] = useState(TABS[0]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 7;
   const [openDropdownId, setOpenDropdownId] = useState(null);
   const dropdownRef = useRef(null);
+
+  const filteredData = activeTab === "All" 
+    ? OPPORTUNITIES_DATA 
+    : OPPORTUNITIES_DATA.filter(row => row.status === activeTab);
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  const paginatedData = filteredData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   useEffect(() => {
     document.title = "Opportunities Management - Concierge | RAVEN";
@@ -71,11 +80,37 @@ export default function ConciergeOpportunities() {
 
       {/* Filters Bar */}
       <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
-        <div className="flex bg-[#F0F4FA] rounded-lg p-2 overflow-x-auto hide-scrollbar max-w-full">
+        
+        {/* Mobile View: Select Dropdown */}
+        <div className="md:hidden relative w-full">
+          <select
+            value={activeTab}
+            onChange={(e) => {
+              setActiveTab(e.target.value);
+              setCurrentPage(1);
+            }}
+            className="w-full appearance-none bg-[#F0F4FA] border-none rounded-lg px-4 py-3.5 text-gray-700 font-medium text-sm focus:outline-none focus:ring-2 focus:ring-[#257AFC]/20 shadow-sm"
+          >
+            {TABS.map((tab) => (
+              <option key={tab} value={tab}>
+                {tab}
+              </option>
+            ))}
+          </select>
+          <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
+            <ChevronDown size={18} className="text-gray-500" />
+          </div>
+        </div>
+
+        {/* Desktop View: Tabs */}
+        <div className="hidden md:flex bg-[#F0F4FA] rounded-lg p-2 overflow-x-auto hide-scrollbar">
           {TABS.map((tab) => (
             <button
               key={tab}
-              onClick={() => setActiveTab(tab)}
+              onClick={() => {
+                setActiveTab(tab);
+                setCurrentPage(1);
+              }}
               className={`whitespace-nowrap px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                 activeTab === tab
                   ? "bg-[#257AFC] text-white shadow-sm"
@@ -90,8 +125,8 @@ export default function ConciergeOpportunities() {
 
       {/* Table */}
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden mb-6">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse min-w-[1000px]">
+        <div className="hidden md:block overflow-x-auto">
+          <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-gray-100">
                 <th className="py-4 px-6 text-sm font-semibold text-gray-900">Route</th>
@@ -105,11 +140,11 @@ export default function ConciergeOpportunities() {
               </tr>
             </thead>
             <tbody>
-              {OPPORTUNITIES_DATA.map((row, idx) => (
+              {paginatedData.map((row, idx) => (
                 <tr
                   key={row.id}
                   className={`hover:bg-gray-50/50 transition-colors ${
-                    idx !== OPPORTUNITIES_DATA.length - 1 ? "border-b border-gray-100" : ""
+                    idx !== paginatedData.length - 1 ? "border-b border-gray-100" : ""
                   }`}
                 >
                   <td className="py-4 px-6">
@@ -147,14 +182,17 @@ export default function ConciergeOpportunities() {
                       <div
                         ref={dropdownRef}
                         className={`absolute right-8 w-32 bg-white rounded-md shadow-lg border border-gray-100 z-50 overflow-hidden text-left ${
-                          idx >= OPPORTUNITIES_DATA.length - 2 ? "bottom-10" : "top-10"
+                          idx >= paginatedData.length - 2 && paginatedData.length > 2 ? "bottom-10" : "top-10"
                         }`}
                       >
-                        <button className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors text-left">
-                          Edit
+                        <button className="w-full px-4 py-2 text-sm text-white bg-[#257AFC] hover:bg-blue-700 transition-colors text-left font-medium">
+                          See Details
                         </button>
-                        <button className="w-full px-4 py-2 text-sm text-red-600 hover:bg-gray-50 transition-colors text-left">
-                          Delete
+                        <button className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors text-left">
+                          Confirm
+                        </button>
+                        <button className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors text-left">
+                          Completed
                         </button>
                       </div>
                     )}
@@ -165,20 +203,80 @@ export default function ConciergeOpportunities() {
           </table>
         </div>
 
-        {/* Pagination Footer */}
-        <div className="px-6 py-4 border-t border-gray-100 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-[#257AFC] font-medium">
-            Showing 1 to {OPPORTUNITIES_DATA.length} of {OPPORTUNITIES_DATA.length} results
-          </p>
-          <div className="flex items-center gap-2">
-            <button className="px-4 py-1.5 text-sm font-medium text-[#257AFC] bg-white border border-[#257AFC] rounded hover:bg-blue-50 transition-colors disabled:opacity-50" disabled>
-              Previous
-            </button>
-            <button className="px-4 py-1.5 text-sm font-medium text-[#257AFC] bg-white border border-[#257AFC] rounded hover:bg-blue-50 transition-colors disabled:opacity-50" disabled>
-              Next
-            </button>
-          </div>
+        {/* Mobile Cards */}
+        <div className="md:hidden divide-y divide-gray-100">
+          {paginatedData.map((row) => (
+            <div key={`mobile-${row.id}`} className="p-4 relative hover:bg-gray-50/50 transition-colors">
+              <div className="flex justify-between items-start mb-3">
+                <div className="flex flex-col gap-1.5">
+                  <span className="inline-block bg-[#1B325F] text-white text-[11px] font-semibold px-2.5 py-1 rounded-full w-fit">
+                    {row.route}
+                  </span>
+                  <span className={`inline-block text-[10px] font-bold px-2 py-0.5 rounded w-fit ${getStatusStyle(row.status)}`}>
+                    {row.status}
+                  </span>
+                </div>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleDropdown(`mobile-${row.id}`);
+                  }}
+                  className="p-1 hover:bg-gray-100 rounded-full text-gray-500 transition-colors"
+                >
+                  <MoreVertical size={20} />
+                </button>
+                {/* Mobile Action Dropdown */}
+                {openDropdownId === `mobile-${row.id}` && (
+                  <div
+                    ref={dropdownRef}
+                    className="absolute right-4 top-12 w-32 bg-white rounded-md shadow-lg border border-gray-100 z-50 overflow-hidden text-left"
+                  >
+                    <button className="w-full px-4 py-2 text-sm text-white bg-[#257AFC] hover:bg-blue-700 transition-colors text-left font-medium">
+                      See Details
+                    </button>
+                    <button className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors text-left">
+                      Confirm
+                    </button>
+                    <button className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors text-left">
+                      Completed
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              <div className="grid grid-cols-2 gap-y-3 gap-x-4 text-sm mt-4">
+                <div>
+                  <p className="text-gray-500 text-xs">Trip Type</p>
+                  <p className="font-medium text-gray-900 mt-0.5">{row.type}</p>
+                </div>
+                <div>
+                  <p className="text-gray-500 text-xs">Preferred Departure</p>
+                  <p className="font-medium text-gray-900 mt-0.5">{row.departure}</p>
+                </div>
+                <div>
+                  <p className="text-gray-500 text-xs">Total Seat</p>
+                  <p className="font-medium text-gray-900 mt-0.5">{row.totalSeat}</p>
+                </div>
+                <div>
+                  <p className="text-gray-500 text-xs">Total Booked</p>
+                  <p className="font-medium text-gray-900 mt-0.5">{row.totalBooked}</p>
+                </div>
+                <div>
+                  <p className="text-gray-500 text-xs">Available Seat</p>
+                  <p className="font-medium text-gray-900 mt-0.5">{row.availableSeat}</p>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
+
+        <Pagination 
+          currentPage={currentPage}
+          totalPages={totalPages}
+          totalItems={filteredData.length}
+          itemsPerPage={itemsPerPage}
+          onPageChange={setCurrentPage}
+        />
       </div>
     </div>
   );
