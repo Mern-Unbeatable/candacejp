@@ -29,7 +29,7 @@ import Profile from "../pages/member/profile/Profile";
 
 import ConciergeDashboard from "../pages/concierge/dashboard/Dashboard";
 import CalendarDemand from "../pages/concierge/CalendarDemand";
-import MembersInterest from "../pages/concierge/MembersInterest";
+import MembersInterest from "../pages/concierge/member-interest/MembersInterest";
 import ConciergeOpportunities from "../pages/concierge/Opportunities";
 import ConciergeTravelPreferences from "../pages/concierge/TravelPreferences";
 import ConciergeMessage from "../pages/concierge/Message";
@@ -93,7 +93,7 @@ export const router = createBrowserRouter([
         children: [
           { index: true, element: <Navigate to="dashboard" replace /> },
           { path: "dashboard", element: <ConciergeDashboard /> },
-          { path: "calendar-demand", element: <FlightDemandCalendar/> },
+          { path: "calendar-demand", element: <FlightDemandCalendar /> },
           { path: "demand-details", element: <CalendarDemand /> },
           { path: "members-interest", element: <MembersInterest /> },
           { path: "opportunities", element: <ConciergeOpportunities /> },
