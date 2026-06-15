@@ -163,7 +163,9 @@ const navLinks = [
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, logout, role } = useAuth();
+
+  const dashboardPath = role === 'concierge' ? '/concierge/dashboard' : role === 'admin' ? '/admin/dashboard' : '/member/overview';
 
   const handleLogout = () => {
     logout();
@@ -203,12 +205,20 @@ const Navbar = () => {
         {/* Buttons - right, same fixed width as logo div */}
         <div className="hidden lg:flex items-center justify-end gap-3 w-[220px] flex-shrink-0">
           {isAuthenticated ? (
-            <button
-              onClick={logout}
-              className="rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors"
-            >
-              Logout
-            </button>
+            <>
+              <Link
+                to={dashboardPath}
+                className="rounded-full bg-[#2563EB] px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-700 transition-colors whitespace-nowrap"
+              >
+                Dashboard
+              </Link>
+              <button
+                onClick={logout}
+                className="rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors"
+              >
+                Logout
+              </button>
+            </>
           ) : (
             <>
               <Link
@@ -266,12 +276,21 @@ const Navbar = () => {
             <div className="h-[1px] bg-gray-100 my-2"></div>
 
             {isAuthenticated ? (
-              <button
-                onClick={handleLogout}
-                className="text-left text-sm font-medium text-red-600 px-3 py-2.5 rounded-lg hover:bg-red-50 transition-colors"
-              >
-                Logout
-              </button>
+              <>
+                <Link
+                  to={dashboardPath}
+                  onClick={() => setMenuOpen(false)}
+                  className="text-sm font-medium text-center text-white bg-[#2563EB] px-3 py-2.5 rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  Dashboard
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="text-left text-sm font-medium text-red-600 px-3 py-2.5 rounded-lg hover:bg-red-50 transition-colors"
+                >
+                  Logout
+                </button>
+              </>
             ) : (
               <>
                 <Link
