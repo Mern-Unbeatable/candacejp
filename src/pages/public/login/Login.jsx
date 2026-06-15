@@ -145,15 +145,33 @@ export default function Login() {
             </button>
           </form>
 
-          {/* <p className="mt-4 text-center text-sm text-gray-700">
-            Not A Member Yet?{" "}
-            <Link
-              to="/register"
-              className="font-bold text-gray-900 underline underline-offset-2 hover:text-black"
-            >
-              SignUp
-            </Link>
-          </p> */}
+          {/* Demo Credentials Section */}
+          <div className="mt-8 rounded-xl border border-blue-100 bg-blue-50 p-4">
+            <h3 className="mb-3 text-sm font-semibold text-blue-900">Demo Credentials</h3>
+            <div className="flex flex-wrap gap-2">
+              <button
+                onClick={() => setForm({ email: "member@demo.com", password: "demo123" })}
+                className="rounded-md bg-white px-3 py-1.5 text-xs font-medium text-blue-700 shadow-sm border border-blue-200 hover:bg-blue-50 transition-colors"
+              >
+                Member
+              </button>
+              <button
+                onClick={() => setForm({ email: "concierge@demo.com", password: "demo123" })}
+                className="rounded-md bg-white px-3 py-1.5 text-xs font-medium text-blue-700 shadow-sm border border-blue-200 hover:bg-blue-50 transition-colors"
+              >
+                Concierge
+              </button>
+              <button
+                onClick={() => setForm({ email: "admin@demo.com", password: "demo123" })}
+                className="rounded-md bg-white px-3 py-1.5 text-xs font-medium text-blue-700 shadow-sm border border-blue-200 hover:bg-blue-50 transition-colors"
+              >
+                Admin
+              </button>
+            </div>
+            <p className="mt-2 text-[11px] text-blue-600">
+              Click a role above to auto-fill the login form. Password is always <strong>demo123</strong>.
+            </p>
+          </div>
         </div>
       </div>
     </div>
