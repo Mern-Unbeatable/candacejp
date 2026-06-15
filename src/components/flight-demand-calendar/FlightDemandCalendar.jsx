@@ -110,7 +110,7 @@ export default function FlightDemandCalendar() {
       cells.push(
         <div 
           key={`date-${y}-${m}-${d}`} 
-          onClick={() => navigate(`/concierge/calendar-demand?date=${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`)}
+          onClick={() => navigate(`/concierge/demand-details?date=${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`)}
           className={`min-h-[100px] md:min-h-[120px] rounded-xl border p-3 flex flex-col transition-colors cursor-pointer ${bgClass} ${borderClass}`}
         >
           <div className="flex justify-between items-start">
@@ -176,7 +176,7 @@ export default function FlightDemandCalendar() {
       cells.push(
         <div 
           key={d} 
-          onClick={() => navigate(`/concierge/calendar-demand?date=${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`)}
+          onClick={() => navigate(`/concierge/demand-details?date=${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`)}
           className={`min-h-[100px] md:min-h-[120px] rounded-xl border p-3 flex flex-col transition-colors cursor-pointer ${bgClass} ${borderClass}`}
         >
           <div className="flex justify-between items-start">

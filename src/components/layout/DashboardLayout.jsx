@@ -126,7 +126,10 @@ export default function DashboardLayout() {
       <nav className="flex-1 space-y-1 px-3 py-4 overflow-y-auto">
         {sidebarLinks.map((link) => {
           const Icon = link.icon;
-          const isActive = location.pathname === link.to;
+          const isActive = 
+            location.pathname === link.to || 
+            (link.to === "/concierge/calendar-demand" && location.pathname === "/concierge/demand-details");
+            
           return (
             <Link
               key={link.to}

@@ -40,6 +40,7 @@ import Members from "../pages/admin/Members";
 import ConciergeStaff from "../pages/admin/ConciergeStaff";
 import AddConcierge from "../pages/admin/AddConcierge";
 import Setting from "../pages/admin/Setting";
+import FlightDemandCalendar from "../components/flight-demand-calendar/FlightDemandCalendar";
 
 export const router = createBrowserRouter([
   {
@@ -92,7 +93,8 @@ export const router = createBrowserRouter([
         children: [
           { index: true, element: <Navigate to="dashboard" replace /> },
           { path: "dashboard", element: <ConciergeDashboard /> },
-          { path: "calendar-demand", element: <CalendarDemand /> },
+          { path: "calendar-demand", element: <FlightDemandCalendar/> },
+          { path: "demand-details", element: <CalendarDemand /> },
           { path: "members-interest", element: <MembersInterest /> },
           { path: "opportunities", element: <ConciergeOpportunities /> },
           {
