@@ -95,7 +95,7 @@ const MemberCard = ({ member }) => (
         {member.route}
       </p>
 
-      <div className="flex flex-wrap items-center gap-x-6 gap-y-1 mt-1 text-xs text-gray-500">
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-1 mt-1 text-xs md:text-sm text-gray-500">
         <p>
           Departure: {member.departure}
           {member.returnDate && `, Return Departure: ${member.returnDate}`}
