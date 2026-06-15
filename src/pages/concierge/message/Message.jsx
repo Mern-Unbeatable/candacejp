@@ -1,9 +1,8 @@
 import React from "react";
-import useMessages from "../../hooks/useMessages";
-import Messenger from "../../components/common/messenger/Messenger";
+import useMessages from "../../../hooks/useMessages";
+import Messenger from "../../../components/common/messenger/Messenger";
 
 export default function ConciergeMessage() {
-
   const { chats, messages, sendMessage } = useMessages();
 
   return (
