@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, Square, CheckSquare, X, Plane, ArrowRight } from 'lucide-react';
 
 // Dummy events (Only show in June 2026 for demonstration)
@@ -10,6 +11,8 @@ const EVENTS = {
 };
 
 export default function FlightDemandCalendar() {
+  const navigate = useNavigate();
+
   // Start with June 2026 to match the design, but make it dynamic
   const [currentDate, setCurrentDate] = useState(new Date(2026, 5, 1)); // Month is 0-indexed (5 = June)
 
@@ -107,6 +110,7 @@ export default function FlightDemandCalendar() {
       cells.push(
         <div 
           key={`date-${y}-${m}-${d}`} 
+          onClick={() => navigate(`/concierge/calendar-demand?date=${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`)}
           className={`min-h-[100px] md:min-h-[120px] rounded-xl border p-3 flex flex-col transition-colors cursor-pointer ${bgClass} ${borderClass}`}
         >
           <div className="flex justify-between items-start">
@@ -172,6 +176,7 @@ export default function FlightDemandCalendar() {
       cells.push(
         <div 
           key={d} 
+          onClick={() => navigate(`/concierge/calendar-demand?date=${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`)}
           className={`min-h-[100px] md:min-h-[120px] rounded-xl border p-3 flex flex-col transition-colors cursor-pointer ${bgClass} ${borderClass}`}
         >
           <div className="flex justify-between items-start">
