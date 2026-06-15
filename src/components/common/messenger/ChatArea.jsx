@@ -49,7 +49,6 @@ export default function ChatArea({ activeChat, messages, onBack, onSendMessage }
           <h2 className="text-sm md:text-base font-bold text-[#257AFC]">{activeChat.name}</h2>
           {activeChat.online && (
             <div className="flex items-center gap-1.5 mt-0.5">
-              <span className="block h-1.5 w-1.5 rounded-full bg-green-500"></span>
               <span className="text-[10px] md:text-xs font-semibold text-gray-400 uppercase tracking-wider">Active Now</span>
             </div>
           )}

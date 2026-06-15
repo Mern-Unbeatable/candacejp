@@ -1,11 +1,16 @@
-export default function Message() {
+import React from "react";
+import useSEO from "../../hooks/useSEO";
+import useMessages from "../../hooks/useMessages";
+import Messenger from "../../components/common/messenger/Messenger";
+
+export default function ConciergeMessage() {
+  useSEO("Messages - Concierge | RAVEN", "Respond to member queries and requests.");
+
+  const { chats, messages, sendMessage } = useMessages();
+
   return (
-    <div>
-      <h1 className="text-2xl font-bold text-ink-500">Message</h1>
-      <p className="mt-2 text-ink-300">Dummy page — respond to member queries and requests.</p>
-      <div className="mt-6 rounded-xl border border-ink-50 bg-white p-6 shadow-sm">
-        <p className="text-sm text-ink-300">No open messages or chats.</p>
-      </div>
+    <div className="-mx-4 -mt-4 -mb-4 lg:-mx-8 lg:-mt-8 lg:-mb-8 h-[calc(100vh-56px)] lg:h-screen">
+      <Messenger chats={chats} messages={messages} onSend={sendMessage} />
     </div>
-  )
+  );
 }

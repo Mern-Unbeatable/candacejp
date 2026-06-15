@@ -2,22 +2,10 @@ import React, { useState } from 'react';
 import Sidebar from './Sidebar';
 import ChatArea from './ChatArea';
 
-export default function Messenger({ chats, messages: initialMessages }) {
+export default function Messenger({ chats, messages, onSend }) {
   const [activeChatId, setActiveChatId] = useState(null);
-  const [messages, setMessages] = useState(initialMessages);
 
   const activeChat = chats.find(chat => chat.id === activeChatId) || null;
-
-  const handleSendMessage = (text) => {
-    const newMessage = {
-      id: Date.now(),
-      text,
-      sender: 'me',
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      status: 'Sent'
-    };
-    setMessages(prev => [...prev, newMessage]);
-  };
 
   return (
     <div className="flex h-full w-full overflow-hidden bg-white">
@@ -37,7 +25,7 @@ export default function Messenger({ chats, messages: initialMessages }) {
           activeChat={activeChat} 
           messages={messages} 
           onBack={() => setActiveChatId(null)}
-          onSendMessage={handleSendMessage}
+          onSendMessage={onSend}
         />
       </div>
       
