@@ -27,7 +27,7 @@ import Message from "../pages/member/message/Message";
 import Notification from "../pages/member/notification/Notification";
 import Profile from "../pages/member/profile/Profile";
 
-import ConciergeDashboard from "../pages/concierge/Dashboard";
+import ConciergeDashboard from "../pages/concierge/dashboard/Dashboard";
 import CalendarDemand from "../pages/concierge/CalendarDemand";
 import MembersInterest from "../pages/concierge/MembersInterest";
 import ConciergeOpportunities from "../pages/concierge/Opportunities";
