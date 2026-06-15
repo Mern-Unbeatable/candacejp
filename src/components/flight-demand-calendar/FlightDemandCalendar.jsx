@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, Square, CheckSquare, X, Plane, ArrowRight } from 'lucide-react';
 
@@ -11,6 +11,19 @@ const EVENTS = {
 };
 
 export default function FlightDemandCalendar() {
+  useEffect(() => {
+    document.title = "Calendar Demand - Concierge | RAVEN";
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'View your Raven Concierge calendar demand, tracking bookings and member interest.');
+    } else {
+      const newMeta = document.createElement('meta');
+      newMeta.name = 'description';
+      newMeta.content = 'View your Raven Concierge calendar demand, tracking bookings and member interest.';
+      document.head.appendChild(newMeta);
+    }
+  }, []);
+
   const navigate = useNavigate();
 
   // Start with June 2026 to match the design, but make it dynamic
