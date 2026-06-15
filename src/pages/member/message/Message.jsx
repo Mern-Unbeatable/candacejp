@@ -1,10 +1,8 @@
 import React from "react";
-import useSEO from "../../../hooks/useSEO";
 import useMessages from "../../../hooks/useMessages";
 import Messenger from "../../../components/common/messenger/Messenger";
 
 export default function Message() {
-  useSEO("Messages - Member | RAVEN", "Communicate directly with your dedicated Raven concierge support.");
 
   const { chats, messages, sendMessage } = useMessages();
 
