@@ -3,9 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft, CreditCard, Lock } from "lucide-react";
 import gsap from "gsap";
 import toast from "react-hot-toast";
-import { dummyRegister } from "../../features/auth/dummyAuth";
-import useNominatim from "../../hooks/useNominatim";
-import useAuth from "../../hooks/useAuth";
+import { dummyRegister } from "../../../features/auth/dummyAuth";
+import useNominatim from "../../../hooks/useNominatim";
+import useAuth from "../../../hooks/useAuth";
 
 export default function Register() {
   const formRef = useRef(null);

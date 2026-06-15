@@ -11,11 +11,11 @@ import Membership from "../pages/public/Membership/Membership";
 import Terms from "../pages/public/Terms/Terms";
 import FAQ from "../pages/public/FAQ/FAQ";
 import Contact from "../pages/public/Contact/Contact";
-import Login from "../pages/public/Login";
-import Register from "../pages/public/Register";
-import ForgotPassword from "../pages/public/ForgotPassword";
-import VerifyOTP from "../pages/public/VerifyOTP";
-import ResetPassword from "../pages/public/ResetPassword";
+import Login from "../pages/public/login/Login";
+import Register from "../pages/public/register/Register";
+import ForgotPassword from "../pages/public/forgot-password/ForgotPassword";
+import VerifyOTP from "../pages/public/varify-otp/VerifyOTP";
+import ResetPassword from "../pages/public/reset-password/ResetPassword";
 
 import Overview from "../pages/member/overview/Overview";
 import TravelOpportunities from "../pages/member/travel-opportunities/TravelOpportunities";
