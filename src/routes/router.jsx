@@ -31,7 +31,7 @@ import ConciergeDashboard from "../pages/concierge/dashboard/Dashboard";
 import CalendarDemand from "../pages/concierge/calendar-demand/CalendarDemand";
 import MembersInterest from "../pages/concierge/member-interest/MembersInterest";
 import MemberInterestDetails from "../pages/concierge/member-interest/MemberInterestDetails";
-import ConciergeOpportunities from "../pages/concierge/Opportunities";
+import ConciergeOpportunities from "../pages/concierge/opportunities/Opportunities";
 import ConciergeTravelPreferences from "../pages/concierge/TravelPreferences";
 import ConciergeMessage from "../pages/concierge/Message";
 import ConciergeProfile from "../pages/concierge/Profile";

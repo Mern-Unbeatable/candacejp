@@ -1,17 +1,77 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Filter, ChevronDown, MoreVertical, ChevronLeft, ChevronRight } from "lucide-react";
-import Pagination from "../../components/common/Pagination";
+import {
+  Filter,
+  ChevronDown,
+  MoreVertical,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+import Pagination from "../../../components/common/Pagination";
 
 const OPPORTUNITIES_DATA = [
-  { id: 1, route: "NYC → Tampa", type: "One Way", departure: "2026-04-30", totalSeat: 16, totalBooked: 8, availableSeat: 8, status: "Open For Reservation" },
-  { id: 2, route: "NYC → Tampa", type: "One way", departure: "2026-04-27", totalSeat: 12, totalBooked: 12, availableSeat: 0, status: "Confirmed" },
-  { id: 3, route: "NYC → Tampa", type: "One Way", departure: "2026-04-28", totalSeat: 12, totalBooked: 12, availableSeat: 0, status: "Completed" },
-  { id: 4, route: "TAMPA → NYC", type: "One Way", departure: "2026-04-28", totalSeat: 8, totalBooked: 7, availableSeat: 1, status: "Open For Reservation" },
-  { id: 5, route: "NYC → Tampa", type: "One Way", departure: "2026-04-28", totalSeat: 6, totalBooked: 1, availableSeat: 5, status: "Open For Reservation" },
-  { id: 6, route: "TAMPA → NYC", type: "One Way", departure: "2026-04-28", totalSeat: 12, totalBooked: 9, availableSeat: 2, status: "Open For Reservation" },
+  {
+    id: 1,
+    route: "NYC → Tampa",
+    type: "One Way",
+    departure: "2026-04-30",
+    totalSeat: 16,
+    totalBooked: 8,
+    availableSeat: 8,
+    status: "Open For Reservation",
+  },
+  {
+    id: 2,
+    route: "NYC → Tampa",
+    type: "One way",
+    departure: "2026-04-27",
+    totalSeat: 12,
+    totalBooked: 12,
+    availableSeat: 0,
+    status: "Confirmed",
+  },
+  {
+    id: 3,
+    route: "NYC → Tampa",
+    type: "One Way",
+    departure: "2026-04-28",
+    totalSeat: 12,
+    totalBooked: 12,
+    availableSeat: 0,
+    status: "Completed",
+  },
+  {
+    id: 4,
+    route: "TAMPA → NYC",
+    type: "One Way",
+    departure: "2026-04-28",
+    totalSeat: 8,
+    totalBooked: 7,
+    availableSeat: 1,
+    status: "Open For Reservation",
+  },
+  {
+    id: 5,
+    route: "NYC → Tampa",
+    type: "One Way",
+    departure: "2026-04-28",
+    totalSeat: 6,
+    totalBooked: 1,
+    availableSeat: 5,
+    status: "Open For Reservation",
+  },
+  {
+    id: 6,
+    route: "TAMPA → NYC",
+    type: "One Way",
+    departure: "2026-04-28",
+    totalSeat: 12,
+    totalBooked: 9,
+    availableSeat: 2,
+    status: "Open For Reservation",
+  },
 ];
 
-const TABS = ["All","Open For Reservation", "Confirmed", "Completed","Draft"];
+const TABS = ["All", "Open For Reservation", "Confirmed", "Completed", "Draft"];
 
 export default function ConciergeOpportunities() {
   const [activeTab, setActiveTab] = useState(TABS[0]);
@@ -20,11 +80,15 @@ export default function ConciergeOpportunities() {
   const [openDropdownId, setOpenDropdownId] = useState(null);
   const dropdownRef = useRef(null);
 
-  const filteredData = activeTab === "All" 
-    ? OPPORTUNITIES_DATA 
-    : OPPORTUNITIES_DATA.filter(row => row.status === activeTab);
+  const filteredData =
+    activeTab === "All"
+      ? OPPORTUNITIES_DATA
+      : OPPORTUNITIES_DATA.filter((row) => row.status === activeTab);
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-  const paginatedData = filteredData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const paginatedData = filteredData.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage,
+  );
 
   useEffect(() => {
     document.title = "Opportunities Management - Concierge | RAVEN";
@@ -80,7 +144,6 @@ export default function ConciergeOpportunities() {
 
       {/* Filters Bar */}
       <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
-        
         {/* Mobile View: Select Dropdown */}
         <div className="md:hidden relative w-full">
           <select
@@ -129,14 +192,30 @@ export default function ConciergeOpportunities() {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-gray-100">
-                <th className="py-4 px-6 text-sm font-semibold text-gray-900">Route</th>
-                <th className="py-4 px-6 text-sm font-semibold text-gray-900">Trip Type</th>
-                <th className="py-4 px-6 text-sm font-semibold text-gray-900">Preferred Departure</th>
-                <th className="py-4 px-6 text-sm font-semibold text-gray-900">Total Seat</th>
-                <th className="py-4 px-6 text-sm font-semibold text-gray-900">Total Booked</th>
-                <th className="py-4 px-6 text-sm font-semibold text-gray-900">Available Seat</th>
-                <th className="py-4 px-6 text-sm font-semibold text-gray-900">Status</th>
-                <th className="py-4 px-6 text-sm font-semibold text-gray-900 text-center">Action</th>
+                <th className="py-4 px-6 text-sm font-semibold text-gray-900">
+                  Route
+                </th>
+                <th className="py-4 px-6 text-sm font-semibold text-gray-900">
+                  Trip Type
+                </th>
+                <th className="py-4 px-6 text-sm font-semibold text-gray-900">
+                  Preferred Departure
+                </th>
+                <th className="py-4 px-6 text-sm font-semibold text-gray-900">
+                  Total Seat
+                </th>
+                <th className="py-4 px-6 text-sm font-semibold text-gray-900">
+                  Total Booked
+                </th>
+                <th className="py-4 px-6 text-sm font-semibold text-gray-900">
+                  Available Seat
+                </th>
+                <th className="py-4 px-6 text-sm font-semibold text-gray-900">
+                  Status
+                </th>
+                <th className="py-4 px-6 text-sm font-semibold text-gray-900 text-center">
+                  Action
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -144,7 +223,9 @@ export default function ConciergeOpportunities() {
                 <tr
                   key={row.id}
                   className={`hover:bg-gray-50/50 transition-colors ${
-                    idx !== paginatedData.length - 1 ? "border-b border-gray-100" : ""
+                    idx !== paginatedData.length - 1
+                      ? "border-b border-gray-100"
+                      : ""
                   }`}
                 >
                   <td className="py-4 px-6">
@@ -152,15 +233,25 @@ export default function ConciergeOpportunities() {
                       {row.route}
                     </span>
                   </td>
-                  <td className="py-4 px-6 text-sm text-gray-900">{row.type}</td>
-                  <td className="py-4 px-6 text-sm text-gray-900">{row.departure}</td>
-                  <td className="py-4 px-6 text-sm text-gray-900">{row.totalSeat}</td>
-                  <td className="py-4 px-6 text-sm text-gray-900">{row.totalBooked}</td>
-                  <td className="py-4 px-6 text-sm text-gray-900">{row.availableSeat}</td>
+                  <td className="py-4 px-6 text-sm text-gray-900">
+                    {row.type}
+                  </td>
+                  <td className="py-4 px-6 text-sm text-gray-900">
+                    {row.departure}
+                  </td>
+                  <td className="py-4 px-6 text-sm text-gray-900">
+                    {row.totalSeat}
+                  </td>
+                  <td className="py-4 px-6 text-sm text-gray-900">
+                    {row.totalBooked}
+                  </td>
+                  <td className="py-4 px-6 text-sm text-gray-900">
+                    {row.availableSeat}
+                  </td>
                   <td className="py-4 px-6">
                     <span
                       className={`inline-block text-[10px] md:text-xs font-bold px-2.5 py-1 rounded ${getStatusStyle(
-                        row.status
+                        row.status,
                       )}`}
                     >
                       {row.status}
@@ -182,7 +273,10 @@ export default function ConciergeOpportunities() {
                       <div
                         ref={dropdownRef}
                         className={`absolute right-8 w-32 bg-white rounded-md shadow-lg border border-gray-100 z-50 overflow-hidden text-left ${
-                          idx >= paginatedData.length - 2 && paginatedData.length > 2 ? "bottom-10" : "top-10"
+                          idx >= paginatedData.length - 2 &&
+                          paginatedData.length > 2
+                            ? "bottom-10"
+                            : "top-10"
                         }`}
                       >
                         <button className="w-full px-4 py-2 text-sm text-white bg-[#257AFC] hover:bg-blue-700 transition-colors text-left font-medium">
@@ -206,13 +300,18 @@ export default function ConciergeOpportunities() {
         {/* Mobile Cards */}
         <div className="md:hidden divide-y divide-gray-100">
           {paginatedData.map((row) => (
-            <div key={`mobile-${row.id}`} className="p-4 relative hover:bg-gray-50/50 transition-colors">
+            <div
+              key={`mobile-${row.id}`}
+              className="p-4 relative hover:bg-gray-50/50 transition-colors"
+            >
               <div className="flex justify-between items-start mb-3">
                 <div className="flex flex-col gap-1.5">
                   <span className="inline-block bg-[#1B325F] text-white text-[11px] font-semibold px-2.5 py-1 rounded-full w-fit">
                     {row.route}
                   </span>
-                  <span className={`inline-block text-[10px] font-bold px-2 py-0.5 rounded w-fit ${getStatusStyle(row.status)}`}>
+                  <span
+                    className={`inline-block text-[10px] font-bold px-2 py-0.5 rounded w-fit ${getStatusStyle(row.status)}`}
+                  >
                     {row.status}
                   </span>
                 </div>
@@ -251,26 +350,34 @@ export default function ConciergeOpportunities() {
                 </div>
                 <div>
                   <p className="text-gray-500 text-xs">Preferred Departure</p>
-                  <p className="font-medium text-gray-900 mt-0.5">{row.departure}</p>
+                  <p className="font-medium text-gray-900 mt-0.5">
+                    {row.departure}
+                  </p>
                 </div>
                 <div>
                   <p className="text-gray-500 text-xs">Total Seat</p>
-                  <p className="font-medium text-gray-900 mt-0.5">{row.totalSeat}</p>
+                  <p className="font-medium text-gray-900 mt-0.5">
+                    {row.totalSeat}
+                  </p>
                 </div>
                 <div>
                   <p className="text-gray-500 text-xs">Total Booked</p>
-                  <p className="font-medium text-gray-900 mt-0.5">{row.totalBooked}</p>
+                  <p className="font-medium text-gray-900 mt-0.5">
+                    {row.totalBooked}
+                  </p>
                 </div>
                 <div>
                   <p className="text-gray-500 text-xs">Available Seat</p>
-                  <p className="font-medium text-gray-900 mt-0.5">{row.availableSeat}</p>
+                  <p className="font-medium text-gray-900 mt-0.5">
+                    {row.availableSeat}
+                  </p>
                 </div>
               </div>
             </div>
           ))}
         </div>
 
-        <Pagination 
+        <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
           totalItems={filteredData.length}
