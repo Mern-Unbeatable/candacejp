@@ -209,6 +209,15 @@ export default function CalendarDemand() {
 
   useEffect(() => {
     document.title = "Calendar Demand - Concierge | RAVEN";
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'View daily flight demand and member interest details on Raven.');
+    } else {
+      const newMeta = document.createElement('meta');
+      newMeta.name = 'description';
+      newMeta.content = 'View daily flight demand and member interest details on Raven.';
+      document.head.appendChild(newMeta);
+    }
   }, []);
 
   return (

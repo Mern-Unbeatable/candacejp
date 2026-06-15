@@ -13,6 +13,15 @@ export default function MembersInterest() {
 
   useEffect(() => {
     document.title = "Members Interest - Concierge | RAVEN";
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'View and manage Raven member preferences, interests, and potential trip bookings.');
+    } else {
+      const newMeta = document.createElement('meta');
+      newMeta.name = 'description';
+      newMeta.content = 'View and manage Raven member preferences, interests, and potential trip bookings.';
+      document.head.appendChild(newMeta);
+    }
   }, []);
 
   useEffect(() => {
