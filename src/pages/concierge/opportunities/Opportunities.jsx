@@ -128,7 +128,7 @@ export default function ConciergeOpportunities() {
   };
 
   return (
-    <div className="mx-auto pb-10">
+    <div className="mx-auto">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4 mt-4">
         <div>
@@ -189,7 +189,7 @@ export default function ConciergeOpportunities() {
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden mb-6">
+      <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
         <OpportunitiesTable
           paginatedData={paginatedData}
           getStatusStyle={getStatusStyle}
@@ -205,15 +205,15 @@ export default function ConciergeOpportunities() {
           openDropdownId={openDropdownId}
           dropdownRef={dropdownRef}
         />
-
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          totalItems={filteredData.length}
-          itemsPerPage={itemsPerPage}
-          onPageChange={setCurrentPage}
-        />
       </div>
+
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        totalItems={filteredData.length}
+        itemsPerPage={itemsPerPage}
+        onPageChange={setCurrentPage}
+      />
     </div>
   );
 }
