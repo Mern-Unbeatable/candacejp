@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, Square, CheckSquare, X, Plane, ArrowRight } from 'lucide-react';
 
@@ -33,6 +33,19 @@ export default function FlightDemandCalendar() {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [startDate, setStartDate] = useState('2026-06-05');
   const [endDate, setEndDate] = useState('2026-07-04');
+  
+  // Date picker dropdown ref for click-outside functionality
+  const datePickerRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (datePickerRef.current && !datePickerRef.current.contains(event.target)) {
+        setShowDatePicker(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
   
   // Actually applied range for rendering the grid
   const [appliedRange, setAppliedRange] = useState(null);
@@ -245,7 +258,7 @@ export default function FlightDemandCalendar() {
           >
             <ChevronRight size={16} className="md:w-5 md:h-5" />
           </button>
-          <div className="relative">
+          <div className="relative" ref={datePickerRef}>
             <button 
               onClick={() => setShowDatePicker(!showDatePicker)}
               className="flex items-center gap-2 px-3 py-2 border border-gray-200 rounded-lg text-xs md:text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors ml-2"
