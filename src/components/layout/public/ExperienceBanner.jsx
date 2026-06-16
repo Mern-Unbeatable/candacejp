@@ -7,7 +7,7 @@ const ExperienceBanner = () => {
       <div
         className=" overflow-hidden relative min-h-[400px] md:min-h-[380px] flex items-center justify-center bg-cover bg-center"
         style={{
-          backgroundImage: ` url('/Frame.png')`,
+          backgroundImage: ` url('/Frame.webp')`,
         }}
       >
         {/* Content Box */}
