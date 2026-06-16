@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import MembersTable from "./components/MembersTable";
 import MembersMobileCards from "./components/MembersMobileCards";
 import Pagination from "../../../components/common/Pagination";
+import MemberDetailsModal from "./components/MemberDetailsModal";
 
 const dummyMembers = [
   {
@@ -56,9 +57,22 @@ const dummyMembers = [
 
 export default function Members() {
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedMember, setSelectedMember] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
   const itemsPerPage = 10;
   const totalItems = dummyMembers.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage) || 1;
+
+  const handleViewMember = (member) => {
+    setSelectedMember(member);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedMember(null);
+  };
 
   useEffect(() => {
     document.title = "Members Directory - Admin | RAVEN";
@@ -76,12 +90,12 @@ export default function Members() {
 
       {/* Desktop Table View (Hidden on small screens) */}
       <div className="hidden lg:block">
-        <MembersTable data={dummyMembers} />
+        <MembersTable data={dummyMembers} onViewMember={handleViewMember} />
       </div>
 
       {/* Mobile Card View (Visible only on small screens) */}
       <div className="block lg:hidden">
-        <MembersMobileCards data={dummyMembers} />
+        <MembersMobileCards data={dummyMembers} onViewMember={handleViewMember} />
       </div>
 
       <Pagination 
@@ -91,6 +105,13 @@ export default function Members() {
         itemsPerPage={itemsPerPage}
         onPageChange={setCurrentPage}
       />
+
+      {isModalOpen && (
+        <MemberDetailsModal 
+          member={selectedMember} 
+          onClose={handleCloseModal} 
+        />
+      )}
     </div>
   );
 }

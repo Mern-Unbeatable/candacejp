@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { MoreVertical } from "lucide-react";
 
-export default function MembersMobileCards({ data }) {
+export default function MembersMobileCards({ data, onViewMember }) {
   const [openDropdownId, setOpenDropdownId] = useState(null);
   const dropdownRef = useRef(null);
 
@@ -42,7 +42,13 @@ export default function MembersMobileCards({ data }) {
                 ref={dropdownRef}
                 className="absolute right-5 top-14 w-36 bg-white rounded-lg shadow-lg border border-gray-100 z-50 overflow-hidden flex flex-col"
               >
-                <button className="px-4 py-2 text-left text-sm font-semibold text-white bg-[#257AFC] hover:bg-blue-600 transition-colors">
+                <button 
+                  onClick={() => {
+                    onViewMember(row);
+                    setOpenDropdownId(null);
+                  }}
+                  className="px-4 py-2 text-left text-sm font-semibold text-white bg-[#257AFC] hover:bg-blue-600 transition-colors"
+                >
                   View Member
                 </button>
                 <button className="px-4 py-2 text-left text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors border-t border-gray-100">
