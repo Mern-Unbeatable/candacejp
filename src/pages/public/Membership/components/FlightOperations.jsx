@@ -92,7 +92,7 @@ const FlightOperations = () => {
         {/* Right Column: Single Image (6 Cols) */}
         <div className="flight-op-right lg:col-span-6 w-full h-[320px] sm:h-[400px] overflow-hidden rounded-2xl ">
           <img
-            src="OPERATIONAL_EXCELLENCE.png"
+            src="OPERATIONAL_EXCELLENCE.webp"
             alt="Private jet with steps down on airport runway"
             className="w-full h-full object-contain object-center"
           />
