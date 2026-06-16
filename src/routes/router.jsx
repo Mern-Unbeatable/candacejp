@@ -42,7 +42,7 @@ import AdminDashboardOverview from "../pages/admin/dashboard-overview/DashboardO
 import Members from "../pages/admin/members/Members";
 import ConciergeStaff from "../pages/admin/concierge-staff/ConciergeStaff";
 import AddConcierge from "../pages/admin/add-concierge/AddConcierge";
-import Setting from "../pages/admin/Setting";
+import Setting from "../pages/admin/settings/Settings";
 import FlightDemandCalendar from "../components/flight-demand-calendar/FlightDemandCalendar";
 
 export const router = createBrowserRouter([
