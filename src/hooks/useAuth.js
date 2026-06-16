@@ -14,7 +14,7 @@ import { dummyLogin } from '../features/auth/dummyAuth'
 const roleRedirects = {
   member: '/member/overview',
   concierge: '/concierge/dashboard',
-  admin: '/admin/dashboard',
+  admin: '/admin/dashboard-overview',
 }
 
 export default function useAuth() {

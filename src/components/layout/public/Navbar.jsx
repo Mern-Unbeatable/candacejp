@@ -165,7 +165,7 @@ const Navbar = () => {
   const location = useLocation();
   const { isAuthenticated, logout, role } = useAuth();
 
-  const dashboardPath = role === 'concierge' ? '/concierge/dashboard' : role === 'admin' ? '/admin/dashboard' : '/member/overview';
+  const dashboardPath = role === 'concierge' ? '/concierge/dashboard' : role === 'admin' ? '/admin/dashboard-overview' : '/member/overview';
 
   const handleLogout = () => {
     logout();

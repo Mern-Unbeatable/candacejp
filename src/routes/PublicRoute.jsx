@@ -5,7 +5,7 @@ import { selectIsAuthenticated, selectUserRole } from '../features/auth/authSlic
 const roleRedirects = {
   member: '/member/overview',
   concierge: '/concierge/dashboard',
-  admin: '/admin/dashboard',
+  admin: '/admin/dashboard-overview',
 }
 
 export default function PublicRoute() {

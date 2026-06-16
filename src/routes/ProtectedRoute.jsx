@@ -14,7 +14,7 @@ export default function ProtectedRoute({ allowedRoles }) {
     const fallback = {
       member: '/member/overview',
       concierge: '/concierge/dashboard',
-      admin: '/admin/dashboard',
+      admin: '/admin/dashboard-overview',
     }
     return <Navigate to={fallback[role] || '/'} replace />
   }
