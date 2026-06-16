@@ -41,7 +41,7 @@ import ConciergeProfile from "../pages/concierge/Profile";
 import AdminDashboardOverview from "../pages/admin/dashboard-overview/DashboardOverview";
 import Members from "../pages/admin/members/Members";
 import ConciergeStaff from "../pages/admin/concierge-staff/ConciergeStaff";
-import AddConcierge from "../pages/admin/AddConcierge";
+import AddConcierge from "../pages/admin/add-concierge/AddConcierge";
 import Setting from "../pages/admin/Setting";
 import FlightDemandCalendar from "../components/flight-demand-calendar/FlightDemandCalendar";
 
