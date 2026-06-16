@@ -1,81 +1,143 @@
 import React from "react";
-import { X, User, Mail, Phone, MapPin, CreditCard } from "lucide-react";
+import { X } from "lucide-react";
 
 export default function MemberDetailsModal({ member, onClose }) {
   if (!member) return null;
 
+  // Simple split to try and fill the form fields from the dummy data
+  const nameParts = member.name.split(" ");
+  const firstName = nameParts[0] || "";
+  const lastName = nameParts.slice(1).join(" ") || "";
+
+  // Very rough extraction for dummy data
+  const addressParts = member.address.split(", ");
+  const streetAddress = addressParts[0] || member.address;
+  const stateZip = addressParts[1] ? addressParts[1].split(" ") : ["", ""];
+  const state = stateZip[0] || "";
+  const zip = stateZip[1] || "";
+  const city = "Inglewood"; // hardcoded fallback for dummy data parsing if needed
+
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
       {/* Modal Container */}
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden flex flex-col transform transition-all">
-        {/* Header */}
-        <div className="flex justify-between items-center px-6 py-5 border-b border-gray-100 bg-gray-50/50">
-          <h2 className="text-xl font-bold text-gray-900">Member Details</h2>
-          <button 
-            onClick={onClose}
-            className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors"
-          >
-            <X size={20} />
-          </button>
-        </div>
+      <div className="bg-white rounded-xl shadow-xl w-full max-w-lg overflow-hidden flex flex-col relative">
+        {/* Close button top right */}
+        <button 
+          onClick={onClose}
+          className="absolute top-6 right-6 text-gray-400 hover:text-gray-600 transition-colors"
+        >
+          <X size={20} />
+        </button>
 
-        {/* Body */}
-        <div className="p-6">
-          <div className="flex items-center gap-4 mb-6 pb-6 border-b border-gray-100">
-            <div className="h-16 w-16 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 text-xl font-bold flex-shrink-0">
-              {member.name.charAt(0)}
-            </div>
-            <div>
-              <h3 className="text-xl font-bold text-gray-900">{member.name}</h3>
-              <p className="text-sm text-gray-500 mt-1 flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-green-500"></span> Active Member
-              </p>
-            </div>
+        <div className="p-8">
+          {/* Header */}
+          <div className="mb-6">
+            <h2 className="text-3xl font-serif font-bold text-gray-900 mb-2">Personal Information</h2>
+            <p className="text-sm text-gray-600">Please enter your details as they appear on your ID.</p>
           </div>
+          
+          <div className="border-b border-gray-100 mb-6"></div>
 
+          {/* Form Body */}
           <div className="space-y-5">
-            <div className="flex items-start gap-3">
-              <Mail className="text-gray-400 mt-0.5" size={18} />
+            {/* Name Row */}
+            <div className="grid grid-cols-2 gap-4">
               <div>
-                <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Email Address</p>
-                <p className="text-sm font-medium text-gray-900">{member.email}</p>
+                <label className="block text-sm text-gray-700 mb-1.5 font-serif">First Name</label>
+                <input 
+                  type="text" 
+                  defaultValue={firstName}
+                  placeholder="Enter your full name" 
+                  className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-gray-700 mb-1.5 font-serif">Last Name</label>
+                <input 
+                  type="text" 
+                  defaultValue={lastName}
+                  placeholder="Enter your last name" 
+                  className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                />
               </div>
             </div>
 
-            <div className="flex items-start gap-3">
-              <Phone className="text-gray-400 mt-0.5" size={18} />
+            {/* Address Row */}
+            <div>
+              <label className="block text-sm text-gray-700 mb-1.5 font-serif">Address</label>
+              <input 
+                type="text" 
+                defaultValue={streetAddress}
+                placeholder="Enter your full address" 
+                className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+
+            {/* Zip Code Row */}
+            <div>
+              <label className="block text-sm text-gray-700 mb-1.5 font-serif">Zip Code</label>
+              <input 
+                type="text" 
+                defaultValue={zip}
+                placeholder="Enter Zip Code" 
+                className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+
+            {/* City / State Row */}
+            <div className="grid grid-cols-2 gap-4">
               <div>
-                <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Phone Number</p>
-                <p className="text-sm font-medium text-gray-900">{member.phone}</p>
+                <label className="block text-sm text-gray-700 mb-1.5 font-serif">City</label>
+                <input 
+                  type="text" 
+                  defaultValue={city}
+                  placeholder="New York City" 
+                  className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-gray-700 mb-1.5 font-serif">State</label>
+                <input 
+                  type="text" 
+                  defaultValue={state}
+                  placeholder="New York" 
+                  className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                />
               </div>
             </div>
 
-            <div className="flex items-start gap-3">
-              <MapPin className="text-gray-400 mt-0.5" size={18} />
+            {/* Phone / Email Row */}
+            <div className="grid grid-cols-2 gap-4">
               <div>
-                <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Address</p>
-                <p className="text-sm font-medium text-gray-900 leading-relaxed">{member.address}</p>
+                <label className="block text-sm text-gray-700 mb-1.5 font-serif">Phone Number</label>
+                <input 
+                  type="text" 
+                  defaultValue={member.phone}
+                  placeholder="Enter your phone number" 
+                  className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-gray-700 mb-1.5 font-serif">Email</label>
+                <input 
+                  type="email" 
+                  defaultValue={member.email}
+                  placeholder="Enter your email" 
+                  className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                />
               </div>
             </div>
 
-            <div className="flex items-start gap-3">
-              <CreditCard className="text-gray-400 mt-0.5" size={18} />
-              <div>
-                <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Payment</p>
-                <p className="text-sm font-medium text-gray-900">{member.payment}</p>
-              </div>
+            {/* Save Button */}
+            <div className="pt-4">
+              <button 
+                onClick={onClose}
+                className="w-full py-3 bg-[#257AFC] hover:bg-blue-600 text-white text-sm font-semibold rounded-md transition-colors shadow-sm"
+              >
+                Save
+              </button>
             </div>
           </div>
-        </div>
-
-        {/* Footer */}
-        <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-end">
-          <button 
-            onClick={onClose}
-            className="px-5 py-2 text-sm font-bold text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors shadow-sm"
-          >
-            Close
-          </button>
         </div>
       </div>
     </div>
