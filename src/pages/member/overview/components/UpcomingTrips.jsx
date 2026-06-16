@@ -1,14 +1,19 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ArrowRight } from "lucide-react";
 
 export default function UpcomingTrips({ trips }) {
+  const navigate = useNavigate();
   return (
     <div className="rounded-2xl border border-gray-100 bg-[#FFFFFF] p-6 shadow-sm">
       <div className="flex items-center justify-between mb-6">
         <h2 className="font-serif text-xl font-semibold text-gray-900 tracking-tight">
           Upcoming Trips
         </h2>
-        <button className="flex items-center gap-1 text-sm md:text-base font-medium text-[#257AFC] hover:text-blue-700">
+        <button 
+          onClick={() => navigate('/member/upcoming-trips')}
+          className="flex items-center gap-1 text-sm md:text-base font-medium text-[#257AFC] hover:text-blue-700"
+        >
           View all <ArrowRight size={14} />
         </button>
       </div>
@@ -17,6 +22,7 @@ export default function UpcomingTrips({ trips }) {
         {trips.map((item, i) => (
           <div
             key={i}
+            // onClick={() => navigate('/member/upcoming-trips')}
             className="flex items-center justify-between rounded-lg bg-[#F1F5F980] p-4 border border-transparent hover:border-gray-200 transition-colors cursor-pointer"
           >
             <div>
