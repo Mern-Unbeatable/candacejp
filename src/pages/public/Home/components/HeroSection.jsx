@@ -4,7 +4,7 @@ const HeroSection = () => {
       <div className="relative w-full rounded-2xl overflow-hidden flex flex-col lg:block rounded-bl-none">
         <div className="w-full mx-auto h-[250px] sm:h-[350px] md:h-[450px] lg:h-[650px] xl:h-[650px] 2xl:h-[750px]">
           <img
-            src="/Subtract.png"
+            src="/Subtract.webp"
             alt="Private jet flying through blue sky"
             className="w-full h-full object-cover object-center block rounded-2xl lg:rounded-none"
           />
