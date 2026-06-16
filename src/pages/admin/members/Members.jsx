@@ -62,7 +62,7 @@ export default function Members() {
     <div className="mx-auto pb-10">
       {/* Header */}
       <div className="mb-6 mt-4">
-        <h1 className="font-serif text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">
+        <h1 className="font-serif text-2xl md:text-4xl font-bold text-gray-900 tracking-tight">
           Member Directory
         </h1>
         <p className="mt-2 text-lg text-gray-500">System Operational</p>
