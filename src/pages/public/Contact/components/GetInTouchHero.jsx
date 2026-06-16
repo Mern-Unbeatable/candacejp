@@ -7,7 +7,7 @@ const GetInTouchHero = () => {
       {/* Background image and cinematic dark overlay */}
       <div className="absolute inset-0 z-0">
         <img 
-          src="/contact_banner.jpg" 
+          src="/contact_banner.webp" 
           alt="Premium Private Jet with Mountain Background" 
           className="w-full h-full object-cover object-center brightness-[0.55] contrast-[1.05]"
         />
