@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
 import {
   ComposedChart,
@@ -61,6 +61,20 @@ const CustomTooltip = ({ active, payload }) => {
 };
 
 export default function DailyActivityChart() {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [selectedYear, setSelectedYear] = useState("This year");
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
     <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 mb-6">
       <div className="flex justify-between items-start mb-6">
@@ -79,9 +93,31 @@ export default function DailyActivityChart() {
             </div>
           </div>
         </div>
-        <button className="flex items-center gap-2 text-sm font-semibold text-gray-600 bg-gray-50 px-3 py-1.5 rounded-md hover:bg-gray-100 transition-colors border border-gray-200">
-          This year <ChevronDown size={14} />
-        </button>
+        <div className="relative" ref={dropdownRef}>
+          <button 
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            className="flex items-center gap-2 text-sm font-semibold text-gray-600 bg-gray-50 px-3 py-1.5 rounded-md hover:bg-gray-100 transition-colors border border-gray-200 whitespace-nowrap"
+          >
+            {selectedYear} <ChevronDown size={14} />
+          </button>
+          
+          {isDropdownOpen && (
+            <div className="absolute right-0 mt-1 min-w-[100px] bg-white rounded-md shadow-lg border border-gray-100 z-50 py-1">
+              {["This year", "Last year"].map((year) => (
+                <button
+                  key={year}
+                  onClick={() => {
+                    setSelectedYear(year);
+                    setIsDropdownOpen(false);
+                  }}
+                  className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors whitespace-nowrap"
+                >
+                  {year}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="h-[300px] w-full">
