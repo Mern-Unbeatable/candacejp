@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import MembersTable from "./components/MembersTable";
 import MembersMobileCards from "./components/MembersMobileCards";
+import Pagination from "../../../components/common/Pagination";
 
 const dummyMembers = [
   {
@@ -54,6 +55,11 @@ const dummyMembers = [
 ];
 
 export default function Members() {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const totalItems = dummyMembers.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage) || 1;
+
   useEffect(() => {
     document.title = "Members Directory - Admin | RAVEN";
   }, []);
@@ -77,6 +83,14 @@ export default function Members() {
       <div className="block lg:hidden">
         <MembersMobileCards data={dummyMembers} />
       </div>
+
+      <Pagination 
+        currentPage={currentPage}
+        totalPages={totalPages}
+        totalItems={totalItems}
+        itemsPerPage={itemsPerPage}
+        onPageChange={setCurrentPage}
+      />
     </div>
   );
 }

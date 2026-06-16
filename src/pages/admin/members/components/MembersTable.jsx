@@ -69,21 +69,6 @@ export default function MembersTable({ data }) {
           </tbody>
         </table>
       </div>
-
-      {/* Pagination Footer */}
-      <div className="px-6 py-4 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <p className="text-sm font-semibold text-[#257AFC]">
-          Showing 1 to {data.length} of {data.length} results
-        </p>
-        <div className="flex items-center gap-3">
-          <button className="px-4 py-1.5 text-sm font-semibold text-[#257AFC] border border-[#257AFC] rounded-full hover:bg-blue-50 transition-colors">
-            Previous
-          </button>
-          <button className="px-4 py-1.5 text-sm font-semibold text-[#257AFC] border border-[#257AFC] rounded-full hover:bg-blue-50 transition-colors">
-            Next
-          </button>
-        </div>
-      </div>
     </div>
   );
 }
