@@ -1,7 +1,7 @@
 import React from "react";
 import { X } from "lucide-react";
 
-export default function MemberDetailsModal({ member, onClose }) {
+export default function MemberDetailsModal({ member, mode = "view", onClose }) {
   if (!member) return null;
 
   // Simple split to try and fill the form fields from the dummy data
@@ -47,8 +47,9 @@ export default function MemberDetailsModal({ member, onClose }) {
                 <input 
                   type="text" 
                   defaultValue={firstName}
+                  readOnly={mode === "view"}
                   placeholder="Enter your full name" 
-                  className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                  className={`w-full px-3 py-2.5 border rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 ${mode === "view" ? "bg-gray-50 border-gray-200 cursor-default text-gray-600" : "bg-white border-gray-300"}`}
                 />
               </div>
               <div>
@@ -56,8 +57,9 @@ export default function MemberDetailsModal({ member, onClose }) {
                 <input 
                   type="text" 
                   defaultValue={lastName}
+                  readOnly={mode === "view"}
                   placeholder="Enter your last name" 
-                  className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                  className={`w-full px-3 py-2.5 border rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 ${mode === "view" ? "bg-gray-50 border-gray-200 cursor-default text-gray-600" : "bg-white border-gray-300"}`}
                 />
               </div>
             </div>
@@ -68,8 +70,9 @@ export default function MemberDetailsModal({ member, onClose }) {
               <input 
                 type="text" 
                 defaultValue={streetAddress}
+                readOnly={mode === "view"}
                 placeholder="Enter your full address" 
-                className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                className={`w-full px-3 py-2.5 border rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 ${mode === "view" ? "bg-gray-50 border-gray-200 cursor-default text-gray-600" : "bg-white border-gray-300"}`}
               />
             </div>
 
@@ -79,8 +82,9 @@ export default function MemberDetailsModal({ member, onClose }) {
               <input 
                 type="text" 
                 defaultValue={zip}
+                readOnly={mode === "view"}
                 placeholder="Enter Zip Code" 
-                className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                className={`w-full px-3 py-2.5 border rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 ${mode === "view" ? "bg-gray-50 border-gray-200 cursor-default text-gray-600" : "bg-white border-gray-300"}`}
               />
             </div>
 
@@ -91,8 +95,9 @@ export default function MemberDetailsModal({ member, onClose }) {
                 <input 
                   type="text" 
                   defaultValue={city}
+                  readOnly={mode === "view"}
                   placeholder="New York City" 
-                  className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                  className={`w-full px-3 py-2.5 border rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 ${mode === "view" ? "bg-gray-50 border-gray-200 cursor-default text-gray-600" : "bg-white border-gray-300"}`}
                 />
               </div>
               <div>
@@ -100,8 +105,9 @@ export default function MemberDetailsModal({ member, onClose }) {
                 <input 
                   type="text" 
                   defaultValue={state}
+                  readOnly={mode === "view"}
                   placeholder="New York" 
-                  className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                  className={`w-full px-3 py-2.5 border rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 ${mode === "view" ? "bg-gray-50 border-gray-200 cursor-default text-gray-600" : "bg-white border-gray-300"}`}
                 />
               </div>
             </div>
@@ -113,8 +119,9 @@ export default function MemberDetailsModal({ member, onClose }) {
                 <input 
                   type="text" 
                   defaultValue={member.phone}
+                  readOnly={mode === "view"}
                   placeholder="Enter your phone number" 
-                  className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                  className={`w-full px-3 py-2.5 border rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 ${mode === "view" ? "bg-gray-50 border-gray-200 cursor-default text-gray-600" : "bg-white border-gray-300"}`}
                 />
               </div>
               <div>
@@ -122,20 +129,30 @@ export default function MemberDetailsModal({ member, onClose }) {
                 <input 
                   type="email" 
                   defaultValue={member.email}
+                  readOnly={mode === "view"}
                   placeholder="Enter your email" 
-                  className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                  className={`w-full px-3 py-2.5 border rounded-md text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 ${mode === "view" ? "bg-gray-50 border-gray-200 cursor-default text-gray-600" : "bg-white border-gray-300"}`}
                 />
               </div>
             </div>
 
-            {/* Save Button */}
+            {/* Save / Close Button */}
             <div className="pt-4">
-              <button 
-                onClick={onClose}
-                className="w-full py-3 bg-[#257AFC] hover:bg-blue-600 text-white text-sm font-semibold rounded-md transition-colors shadow-sm"
-              >
-                Save
-              </button>
+              {mode === "edit" ? (
+                <button 
+                  onClick={onClose}
+                  className="w-full py-3 bg-[#257AFC] hover:bg-blue-600 text-white text-sm font-semibold rounded-md transition-colors shadow-sm"
+                >
+                  Save
+                </button>
+              ) : (
+                <button 
+                  onClick={onClose}
+                  className="w-full py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold rounded-md transition-colors shadow-sm"
+                >
+                  Close
+                </button>
+              )}
             </div>
           </div>
         </div>

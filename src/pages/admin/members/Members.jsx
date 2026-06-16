@@ -58,6 +58,7 @@ const dummyMembers = [
 export default function Members() {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedMember, setSelectedMember] = useState(null);
+  const [modalMode, setModalMode] = useState("view"); // "view" or "edit"
   const [isModalOpen, setIsModalOpen] = useState(false);
   
   const itemsPerPage = 10;
@@ -66,6 +67,13 @@ export default function Members() {
 
   const handleViewMember = (member) => {
     setSelectedMember(member);
+    setModalMode("view");
+    setIsModalOpen(true);
+  };
+
+  const handleEditMember = (member) => {
+    setSelectedMember(member);
+    setModalMode("edit");
     setIsModalOpen(true);
   };
 
@@ -90,12 +98,12 @@ export default function Members() {
 
       {/* Desktop Table View (Hidden on small screens) */}
       <div className="hidden lg:block">
-        <MembersTable data={dummyMembers} onViewMember={handleViewMember} />
+        <MembersTable data={dummyMembers} onViewMember={handleViewMember} onEditMember={handleEditMember} />
       </div>
 
       {/* Mobile Card View (Visible only on small screens) */}
       <div className="block lg:hidden">
-        <MembersMobileCards data={dummyMembers} onViewMember={handleViewMember} />
+        <MembersMobileCards data={dummyMembers} onViewMember={handleViewMember} onEditMember={handleEditMember} />
       </div>
 
       <Pagination 
@@ -109,6 +117,7 @@ export default function Members() {
       {isModalOpen && (
         <MemberDetailsModal 
           member={selectedMember} 
+          mode={modalMode}
           onClose={handleCloseModal} 
         />
       )}

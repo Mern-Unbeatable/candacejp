@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { MoreVertical, ChevronLeft, ChevronRight } from "lucide-react";
 
-export default function MembersTable({ data, onViewMember }) {
+export default function MembersTable({ data, onViewMember, onEditMember }) {
   const [openDropdownId, setOpenDropdownId] = useState(null);
   const dropdownRef = useRef(null);
 
@@ -64,7 +64,13 @@ export default function MembersTable({ data, onViewMember }) {
                       >
                         View Member
                       </button>
-                      <button className="px-4 py-2 text-left text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors border-t border-gray-100">
+                      <button 
+                        onClick={() => {
+                          onEditMember(row);
+                          setOpenDropdownId(null);
+                        }}
+                        className="px-4 py-2 text-left text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors border-t border-gray-100"
+                      >
                         Edit Member
                       </button>
                     </div>
