@@ -231,7 +231,7 @@ export default function FlightDemandCalendar() {
     : monthYearString;
 
   return (
-    <div className="mb-12">
+    <div className="">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 gap-4">
         <div>
