@@ -64,7 +64,7 @@ const PrivateAviationDifference = () => {
         <div ref={rightRef} className="w-full lg:w-[40%]">
           <div className="overflow-hidden rounded-2xl bg-slate-100 shadow-sm relative">
             <img
-              src="/Rectangle4.png"
+              src="/Rectangle4.webp"
               alt="Private jet wing flying above majestic white clouds"
               className="w-full h-full object-cover object-center group-hover:scale-[1.03] transition-transform duration-700 ease-out"
             />
