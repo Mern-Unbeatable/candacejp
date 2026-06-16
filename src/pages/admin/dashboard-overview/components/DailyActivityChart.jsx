@@ -66,9 +66,9 @@ export default function DailyActivityChart() {
       <div className="flex justify-between items-start mb-6">
         <div>
           <h2 className="text-xl font-bold text-gray-900">Daily Activity</h2>
-          <p className="text-sm text-gray-500 mt-1">Total number of registered members — Jan to Dec 2026</p>
+          <p className="text-sm text-gray-600 mt-1">Total number of registered members <br className="md:hidden"/> — Jan to Dec 2026</p>
           <div className="flex flex-wrap items-center gap-4 mt-3">
-            <div className="flex items-center gap-1.5 text-xs font-bold text-gray-500 uppercase">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-gray-600 uppercase">
               <span className="w-1.5 h-1.5 rounded-full bg-[#6366F1]"></span> Travel Opportunities
             </div>
             <div className="flex items-center gap-1.5 text-xs font-bold text-gray-500 uppercase">
@@ -86,19 +86,19 @@ export default function DailyActivityChart() {
 
       <div className="h-[300px] w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart data={data} margin={{ top: 20, right: 10, left: -20, bottom: 0 }}>
+          <ComposedChart data={data} margin={{ top: 20, right: 10, left: -30, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#F3F4F6" />
             <XAxis 
               dataKey="name" 
               axisLine={false} 
               tickLine={false} 
-              tick={{ fontSize: 12, fill: "#9CA3AF" }} 
+              tick={{ fontSize: 12, fill: "#000000" }} 
               dy={10} 
             />
             <YAxis 
               axisLine={false} 
               tickLine={false} 
-              tick={{ fontSize: 12, fill: "#9CA3AF" }} 
+              tick={{ fontSize: 12, fill: "#000000" }} 
             />
             <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#E5E7EB', strokeWidth: 1, strokeDasharray: "5 5" }} />
             <Line
