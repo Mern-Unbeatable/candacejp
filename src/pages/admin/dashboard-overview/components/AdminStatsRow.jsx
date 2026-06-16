@@ -55,7 +55,7 @@ export default function AdminStatsRow() {
             </div>
 
             {stat.tag && (
-              <p className="text-[10px] font-bold text-[#4CAF50] mt-3">
+              <p className="text-[12px] font-bold text-[#4CAF50] mt-3">
                 {stat.tag}
               </p>
             )}
