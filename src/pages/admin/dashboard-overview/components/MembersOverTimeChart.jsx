@@ -43,7 +43,7 @@ export default function MembersOverTimeChart() {
       <div className="flex justify-between items-start mb-6">
         <div>
           <h2 className="text-xl font-bold text-gray-900">Members Over Time</h2>
-          <p className="text-sm text-gray-500 mt-1">Total number of registered members — Jan to Dec 2026</p>
+          <p className="text-sm text-gray-700 mt-1">Total number of registered members <br className="md:hidden"/> — Jan to Dec 2026</p>
         </div>
         <button className="flex items-center gap-2 text-sm font-semibold text-gray-600 bg-gray-50 px-3 py-1.5 rounded-md hover:bg-gray-100 transition-colors border border-gray-200">
           This year <ChevronDown size={14} />
@@ -52,19 +52,19 @@ export default function MembersOverTimeChart() {
 
       <div className="h-[300px] w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={data} margin={{ top: 20, right: 10, left: -20, bottom: 0 }}>
+          <LineChart data={data} margin={{ top: 20, right: 10, left: -30, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#F3F4F6" />
             <XAxis 
               dataKey="name" 
               axisLine={false} 
               tickLine={false} 
-              tick={{ fontSize: 12, fill: "#9CA3AF" }} 
+              tick={{ fontSize: 12, fill: "#000000" }} 
               dy={10} 
             />
             <YAxis 
               axisLine={false} 
               tickLine={false} 
-              tick={{ fontSize: 12, fill: "#9CA3AF" }} 
+              tick={{ fontSize: 12, fill: "#000000" }} 
               tickFormatter={(value) => `${value / 1000}k`}
             />
             <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#E5E7EB', strokeWidth: 1, strokeDasharray: "5 5" }} />
