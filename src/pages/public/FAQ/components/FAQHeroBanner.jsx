@@ -7,7 +7,7 @@ const FAQHeroBanner = () => {
       {/* Background image and overlay */}
       <div className="absolute inset-0 z-0">
         <img 
-          src="/faq_banner.jpg" 
+          src="/faq_banner.webp" 
           alt="Private Jet Flying Above Clouds" 
           className="w-full h-full object-cover object-center scale-x-[-1] brightness-[0.65] contrast-[1.1]"
         />
