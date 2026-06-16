@@ -60,7 +60,7 @@ export default function ConciergeStaff() {
         <h1 className="font-serif text-2xl md:text-4xl font-bold text-gray-900 tracking-tight">
           Concierge
         </h1>
-        <p className="mt-2 text-lg text-gray-500">System Operational</p>
+        <p className="mt-2 text-lg text-gray-500">Manage your concierge staff efficiently</p>
       </div>
 
       {/* Desktop Table View (Hidden on small screens) */}
