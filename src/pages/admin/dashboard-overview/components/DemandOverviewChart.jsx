@@ -20,7 +20,7 @@ export default function DemandOverviewChart() {
     <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 w-full h-full flex flex-col">
       <div className="mb-6">
         <h2 className="text-lg font-bold text-gray-900">Demand Overview</h2>
-        <p className="text-xs text-gray-500 mt-1">Demand volume analysis for the current year</p>
+        <p className="text-xs md:text-sm text-gray-600 mt-1">Demand volume analysis for the current year</p>
       </div>
 
       <div className="flex-1 flex flex-col justify-between space-y-4 md:space-y-2">
@@ -33,7 +33,7 @@ export default function DemandOverviewChart() {
                 style={{ width: `${item.value}%` }}
               ></div>
             </div>
-            <span className="w-20 text-right text-gray-400 text-xs font-semibold">{item.members} members</span>
+            <span className="w-20 text-right text-gray-600 text-xs font-semibold">{item.members} members</span>
           </div>
         ))}
       </div>
