@@ -27,21 +27,21 @@ const PremiumBenefits = () => {
 
   const benefits = [
     {
-      image: '/Rectangle.png',
+      image: '/Rectangle.webp',
       icon: <Users className="w-4 h-4 text-white" />,
       title: 'Exclusive Network Access',
       description:
         'Join a curated community of executives, founders, and industry leaders.',
     },
     {
-      image: '/Rectangle2.png',
+      image: '/Rectangle2.webp',
       icon: <Headset className="w-4 h-4 text-white" />,
       title: 'Concierge Service',
       description:
         'Dedicated travel concierge managing every detail of your journey.',
     },
     {
-      image: '/Rectangle3.png',
+      image: '/Rectangle3.webp',
       icon: <CreditCard className="w-4 h-4 text-white" />,
       title: 'Flexible Membership',
       description:
