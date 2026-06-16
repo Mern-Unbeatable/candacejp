@@ -99,7 +99,7 @@ export default function Register() {
       {/* Left side - Image */}
       <div className="relative hidden w-1/2 flex-col justify-center lg:flex h-screen sticky top-0">
         <img
-          src="/login_page.png"
+          src="/login_page.webp"
           alt="Private Aviation"
           className="absolute inset-0 h-full w-full object-cover"
         />
