@@ -1,4 +1,5 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
+import React, { Suspense, lazy } from "react";
 
 import PublicLayout from "../components/layout/public/PublicLayout";
 import DashboardLayout from "../components/layout/DashboardLayout";
@@ -6,44 +7,50 @@ import DashboardLayout from "../components/layout/DashboardLayout";
 import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
 
-import Home from "../pages/public/Home/Home";
-import Membership from "../pages/public/Membership/Membership";
-import Terms from "../pages/public/Terms/Terms";
-import FAQ from "../pages/public/FAQ/FAQ";
-import Contact from "../pages/public/Contact/Contact";
-import Login from "../pages/public/login/Login";
-import Register from "../pages/public/register/Register";
-import ForgotPassword from "../pages/public/forgot-password/ForgotPassword";
-import VerifyOTP from "../pages/public/varify-otp/VerifyOTP";
-import ResetPassword from "../pages/public/reset-password/ResetPassword";
+const Loadable = (Component) => (props) => (
+  <Suspense fallback={<div className="flex h-screen items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#257AFC]"></div></div>}>
+    <Component {...props} />
+  </Suspense>
+);
 
-import Overview from "../pages/member/overview/Overview";
-import TravelOpportunities from "../pages/member/travel-opportunities/TravelOpportunities";
-import PendingReservations from "../pages/member/pending-reservations/PendingReservations";
-import UpcomingTrips from "../pages/member/upcoming-trips/UpcomingTrips";
-import TravelPreferences from "../pages/member/travel-preferences/TravelPreferences";
-import CustomTravel from "../pages/member/custom-travel/CustomTravel";
-import Message from "../pages/member/message/Message";
-import Notification from "../pages/member/notification/Notification";
-import Profile from "../pages/member/profile/Profile";
+const Home = Loadable(lazy(() => import("../pages/public/Home/Home")));
+const Membership = Loadable(lazy(() => import("../pages/public/Membership/Membership")));
+const Terms = Loadable(lazy(() => import("../pages/public/Terms/Terms")));
+const FAQ = Loadable(lazy(() => import("../pages/public/FAQ/FAQ")));
+const Contact = Loadable(lazy(() => import("../pages/public/Contact/Contact")));
+const Login = Loadable(lazy(() => import("../pages/public/login/Login")));
+const Register = Loadable(lazy(() => import("../pages/public/register/Register")));
+const ForgotPassword = Loadable(lazy(() => import("../pages/public/forgot-password/ForgotPassword")));
+const VerifyOTP = Loadable(lazy(() => import("../pages/public/varify-otp/VerifyOTP")));
+const ResetPassword = Loadable(lazy(() => import("../pages/public/reset-password/ResetPassword")));
 
-import ConciergeDashboard from "../pages/concierge/dashboard/Dashboard";
-import CalendarDemand from "../pages/concierge/calendar-demand/CalendarDemand";
-import MembersInterest from "../pages/concierge/member-interest/MembersInterest";
-import MemberInterestDetails from "../pages/concierge/member-interest/MemberInterestDetails";
-import ConciergeOpportunities from "../pages/concierge/opportunities/Opportunities";
-import OpportunitiesDetails from "../pages/concierge/opportunities/opportunities-details/OpportunitiesDetails";
-import NewOpportunity from "../pages/concierge/opportunities/components/NewOpportunity";
-import ConciergeTravelPreferences from "../pages/concierge/travel-preferences/TravelPreferences";
-import ConciergeMessage from "../pages/concierge/message/Message";
-import ConciergeProfile from "../pages/concierge/Profile";
+const Overview = Loadable(lazy(() => import("../pages/member/overview/Overview")));
+const TravelOpportunities = Loadable(lazy(() => import("../pages/member/travel-opportunities/TravelOpportunities")));
+const PendingReservations = Loadable(lazy(() => import("../pages/member/pending-reservations/PendingReservations")));
+const UpcomingTrips = Loadable(lazy(() => import("../pages/member/upcoming-trips/UpcomingTrips")));
+const TravelPreferences = Loadable(lazy(() => import("../pages/member/travel-preferences/TravelPreferences")));
+const CustomTravel = Loadable(lazy(() => import("../pages/member/custom-travel/CustomTravel")));
+const Message = Loadable(lazy(() => import("../pages/member/message/Message")));
+const Notification = Loadable(lazy(() => import("../pages/member/notification/Notification")));
+const Profile = Loadable(lazy(() => import("../pages/member/profile/Profile")));
 
-import AdminDashboardOverview from "../pages/admin/dashboard-overview/DashboardOverview";
-import Members from "../pages/admin/members/Members";
-import ConciergeStaff from "../pages/admin/concierge-staff/ConciergeStaff";
-import AddConcierge from "../pages/admin/add-concierge/AddConcierge";
-import Setting from "../pages/admin/settings/Settings";
-import FlightDemandCalendar from "../components/flight-demand-calendar/FlightDemandCalendar";
+const ConciergeDashboard = Loadable(lazy(() => import("../pages/concierge/dashboard/Dashboard")));
+const CalendarDemand = Loadable(lazy(() => import("../pages/concierge/calendar-demand/CalendarDemand")));
+const MembersInterest = Loadable(lazy(() => import("../pages/concierge/member-interest/MembersInterest")));
+const MemberInterestDetails = Loadable(lazy(() => import("../pages/concierge/member-interest/MemberInterestDetails")));
+const ConciergeOpportunities = Loadable(lazy(() => import("../pages/concierge/opportunities/Opportunities")));
+const OpportunitiesDetails = Loadable(lazy(() => import("../pages/concierge/opportunities/opportunities-details/OpportunitiesDetails")));
+const NewOpportunity = Loadable(lazy(() => import("../pages/concierge/opportunities/components/NewOpportunity")));
+const ConciergeTravelPreferences = Loadable(lazy(() => import("../pages/concierge/travel-preferences/TravelPreferences")));
+const ConciergeMessage = Loadable(lazy(() => import("../pages/concierge/message/Message")));
+const ConciergeProfile = Loadable(lazy(() => import("../pages/concierge/Profile")));
+
+const AdminDashboardOverview = Loadable(lazy(() => import("../pages/admin/dashboard-overview/DashboardOverview")));
+const Members = Loadable(lazy(() => import("../pages/admin/members/Members")));
+const ConciergeStaff = Loadable(lazy(() => import("../pages/admin/concierge-staff/ConciergeStaff")));
+const AddConcierge = Loadable(lazy(() => import("../pages/admin/add-concierge/AddConcierge")));
+const Setting = Loadable(lazy(() => import("../pages/admin/settings/Settings")));
+const FlightDemandCalendar = Loadable(lazy(() => import("../components/flight-demand-calendar/FlightDemandCalendar")));
 
 export const router = createBrowserRouter([
   {
