@@ -43,7 +43,7 @@ export default function Login() {
       {/* Left side - Image */}
       <div className="relative hidden w-1/2 flex-col justify-center lg:flex">
         <img
-          src="/login_page.png"
+          src="/login_page.webp"
           alt="Private Aviation"
           className="absolute inset-0 h-full w-full object-cover"
         />
