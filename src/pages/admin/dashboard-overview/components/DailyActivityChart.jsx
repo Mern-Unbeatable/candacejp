@@ -30,23 +30,23 @@ const CustomTooltip = ({ active, payload }) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-white p-4 rounded-xl shadow-xl border border-gray-100 min-w-[200px] z-50 relative">
-        <p className="text-[10px] font-bold text-gray-400 uppercase mb-3">May 2026</p>
+        <p className="text-xs font-bold text-gray-400 uppercase mb-3">May 2026</p>
         <div className="space-y-2">
-          <div className="flex justify-between items-center text-xs">
+          <div className="flex justify-between items-center text-sm">
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-[#6366F1]"></span>
               <span className="font-semibold text-gray-700">Travel Opportunities</span>
             </div>
             <span className="font-bold text-[#6366F1]">{payload[0]?.value}</span>
           </div>
-          <div className="flex justify-between items-center text-xs">
+          <div className="flex justify-between items-center text-sm">
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-[#257AFC]"></span>
               <span className="font-semibold text-gray-700">Reservation</span>
             </div>
             <span className="font-bold text-[#257AFC]">{payload[1]?.value}</span>
           </div>
-          <div className="flex justify-between items-center text-xs">
+          <div className="flex justify-between items-center text-sm">
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-[#F97316]"></span>
               <span className="font-semibold text-gray-700">Flights Booked</span>
@@ -65,21 +65,21 @@ export default function DailyActivityChart() {
     <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 mb-6">
       <div className="flex justify-between items-start mb-6">
         <div>
-          <h2 className="text-lg font-bold text-gray-900">Daily Activity</h2>
-          <p className="text-xs text-gray-500 mt-1">Total number of registered members — Jan to Dec 2026</p>
+          <h2 className="text-xl font-bold text-gray-900">Daily Activity</h2>
+          <p className="text-sm text-gray-500 mt-1">Total number of registered members — Jan to Dec 2026</p>
           <div className="flex flex-wrap items-center gap-4 mt-3">
-            <div className="flex items-center gap-1.5 text-[10px] font-bold text-gray-500 uppercase">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-gray-500 uppercase">
               <span className="w-1.5 h-1.5 rounded-full bg-[#6366F1]"></span> Travel Opportunities
             </div>
-            <div className="flex items-center gap-1.5 text-[10px] font-bold text-gray-500 uppercase">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-gray-500 uppercase">
               <span className="w-1.5 h-1.5 rounded-full bg-[#257AFC]"></span> Reservation
             </div>
-            <div className="flex items-center gap-1.5 text-[10px] font-bold text-gray-500 uppercase">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-gray-500 uppercase">
               <span className="w-1.5 h-1.5 rounded-full bg-[#F97316]"></span> Flights Booked (round trip)
             </div>
           </div>
         </div>
-        <button className="flex items-center gap-2 text-xs font-semibold text-gray-600 bg-gray-50 px-3 py-1.5 rounded-md hover:bg-gray-100 transition-colors border border-gray-200">
+        <button className="flex items-center gap-2 text-sm font-semibold text-gray-600 bg-gray-50 px-3 py-1.5 rounded-md hover:bg-gray-100 transition-colors border border-gray-200">
           This year <ChevronDown size={14} />
         </button>
       </div>
@@ -92,13 +92,13 @@ export default function DailyActivityChart() {
               dataKey="name" 
               axisLine={false} 
               tickLine={false} 
-              tick={{ fontSize: 10, fill: "#9CA3AF" }} 
+              tick={{ fontSize: 12, fill: "#9CA3AF" }} 
               dy={10} 
             />
             <YAxis 
               axisLine={false} 
               tickLine={false} 
-              tick={{ fontSize: 10, fill: "#9CA3AF" }} 
+              tick={{ fontSize: 12, fill: "#9CA3AF" }} 
             />
             <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#E5E7EB', strokeWidth: 1, strokeDasharray: "5 5" }} />
             <Line

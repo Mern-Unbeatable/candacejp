@@ -29,8 +29,8 @@ const CustomTooltip = ({ active, payload }) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-white px-4 py-2 rounded-lg shadow-lg border border-gray-100 flex flex-col items-center z-50">
-        <p className="text-[10px] font-bold text-gray-400 uppercase">May 2026</p>
-        <p className="text-[#4CAF50] font-bold text-lg">{(payload[0].value / 1000).toFixed(2)}k</p>
+        <p className="text-xs font-bold text-gray-400 uppercase">May 2026</p>
+        <p className="text-[#4CAF50] font-bold text-xl">{(payload[0].value / 1000).toFixed(2)}k</p>
       </div>
     );
   }
@@ -42,10 +42,10 @@ export default function MembersOverTimeChart() {
     <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 mb-6">
       <div className="flex justify-between items-start mb-6">
         <div>
-          <h2 className="text-lg font-bold text-gray-900">Members Over Time</h2>
-          <p className="text-xs text-gray-500 mt-1">Total number of registered members — Jan to Dec 2026</p>
+          <h2 className="text-xl font-bold text-gray-900">Members Over Time</h2>
+          <p className="text-sm text-gray-500 mt-1">Total number of registered members — Jan to Dec 2026</p>
         </div>
-        <button className="flex items-center gap-2 text-xs font-semibold text-gray-600 bg-gray-50 px-3 py-1.5 rounded-md hover:bg-gray-100 transition-colors border border-gray-200">
+        <button className="flex items-center gap-2 text-sm font-semibold text-gray-600 bg-gray-50 px-3 py-1.5 rounded-md hover:bg-gray-100 transition-colors border border-gray-200">
           This year <ChevronDown size={14} />
         </button>
       </div>
@@ -58,13 +58,13 @@ export default function MembersOverTimeChart() {
               dataKey="name" 
               axisLine={false} 
               tickLine={false} 
-              tick={{ fontSize: 10, fill: "#9CA3AF" }} 
+              tick={{ fontSize: 12, fill: "#9CA3AF" }} 
               dy={10} 
             />
             <YAxis 
               axisLine={false} 
               tickLine={false} 
-              tick={{ fontSize: 10, fill: "#9CA3AF" }} 
+              tick={{ fontSize: 12, fill: "#9CA3AF" }} 
               tickFormatter={(value) => `${value / 1000}k`}
             />
             <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#E5E7EB', strokeWidth: 1, strokeDasharray: "5 5" }} />
