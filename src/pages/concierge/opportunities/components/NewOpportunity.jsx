@@ -67,9 +67,16 @@ export default function NewOpportunity() {
                 <Calendar size={16} className="text-gray-400" /> Preferred Departure
               </label>
               <input 
-                type="text" 
+                type="date" 
                 placeholder="MM/DD/YY" 
-                className="w-full bg-[#F4F5F7] border border-transparent focus:border-blue-500 focus:bg-white rounded-lg px-4 py-3 text-sm text-gray-900 outline-none transition-colors"
+                onClick={(e) => {
+                  try {
+                    e.target.showPicker();
+                  } catch (err) {
+                    // Fallback for browsers that don't support showPicker()
+                  }
+                }}
+                className="w-full bg-[#F4F5F7] border border-transparent focus:border-blue-500 focus:bg-white rounded-lg px-4 py-3 text-sm text-gray-900 outline-none transition-colors cursor-pointer"
               />
             </div>
 
