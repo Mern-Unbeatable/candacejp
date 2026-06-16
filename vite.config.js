@@ -14,4 +14,7 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  optimizeDeps: {
+    include: ['recharts', 'react-is']
+  }
 })
