@@ -1,11 +1,16 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Settings, FileText, ArrowRight } from "lucide-react";
 
 export default function ActionCards() {
+  const navigate = useNavigate();
   return (
     <div className="rounded-2xl bg-[#FFFFFF] p-6 flex flex-col md:flex-row gap-4 shadow-sm">
       {/* Blue Card */}
-      <div className="flex flex-1 items-center justify-between rounded-xl bg-[#257AFC] p-5 cursor-pointer hover:bg-blue-600 transition-colors">
+      <div 
+        onClick={() => navigate('/member/travel-preferences')}
+        className="flex flex-1 items-center justify-between rounded-xl bg-[#257AFC] p-5 cursor-pointer hover:bg-blue-600 transition-colors"
+      >
         <div className="flex items-center gap-4">
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-500/30 text-white">
             <Settings size={22} strokeWidth={1.5} />
@@ -23,7 +28,10 @@ export default function ActionCards() {
       </div>
 
       {/* Gray Card */}
-      <div className="flex flex-1 items-center justify-between rounded-xl bg-[#ECEEF2] p-5 cursor-pointer hover:bg-gray-200 transition-colors">
+      <div 
+        onClick={() => navigate('/member/custom-travel')}
+        className="flex flex-1 items-center justify-between rounded-xl bg-[#ECEEF2] p-5 cursor-pointer hover:bg-gray-200 transition-colors"
+      >
         <div className="flex items-center gap-4">
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white text-[#257AFC] shadow-sm">
             <FileText size={22} strokeWidth={1.5} />
