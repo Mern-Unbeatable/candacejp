@@ -39,7 +39,7 @@ import ConciergeMessage from "../pages/concierge/message/Message";
 import ConciergeProfile from "../pages/concierge/Profile";
 
 import AdminDashboardOverview from "../pages/admin/dashboard-overview/DashboardOverview";
-import Members from "../pages/admin/Members";
+import Members from "../pages/admin/members/Members";
 import ConciergeStaff from "../pages/admin/ConciergeStaff";
 import AddConcierge from "../pages/admin/AddConcierge";
 import Setting from "../pages/admin/Setting";
