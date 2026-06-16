@@ -137,23 +137,16 @@ export default function MemberDetailsModal({ member, mode = "view", onClose }) {
             </div>
 
             {/* Save / Close Button */}
-            <div className="pt-4">
-              {mode === "edit" ? (
+            {mode === "edit" && (
+              <div className="pt-4">
                 <button 
                   onClick={onClose}
                   className="w-full py-3 bg-[#257AFC] hover:bg-blue-600 text-white text-sm font-semibold rounded-md transition-colors shadow-sm"
                 >
                   Save
                 </button>
-              ) : (
-                <button 
-                  onClick={onClose}
-                  className="w-full py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold rounded-md transition-colors shadow-sm"
-                >
-                  Close
-                </button>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
