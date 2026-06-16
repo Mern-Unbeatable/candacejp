@@ -56,7 +56,7 @@ const CuratedTravel = () => {
         {/* Right Column: Image */}
         <div ref={rightRef} className="lg:col-span-6 w-full h-[350px] lg:h-[500px] rounded-2xl overflow-hidden">
           <img
-            src="/Curated_Travel.png"
+            src="/Curated_Travel.webp"
             alt="Private jet"
             className="w-full h-full object-container object-center"
           />
