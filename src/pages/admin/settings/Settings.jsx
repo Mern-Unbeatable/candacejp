@@ -2,15 +2,13 @@ import React, { useState, useEffect } from "react";
 import { User, Mail, Save, Shield, Eye, EyeOff } from "lucide-react";
 
 export default function Settings() {
-  const [showPassword, setShowPassword] = useState(false);
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   useEffect(() => {
     document.title = "Profile Settings - Admin | RAVEN";
   }, []);
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
 
   return (
     <div className="mx-auto pb-10">
@@ -77,33 +75,47 @@ export default function Settings() {
             
             <div className="relative">
               <input 
-                type={showPassword ? "text" : "password"} 
+                type={showCurrentPassword ? "text" : "password"} 
                 placeholder="Current Password"
                 className="w-full px-4 py-3 bg-[#F4F4F4] border border-gray-200 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 pr-12"
               />
               <button 
                 type="button"
-                onClick={togglePasswordVisibility}
+                onClick={() => setShowCurrentPassword(!showCurrentPassword)}
                 className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
               >
-                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                {showCurrentPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
 
-            <div>
+            <div className="relative">
               <input 
-                type="password" 
+                type={showNewPassword ? "text" : "password"} 
                 placeholder="New Password"
-                className="w-full px-4 py-3 bg-[#F4F4F4] border border-gray-200 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-4 py-3 bg-[#F4F4F4] border border-gray-200 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 pr-12"
               />
+              <button 
+                type="button"
+                onClick={() => setShowNewPassword(!showNewPassword)}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+              >
+                {showNewPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
             </div>
 
-            <div>
+            <div className="relative">
               <input 
-                type="password" 
+                type={showConfirmPassword ? "text" : "password"} 
                 placeholder="Confirm Password"
-                className="w-full px-4 py-3 bg-[#F4F4F4] border border-gray-200 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-4 py-3 bg-[#F4F4F4] border border-gray-200 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 pr-12"
               />
+              <button 
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+              >
+                {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
             </div>
 
           </div>
