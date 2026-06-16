@@ -1,12 +1,20 @@
 import React, { useState } from "react";
+import ConciergeModal from "./ConciergeModal";
 
 export default function ConciergeList({ initialData }) {
   const [concierges, setConcierges] = useState(initialData);
+  const [editingUser, setEditingUser] = useState(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const toggleStatus = (id) => {
     setConcierges(concierges.map(c => 
       c.id === id ? { ...c, isActive: !c.isActive } : c
     ));
+  };
+
+  const handleEditClick = (user) => {
+    setEditingUser(user);
+    setIsEditModalOpen(true);
   };
 
   return (
@@ -51,7 +59,10 @@ export default function ConciergeList({ initialData }) {
               </div>
 
               {/* Edit Button */}
-              <button className="px-4 py-1.5 bg-[#EEEEEE] hover:bg-gray-200 text-gray-900 text-sm font-medium rounded-md transition-colors">
+              <button 
+                onClick={() => handleEditClick(user)}
+                className="px-4 py-1.5 bg-[#EEEEEE] hover:bg-gray-200 text-gray-900 text-sm font-medium rounded-md transition-colors"
+              >
                 Edit
               </button>
 
@@ -64,6 +75,17 @@ export default function ConciergeList({ initialData }) {
           </div>
         ))}
       </div>
+
+      {/* Edit Modal */}
+      <ConciergeModal 
+        isOpen={isEditModalOpen}
+        mode="edit"
+        initialData={editingUser}
+        onClose={() => setIsEditModalOpen(false)}
+        onSave={(updatedData) => {
+          setConcierges(concierges.map(c => c.id === editingUser.id ? { ...c, ...updatedData } : c));
+        }}
+      />
     </div>
   );
 }

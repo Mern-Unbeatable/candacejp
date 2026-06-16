@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import ConciergeList from "./components/ConciergeList";
+import ConciergeModal from "./components/ConciergeModal";
 import { Plus } from "lucide-react";
 
 const dummyConcierges = [
@@ -27,6 +28,8 @@ const dummyConcierges = [
 ];
 
 export default function AddConcierge() {
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
   useEffect(() => {
     document.title = "Concierges - Admin | RAVEN";
   }, []);
@@ -44,7 +47,10 @@ export default function AddConcierge() {
           </p>
         </div>
 
-        <button className="flex items-center justify-center gap-2 px-5 py-2.5 bg-[#257AFC] hover:bg-blue-600 text-white font-medium rounded-full transition-colors shadow-sm w-full md:w-auto">
+        <button 
+          onClick={() => setIsAddModalOpen(true)}
+          className="flex items-center justify-center gap-2 px-5 py-2.5 bg-[#257AFC] hover:bg-blue-600 text-white font-medium rounded-full transition-colors shadow-sm w-full md:w-auto mb-4 md:mb-0"
+        >
           <Plus size={18} />
           New Concierge
         </button>
@@ -52,6 +58,17 @@ export default function AddConcierge() {
 
       {/* Main Content List */}
       <ConciergeList initialData={dummyConcierges} />
+
+      {/* Add Modal */}
+      <ConciergeModal 
+        isOpen={isAddModalOpen}
+        mode="add"
+        onClose={() => setIsAddModalOpen(false)}
+        onSave={(data) => {
+          console.log("Saving new concierge:", data);
+          // In a real app, this would append to your state/API
+        }}
+      />
     </div>
   );
 }
