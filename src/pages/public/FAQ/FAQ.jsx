@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import BoxStyleFAQ from "./components/BoxStyleFAQ";
 import FAQHeroBanner from "./components/FAQHeroBanner";
+import ExperienceBanner from "../../../components/layout/public/ExperienceBanner";
 
 // const faqs = [
 //   { q: 'How do I become a member?', a: 'Register and choose a membership plan.' },
@@ -14,11 +15,15 @@ export default function FAQ() {
     document.title = "FAQ - RAVEN";
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute('content', 'Find answers to frequently asked questions about Raven Private Aviation membership, services, and policies.');
+      metaDescription.setAttribute(
+        "content",
+        "Find answers to frequently asked questions about Raven Private Aviation membership, services, and policies.",
+      );
     } else {
-      const newMeta = document.createElement('meta');
-      newMeta.name = 'description';
-      newMeta.content = 'Find answers to frequently asked questions about Raven Private Aviation membership, services, and policies.';
+      const newMeta = document.createElement("meta");
+      newMeta.name = "description";
+      newMeta.content =
+        "Find answers to frequently asked questions about Raven Private Aviation membership, services, and policies.";
       document.head.appendChild(newMeta);
     }
   }, []);
@@ -27,6 +32,12 @@ export default function FAQ() {
     <section>
       <FAQHeroBanner />
       <BoxStyleFAQ />
+      <ExperienceBanner
+        title="Still Have Questions"
+        description="See how Raven transforms the way you travel. Apply for membership today."
+        buttonText="Contact Us"
+        buttonLink="/contact"
+      />
     </section>
   );
 }
