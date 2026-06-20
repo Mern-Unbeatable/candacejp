@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin, Calendar, Minus, Plus } from "lucide-react";
+import { MapPin, Calendar, Minus, Plus, ChevronDown } from "lucide-react";
 
 export default function RouteDetailsSection({ 
   tripType, 
@@ -58,13 +58,18 @@ export default function RouteDetailsSection({
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
               <MapPin size={16} className="text-gray-400" />
             </div>
-            <input
-              type="text"
-              placeholder="e.g., New York (TEB)"
+            <select
               value={origin}
               onChange={(e) => setOrigin(e.target.value)}
-              className="w-full rounded-xl border border-gray-200 bg-[#F8FAFC] pl-10 pr-4 py-3 text-sm md:text-base text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all"
-            />
+              className="w-full rounded-xl border border-gray-200 bg-[#F8FAFC] pl-10 pr-10 py-3 text-sm md:text-base text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all appearance-none cursor-pointer"
+            >
+              <option value="" disabled>Select origin</option>
+              <option value="NYC">NYC</option>
+              <option value="TAMPA">TAMPA</option>
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
+              <ChevronDown size={16} className="text-gray-400" />
+            </div>
           </div>
         </div>
         <div>
@@ -73,13 +78,18 @@ export default function RouteDetailsSection({
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
               <MapPin size={16} className="text-gray-400" />
             </div>
-            <input
-              type="text"
-              placeholder="e.g., Tampa (TPA)"
+            <select
               value={destination}
               onChange={(e) => setDestination(e.target.value)}
-              className="w-full rounded-xl border border-gray-200 bg-[#F8FAFC] pl-10 pr-4 py-3 text-sm md:text-base text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all"
-            />
+              className="w-full rounded-xl border border-gray-200 bg-[#F8FAFC] pl-10 pr-10 py-3 text-sm md:text-base text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all appearance-none cursor-pointer"
+            >
+              <option value="" disabled>Select destination</option>
+              <option value="NYC">NYC</option>
+              <option value="TAMPA">TAMPA</option>
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
+              <ChevronDown size={16} className="text-gray-400" />
+            </div>
           </div>
         </div>
       </div>
@@ -92,13 +102,18 @@ export default function RouteDetailsSection({
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
                 <MapPin size={16} className="text-gray-400" />
               </div>
-              <input
-                type="text"
-                placeholder="e.g., Tampa (TPA)"
+              <select
                 value={returnOrigin}
                 onChange={(e) => setReturnOrigin(e.target.value)}
-                className="w-full rounded-xl border border-gray-200 bg-[#F8FAFC] pl-10 pr-4 py-3 text-sm md:text-base text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all"
-              />
+                className="w-full rounded-xl border border-gray-200 bg-[#F8FAFC] pl-10 pr-10 py-3 text-sm md:text-base text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all appearance-none cursor-pointer"
+              >
+                <option value="" disabled>Select return origin</option>
+                <option value="NYC">NYC</option>
+                <option value="TAMPA">TAMPA</option>
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
+                <ChevronDown size={16} className="text-gray-400" />
+              </div>
             </div>
           </div>
           <div>
@@ -107,13 +122,18 @@ export default function RouteDetailsSection({
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
                 <MapPin size={16} className="text-gray-400" />
               </div>
-              <input
-                type="text"
-                placeholder="e.g., New York (TEB)"
+              <select
                 value={returnDestination}
                 onChange={(e) => setReturnDestination(e.target.value)}
-                className="w-full rounded-xl border border-gray-200 bg-[#F8FAFC] pl-10 pr-4 py-3 text-sm md:text-base text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all"
-              />
+                className="w-full rounded-xl border border-gray-200 bg-[#F8FAFC] pl-10 pr-10 py-3 text-sm md:text-base text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all appearance-none cursor-pointer"
+              >
+                <option value="" disabled>Select return destination</option>
+                <option value="NYC">NYC</option>
+                <option value="TAMPA">TAMPA</option>
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
+                <ChevronDown size={16} className="text-gray-400" />
+              </div>
             </div>
           </div>
         </div>
