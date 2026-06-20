@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const HeroSection = () => {
   return (
     <section className="mx-auto container px-4 md:px-6 lg:px-6 w-full pt-4 md:pt-8">
@@ -41,9 +43,10 @@ const HeroSection = () => {
             private <br className="hidden lg:block" /> charter opportunities.
           </p>
 
-          <button className="bg-[#257AFC] hover:bg-[#1D4ED8] text-white text-sm font-medium px-7 py-3 rounded-full transition-colors duration-200">
+          <Link
+          to={'/register'} className="bg-[#257AFC] hover:bg-[#1D4ED8] text-white text-sm font-medium px-7 py-3 rounded-full transition-colors duration-200">
             Become a Member
-          </button>
+          </Link>
         </div>
       </div>
     </section>
