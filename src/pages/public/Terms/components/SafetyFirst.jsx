@@ -1,6 +1,6 @@
 export default function SafetyFirst() {
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-8 md:p-10 shadow-sm">
+    <div className="rounded-2xl border border-gray-200 bg-white p-8 md:p-10 shadow-sm mb-8 md:mb-16 lg:mb-24">
       <p className="text-sm lg:text-base text-gray-800 font-medium leading-relaxed mb-12 max-w-2xl">
         Safety is our absolute priority. We only partner with FAA-certificated Part 135 air carriers that exceed standard safety ratings (ARG/US, Wyvern).
       </p>

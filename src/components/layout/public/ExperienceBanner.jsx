@@ -12,7 +12,7 @@ const ExperienceBanner = ({
     <section className="w-full bg-[#FFFFFF] font-sans ">
       {/* Container Background Image */}
       <div
-        className="overflow-hidden relative min-h-[400px] md:min-h-[380px] flex items-center justify-center bg-cover bg-center"
+        className="overflow-hidden relative min-h-[400px] md:min-h-[580px] flex items-center justify-center bg-cover bg-center"
         style={{
           backgroundImage: `url('${backgroundImage}')`,
         }}
