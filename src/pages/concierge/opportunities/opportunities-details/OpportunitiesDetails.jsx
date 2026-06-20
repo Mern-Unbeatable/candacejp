@@ -59,14 +59,15 @@ export default function OpportunitiesDetails() {
   return (
     <div className="mx-auto pb-10">
       {/* Header with back button */}
-      <div className="flex items-center gap-4 mb-10 mt-4">
+      <div className="mb-10 mt-4">
         <button
-          onClick={() => navigate(-1)}
-          className="p-2 hover:bg-gray-100 rounded-full text-gray-700 transition-colors"
+          onClick={() => navigate("/concierge/opportunities")}
+          className="mb-6 flex items-center gap-2 text-sm font-semibold text-gray-500 transition-colors hover:text-gray-900"
         >
-          <ChevronLeft size={24} />
+          <ChevronLeft size={16} />
+          Back to Opportunities
         </button>
-        <h1 className="font-serif text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">
+        <h1 className="font-serif text-2xl font-bold tracking-tight text-gray-900 md:text-3xl">
           Opportunities Details
         </h1>
       </div>
