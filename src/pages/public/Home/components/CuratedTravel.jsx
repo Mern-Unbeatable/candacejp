@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Link } from "react-router-dom";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -48,9 +49,9 @@ const CuratedTravel = () => {
             experience the luxury of a shared private jet.
           </p>
           {/* Custom Pill-shaped Button */}
-          <button className="bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-medium text-[14px] px-7 py-3 rounded-full transition-colors duration-200 shadow-sm hover:shadow">
+          <Link to={'/register'} className="bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-medium text-[14px] px-7 py-3 rounded-full transition-colors duration-200 shadow-sm hover:shadow">
             Become a Member
-          </button>
+          </Link>
         </div>
 
         {/* Right Column: Image */}
