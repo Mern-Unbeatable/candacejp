@@ -1,9 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { MapPin, Calendar, Send } from "lucide-react";
+import { MapPin, Calendar, Send, ChevronDown, ChevronLeft } from "lucide-react";
 
 export default function NewOpportunity() {
   const navigate = useNavigate();
+  const [origin, setOrigin] = useState("");
+  const [destination, setDestination] = useState("");
 
   useEffect(() => {
     document.title = "New Opportunities - Concierge | RAVEN";
@@ -11,6 +13,14 @@ export default function NewOpportunity() {
 
   return (
     <div className="mx-auto">
+      <button
+        onClick={() => navigate("/concierge/opportunities")}
+        className="mb-6 flex items-center gap-2 text-sm font-semibold text-gray-500 transition-colors hover:text-gray-900"
+      >
+        <ChevronLeft size={16} />
+        Back to Opportunities
+      </button>
+
       {/* Header */}
       <div className="mb-8 mt-4">
         <h1 className="font-serif text-2xl md:text-4xl font-bold text-gray-900 tracking-tight">
@@ -40,11 +50,20 @@ export default function NewOpportunity() {
               <label className="flex items-center gap-2 text-xs font-medium text-gray-900 mb-2">
                 <MapPin size={16} className="text-gray-400" /> Origin
               </label>
-              <input 
-                type="text" 
-                placeholder="e.g., New York (TEB)" 
-                className="w-full bg-[#F4F5F7] border border-transparent focus:border-blue-500 focus:bg-white rounded-lg px-4 py-3 text-sm text-gray-900 outline-none transition-colors"
-              />
+              <div className="relative">
+                <select
+                  value={origin}
+                  onChange={(e) => setOrigin(e.target.value)}
+                  className="w-full cursor-pointer appearance-none rounded-lg border border-transparent bg-[#F4F5F7] px-4 py-3 pr-10 text-sm text-gray-900 outline-none transition-colors focus:border-blue-500 focus:bg-white"
+                >
+                  <option value="" disabled>Select origin</option>
+                  <option value="NYC">NYC</option>
+                  <option value="TAMPA">TAMPA</option>
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
+                  <ChevronDown size={16} className="text-gray-400" />
+                </div>
+              </div>
             </div>
             
             {/* Destination */}
@@ -52,11 +71,20 @@ export default function NewOpportunity() {
               <label className="flex items-center gap-2 text-xs font-medium text-gray-900 mb-2">
                 <MapPin size={16} className="text-gray-400" /> Destination
               </label>
-              <input 
-                type="text" 
-                placeholder="e.g., Tampa (TPA)" 
-                className="w-full bg-[#F4F5F7] border border-transparent focus:border-blue-500 focus:bg-white rounded-lg px-4 py-3 text-sm text-gray-900 outline-none transition-colors"
-              />
+              <div className="relative">
+                <select
+                  value={destination}
+                  onChange={(e) => setDestination(e.target.value)}
+                  className="w-full cursor-pointer appearance-none rounded-lg border border-transparent bg-[#F4F5F7] px-4 py-3 pr-10 text-sm text-gray-900 outline-none transition-colors focus:border-blue-500 focus:bg-white"
+                >
+                  <option value="" disabled>Select destination</option>
+                  <option value="NYC">NYC</option>
+                  <option value="TAMPA">TAMPA</option>
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
+                  <ChevronDown size={16} className="text-gray-400" />
+                </div>
+              </div>
             </div>
           </div>
 
