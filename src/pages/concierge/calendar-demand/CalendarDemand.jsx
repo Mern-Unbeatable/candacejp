@@ -3,9 +3,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import {
   Users,
   ArrowRight,
-  Bell,
-  Rocket,
-  Lock,
   ChevronLeft,
   X,
   MapPin,
@@ -18,8 +15,9 @@ const INTERESTED_MEMBERS = [
     type: "One Way Trip",
     status: "INTERESTED",
     route: "NYC → Tampa",
-    departure: "4/6/2026",
-    passengers: 6,
+    scheduleLabel: "Regular",
+    departure: "10/12/23",
+    passengers: 1,
   },
   {
     id: 2,
@@ -27,155 +25,148 @@ const INTERESTED_MEMBERS = [
     type: "One Way Trip",
     status: "INTERESTED",
     route: "TAMPA → NYC",
-    departure: "5/6/2026",
-    passengers: 7,
+    scheduleLabel: "Departure",
+    departure: "10/12/23",
+    passengers: 1,
   },
   {
     id: 3,
     name: "Robert Brown",
     type: "Round Trip",
     status: "INTERESTED",
-    route: "TAMPA → NYC, NYC → TAMPA",
-    departure: "6/6/2026",
-    returnDate: "9/6/2026",
+    route: "NYC → TAMPA",
+    scheduleLabel: "Departure",
+    departure: "10/12/2023",
+    returnDate: "10/12/2023",
     passengers: 4,
   },
   {
     id: 4,
-    name: "MD. Ismail",
-    type: "Round Trip",
+    name: "Lisa Martinez",
+    type: "One Way Trip",
     status: "INTERESTED",
-    route: "TAMPA → NYC, NYC → TAMPA",
-    departure: "6/6/2026",
-    returnDate: "9/6/2026",
-    passengers: 4,
-  },
-];
-
-const MATCHED_MEMBERS = [
-  {
-    id: 4,
-    name: "MD. Ismail",
-    type: "Round Trip",
-    status: "INTERESTED",
-    route: "TAMPA → NYC, NYC → TAMPA",
-    departure: "6/6/2026",
-    returnDate: "9/6/2026",
-    passengers: 4,
+    route: "TAMPA → NYC",
+    scheduleLabel: "Departure",
+    departure: "10/12/2023",
+    passengers: 1,
   },
   {
-    id: 3,
+    id: 5,
     name: "Robert Brown",
     type: "Round Trip",
     status: "INTERESTED",
-    route: "TAMPA → NYC, NYC → TAMPA",
-    departure: "6/6/2026",
-    returnDate: "9/6/2026",
+    route: "NYC → Tampa",
+    scheduleLabel: "Departure",
+    departure: "10/12/2023",
+    returnDate: "10/12/2023",
     passengers: 4,
+  },
+  {
+    id: 6,
+    name: "Lisa Martinez",
+    type: "One Way Trip",
+    status: "INTERESTED",
+    route: "TAMPA → NYC",
+    scheduleLabel: "Departure",
+    departure: "10/12/2023",
+    passengers: 2,
   },
 ];
 
-// Reusable Member Card Component
-const MemberCard = ({ member }) => (
-  <div className="flex flex-col md:flex-row md:items-center p-5 border border-gray-100 bg-white rounded-xl mb-3 shadow-sm hover:border-gray-200 transition-colors gap-4 md:gap-8">
-    
-    {/* Left/Middle Content Area */}
-    <div className="flex-1 flex flex-col justify-between">
-      
-      {/* Top Row: Name and Badges */}
-      <div className="flex flex-wrap items-start justify-between mb-2 gap-y-2">
-        <h3 className="font-bold text-gray-900">{member.name}</h3>
-        <div className="flex items-center gap-2">
-          <span
-            className={`text-[11px] md:text-xs font-semibold px-2 py-0.5 rounded-full ${member.type === "Round Trip" ? "bg-green-100 text-green-700" : "bg-green-100 text-green-600"}`}
-          >
-            {member.type}
-          </span>
-          <span className="text-[11px] md:text-xs font-semibold px-2 py-0.5 rounded-full bg-gray-100 text-gray-600">
-            {member.status}
-          </span>
-        </div>
-      </div>
+const ROUTE_SUMMARY = [
+  { route: "NYC → Tampa", count: 2, bg: "bg-[#2B7FFF1A]", text: "text-[#257AFC]" },
+  { route: "Tampa → NYC", count: 1, bg: "bg-[#9810FA0D]", text: "text-[#a855f7]", border: "border border-[#AD46FF1A]" },
+];
 
-      {/* Middle Row: Route */}
-      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
-        {member.route}
+const MemberCard = ({ member, isLast, onViewDetails, onMessage }) => (
+  <div
+    className={`flex flex-col gap-4 p-5 lg:grid lg:grid-cols-[1fr_auto_auto] lg:items-center lg:gap-8 ${
+      !isLast ? "border-b border-gray-100" : ""
+    }`}
+  >
+    <div>
+      <h3 className="font-bold text-gray-900">{member.name}</h3>
+      <p className="mt-1 text-sm text-gray-600">{member.route}</p>
+      <p className="mt-1 text-xs text-gray-500">
+        {member.scheduleLabel}: {member.departure}
+        {member.returnDate && `, Return Departure: ${member.returnDate}`}
       </p>
-
-      {/* Bottom Row: Departure and Passenger */}
-      <div className="flex flex-wrap items-center justify-between text-xs text-gray-500 gap-y-1">
-        <p>
-          Departure: {member.departure}
-          {member.returnDate && `, Return Departure: ${member.returnDate}`}
-        </p>
-        <p className="font-medium mr-1 md:mr-10">
-          Passenger: {member.passengers}
-        </p>
-      </div>
-
     </div>
 
-    {/* Right Action Button */}
-    <div className="shrink-0 flex items-center justify-end mt-2 md:mt-0">
-      <button 
-        onClick={() => member.onViewDetails(member)}
-        className="w-full md:w-auto bg-[#257AFC] hover:bg-blue-700 text-white text-sm font-semibold py-2 md:py-2.5 px-6 rounded-lg transition-colors"
+    <div className="flex flex-col items-start gap-2 lg:min-w-[140px]">
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="rounded-full bg-green-100 px-2.5 py-0.5 text-[11px] font-semibold text-green-700">
+          {member.type}
+        </span>
+        <span className="rounded-full bg-gray-100 px-2.5 py-0.5 text-[11px] font-semibold text-gray-600">
+          {member.status}
+        </span>
+      </div>
+      <p className="text-xs text-gray-500">Passenger: {member.passengers}</p>
+    </div>
+
+    <div className="flex shrink-0 flex-col gap-2 sm:flex-row lg:flex-col">
+      <button
+        onClick={() => onViewDetails(member)}
+        className="rounded-lg bg-[#257AFC] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
       >
         View Details
       </button>
+      <button
+        onClick={() => onMessage(member)}
+        className="rounded-lg bg-[#1B325F] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#152847]"
+      >
+        Message
+      </button>
     </div>
-    
   </div>
 );
 
-// Modal Component
 const MemberDetailsModal = ({ member, onClose }) => {
   if (!member) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink-900/40 p-4">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[80vh]">
-        <div className="flex items-center justify-between p-6 md:p-8 pb-4 md:pb-6 border-b border-gray-100">
+      <div className="flex max-h-[80vh] w-full max-w-2xl flex-col overflow-hidden rounded-2xl bg-white shadow-xl">
+        <div className="flex items-center justify-between border-b border-gray-100 p-6 pb-4 md:p-8 md:pb-6">
           <h2 className="font-serif text-2xl font-bold text-gray-900">New Concierge</h2>
-          <button onClick={onClose} className="p-2 bg-gray-50 hover:bg-gray-100 rounded-full text-gray-500 transition-colors">
-            <X size={20} className="md:w-6 md:h-6" />
+          <button onClick={onClose} className="rounded-full bg-gray-50 p-2 text-gray-500 transition-colors hover:bg-gray-100">
+            <X size={20} className="md:h-6 md:w-6" />
           </button>
         </div>
-        
-        <div className="p-6 md:p-8 overflow-y-auto">
-          {/* Route Information */}
-          <h3 className="text-base md:text-lg font-bold text-gray-900 mb-4 md:mb-5">Route Information</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 mb-8 md:mb-10">
-            <div className="bg-[#ECEEF280] p-4 md:p-5 rounded-xl flex gap-3 md:gap-4">
+
+        <div className="overflow-y-auto p-6 md:p-8">
+          <h3 className="mb-4 text-base font-bold text-gray-900 md:mb-5 md:text-lg">Route Information</h3>
+          <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 md:mb-10 md:gap-6">
+            <div className="flex gap-3 rounded-xl bg-[#ECEEF280] p-4 md:gap-4 md:p-5">
               <div className="mt-0.5 md:mt-1">
-                <MapPin size={16} className="text-gray-400 md:w-5 md:h-5" />
+                <MapPin size={16} className="text-gray-400 md:h-5 md:w-5" />
               </div>
               <div>
-                <p className="font-bold text-sm md:text-base text-gray-900">NYC → TAMPA</p>
-                <p className="text-xs md:text-sm text-gray-500 mt-1 md:mt-1.5">Departure: Jun 15, 2026</p>
+                <p className="text-sm font-bold text-gray-900 md:text-base">NYC → TAMPA</p>
+                <p className="mt-1 text-xs text-gray-500 md:mt-1.5 md:text-sm">Departure: Jun 15, 2026</p>
               </div>
             </div>
-            <div className="bg-[#ECEEF280] p-4 md:p-5 rounded-xl flex gap-3 md:gap-4">
+            <div className="flex gap-3 rounded-xl bg-[#ECEEF280] p-4 md:gap-4 md:p-5">
               <div className="mt-0.5 md:mt-1">
-                <MapPin size={16} className="text-gray-400 md:w-5 md:h-5" />
+                <MapPin size={16} className="text-gray-400 md:h-5 md:w-5" />
               </div>
               <div>
-                <p className="font-bold text-sm md:text-base text-gray-900">TAMPA → NYC</p>
-                <p className="text-xs md:text-sm text-gray-500 mt-1 md:mt-1.5">Return: Jun 20, 2026</p>
+                <p className="text-sm font-bold text-gray-900 md:text-base">TAMPA → NYC</p>
+                <p className="mt-1 text-xs text-gray-500 md:mt-1.5 md:text-sm">Return: Jun 20, 2026</p>
               </div>
             </div>
           </div>
 
-          {/* Passenger Information */}
-          <h3 className="text-base md:text-lg font-bold text-gray-900 mb-4 md:mb-5">Passenger Information</h3>
+          <h3 className="mb-4 text-base font-bold text-gray-900 md:mb-5 md:text-lg">Passenger Information</h3>
           <div className="space-y-6 md:space-y-8">
             {[1, 2, 3].map((num) => (
               <div key={num}>
-                <p className="text-[#257AFC] font-semibold text-sm md:text-base mb-2 md:mb-3">Passenger {num}</p>
-                <p className="font-bold text-gray-900 text-sm md:text-base mb-1 md:mb-1.5">Leslie Alexander</p>
-                <p className="text-xs md:text-sm text-gray-500 mb-1 md:mb-1.5">4140 Parker Rd. Allentown, New Mexico 31134</p>
-                <p className="text-xs md:text-sm text-gray-500 mb-1 md:mb-1.5">alma.lawson@example.com</p>
-                <p className="text-xs md:text-sm text-gray-500">(205) 555-0100</p>
+                <p className="mb-2 text-sm font-semibold text-[#257AFC] md:mb-3 md:text-base">Passenger {num}</p>
+                <p className="mb-1 text-sm font-bold text-gray-900 md:mb-1.5 md:text-base">Leslie Alexander</p>
+                <p className="mb-1 text-xs text-gray-500 md:mb-1.5 md:text-sm">4140 Parker Rd. Allentown, New Mexico 31134</p>
+                <p className="mb-1 text-xs text-gray-500 md:mb-1.5 md:text-sm">alma.lawson@example.com</p>
+                <p className="text-xs text-gray-500 md:text-sm">(205) 555-0100</p>
               </div>
             ))}
           </div>
@@ -190,14 +181,12 @@ export default function CalendarDemand() {
   const navigate = useNavigate();
   const [selectedMember, setSelectedMember] = useState(null);
 
-  // Extract date from URL query params (e.g. ?date=2026-06-12)
   const searchParams = new URLSearchParams(location.search);
   const dateParam = searchParams.get("date");
 
-  let formattedDate = "Friday, June 12"; // Default fallback matching mockup
+  let formattedDate = "Friday, June 12";
   if (dateParam) {
     const d = new Date(dateParam);
-    // Add offset to avoid timezone backward shifting
     const offset = d.getTimezoneOffset() * 60000;
     const localD = new Date(d.getTime() + offset);
     formattedDate = localD.toLocaleDateString("en-US", {
@@ -211,118 +200,80 @@ export default function CalendarDemand() {
     document.title = "Calendar Demand - Concierge | RAVEN";
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute('content', 'View daily flight demand and member interest details on Raven.');
+      metaDescription.setAttribute("content", "View daily flight demand and member interest details on Raven.");
     } else {
-      const newMeta = document.createElement('meta');
-      newMeta.name = 'description';
-      newMeta.content = 'View daily flight demand and member interest details on Raven.';
+      const newMeta = document.createElement("meta");
+      newMeta.name = "description";
+      newMeta.content = "View daily flight demand and member interest details on Raven.";
       document.head.appendChild(newMeta);
     }
   }, []);
 
+  const handleMessage = (member) => {
+    navigate("/concierge/message");
+  };
+
   return (
     <div className="mx-auto">
-      {/* Back button */}
       <button
         onClick={() => navigate(-1)}
-        className="flex items-center gap-2 text-sm font-semibold text-gray-500 hover:text-gray-900 mb-6 transition-colors"
+        className="mb-6 flex items-center gap-2 text-sm font-semibold text-gray-500 transition-colors hover:text-gray-900"
       >
         <ChevronLeft size={16} />
         Back to Calendar
       </button>
 
-      {/* Header */}
       <div className="mb-8">
-        <h1 className="font-serif text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">
+        <h1 className="font-serif text-2xl font-bold tracking-tight text-gray-900 md:text-3xl">
           {formattedDate}
         </h1>
-        <p className="mt-1 text-sm md:text-base text-gray-500">
-          4 interested members
+        <p className="mt-1 text-sm text-gray-500 md:text-base">
+          {INTERESTED_MEMBERS.length} interested members
         </p>
       </div>
 
-      {/* Top Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-10">
-        <div className="rounded-xl bg-[#2B7FFF1A] p-5">
-          <div className="flex items-center gap-1.5 text-xs font-bold text-[#257AFC] mb-3">
-            <ArrowRight size={14} /> NYC → Tampa
+      <div className="mb-10 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
+        {ROUTE_SUMMARY.map((item) => (
+          <div
+            key={item.route}
+            className={`rounded-xl p-5 ${item.bg} ${item.border ?? ""}`}
+          >
+            <div className={`mb-3 flex items-center gap-1.5 text-xs font-bold ${item.text}`}>
+              <ArrowRight size={14} />
+              {item.route}
+            </div>
+            <div>
+              <h2 className="text-3xl font-bold text-gray-900">{item.count}</h2>
+              <p className="mt-0.5 text-xs font-semibold text-gray-500">
+                {item.count === 1 ? "member" : "members"}
+              </p>
+            </div>
           </div>
-          <div>
-            <h2 className="text-3xl font-bold text-gray-900">2</h2>
-            <p className="text-xs text-gray-500 font-semibold mt-0.5">
-              members
-            </p>
-          </div>
-        </div>
-
-        <div className="rounded-xl border border-[#AD46FF1A] bg-[#9810FA0D] p-5">
-          <div className="flex items-center gap-1.5 text-xs font-bold text-[#a855f7] mb-3">
-            <ArrowRight size={14} /> Tampa → NYC
-          </div>
-          <div>
-            <h2 className="text-3xl font-bold text-gray-900">1</h2>
-            <p className="text-xs text-gray-500 font-semibold mt-0.5">
-              members
-            </p>
-          </div>
-        </div>
+        ))}
       </div>
 
-      {/* Interested Members List */}
-      <div className="mb-10">
-        <div className="flex items-center gap-2 mb-4">
+      <div>
+        <div className="mb-4 flex items-center gap-2">
           <Users size={18} className="text-gray-700" />
-          <h2 className="text-base font-bold text-gray-900">
-            Interested Members
-          </h2>
+          <h2 className="text-base font-bold text-gray-900">Interested Members</h2>
         </div>
-        <div className="space-y-3">
+
+        <div className="overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm">
           {INTERESTED_MEMBERS.map((member, idx) => (
-            <MemberCard 
-              key={`interested-${idx}`} 
-              member={{...member, onViewDetails: setSelectedMember}} 
+            <MemberCard
+              key={member.id}
+              member={member}
+              isLast={idx === INTERESTED_MEMBERS.length - 1}
+              onViewDetails={setSelectedMember}
+              onMessage={handleMessage}
             />
           ))}
         </div>
       </div>
 
-      {/* Matched Members List */}
-      <div className="mb-12">
-        <div className="flex items-center gap-2 mb-4">
-          <Users size={18} className="text-gray-700" />
-          <h2 className="text-base font-bold text-gray-900">Matched Members</h2>
-        </div>
-        <div className="space-y-3">
-          {MATCHED_MEMBERS.map((member, idx) => (
-            <MemberCard 
-              key={`matched-${idx}`} 
-              member={{...member, onViewDetails: setSelectedMember}} 
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Bottom Action Buttons */}
-      <div className="flex flex-col gap-3">
-        <button className="w-full flex items-center justify-center gap-2 bg-[#257AFC] hover:bg-blue-700 text-white font-semibold py-3.5 rounded-lg transition-colors shadow-sm">
-          <Bell size={16} />
-          Notify All Matched Members
-        </button>
-
-        <button className="w-full flex items-center justify-center gap-2 bg-white border border-gray-200 hover:bg-gray-50 text-gray-900 font-semibold py-3.5 rounded-lg transition-colors shadow-sm">
-          <Rocket size={16} />
-          Create Opportunity
-        </button>
-
-        <button className="w-full flex items-center justify-center gap-2 bg-white border border-green-500 hover:bg-green-50 text-green-600 font-semibold py-3.5 rounded-lg transition-colors shadow-sm">
-          <Lock size={16} />
-          Lock Matched Members
-        </button>
-      </div>
-
-      <MemberDetailsModal 
-        member={selectedMember} 
-        onClose={() => setSelectedMember(null)} 
+      <MemberDetailsModal
+        member={selectedMember}
+        onClose={() => setSelectedMember(null)}
       />
     </div>
   );
