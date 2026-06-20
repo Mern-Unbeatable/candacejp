@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Filter, ChevronDown } from "lucide-react";
+import { Filter } from "lucide-react";
 import Pagination from "../../../components/common/Pagination";
 import TravelPreferencesTable from "./components/TravelPreferencesTable";
 import TravelPreferencesMobileCards from "./components/TravelPreferencesMobileCards";
 import TravelPreferencesModal from "./components/TravelPreferencesModal";
+import DirectionFilter, { matchesDirectionFilter } from "../member-interest/components/DirectionFilter";
+import StatusFilter, { matchesStatusFilter } from "./components/StatusFilter";
 
 const MOCK_DATA = [
   {
@@ -52,6 +54,8 @@ const MOCK_DATA = [
 
 export default function TravelPreferences() {
   const [activeTab, setActiveTab] = useState("Recurring Travel");
+  const [directionFilter, setDirectionFilter] = useState("all");
+  const [statusFilter, setStatusFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 7;
   const [openDropdownId, setOpenDropdownId] = useState(null);
@@ -90,11 +94,27 @@ export default function TravelPreferences() {
     }
   };
 
-  const totalPages = Math.ceil(MOCK_DATA.length / itemsPerPage);
-  const paginatedData = MOCK_DATA.slice(
+  const filteredData = MOCK_DATA.filter(
+    (row) =>
+      matchesDirectionFilter(row.route, directionFilter) &&
+      matchesStatusFilter(row.status, statusFilter)
+  );
+
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  const paginatedData = filteredData.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage,
   );
+
+  const handleDirectionFilterChange = (value) => {
+    setDirectionFilter(value);
+    setCurrentPage(1);
+  };
+
+  const handleStatusFilterChange = (value) => {
+    setStatusFilter(value);
+    setCurrentPage(1);
+  };
 
   return (
     <div className="mx-auto">
@@ -131,23 +151,18 @@ export default function TravelPreferences() {
         </div>
 
         {/* Filters */}
-        <div className="flex items-center gap-3 w-full md:w-auto">
+        <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
           <span className="flex items-center gap-2 text-sm font-medium text-gray-700">
             <Filter size={16} /> Filter:
           </span>
 
-          <div className="relative">
-            <select className="appearance-none bg-white border border-gray-200 text-gray-700 text-xs py-2 pl-4 pr-8 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer shadow-sm">
-              <option>All Status</option>
-              <option>Interested</option>
-              <option>Confirmed</option>
-              <option>Canceled</option>
-            </select>
-            <ChevronDown
-              size={14}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none"
-            />
-          </div>
+          <DirectionFilter
+            value={directionFilter}
+            onChange={handleDirectionFilterChange}
+            hideLabel
+          />
+
+          <StatusFilter value={statusFilter} onChange={handleStatusFilterChange} />
         </div>
       </div>
 
@@ -176,7 +191,7 @@ export default function TravelPreferences() {
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
-        totalItems={MOCK_DATA.length}
+        totalItems={filteredData.length}
         itemsPerPage={itemsPerPage}
         onPageChange={setCurrentPage}
       />

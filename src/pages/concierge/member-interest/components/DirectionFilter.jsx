@@ -20,7 +20,7 @@ export function matchesDirectionFilter(direction, filter) {
   return true;
 }
 
-export default function DirectionFilter({ value, onChange }) {
+export default function DirectionFilter({ value, onChange, hideLabel = false }) {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef(null);
 
@@ -37,11 +37,13 @@ export default function DirectionFilter({ value, onChange }) {
   }, []);
 
   return (
-    <div className="flex items-center gap-3">
-      <span className="flex items-center gap-2 text-sm font-medium text-gray-700">
-        <Filter size={16} />
-        Filter:
-      </span>
+    <div className={`flex items-center ${hideLabel ? "" : "gap-3"}`}>
+      {!hideLabel && (
+        <span className="flex items-center gap-2 text-sm font-medium text-gray-700">
+          <Filter size={16} />
+          Filter:
+        </span>
+      )}
 
       <div className="relative" ref={ref}>
         <button
