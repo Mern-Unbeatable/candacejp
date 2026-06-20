@@ -7,17 +7,20 @@ export default function MembersInterestMobileCards({
   openDropdownId,
   toggleDropdown,
   dropdownRef,
+  getStatusStyle,
+  onConfirm,
+  onDelete,
 }) {
   const navigate = useNavigate();
 
   return (
-    <div className="md:hidden space-y-4 mb-6">
+    <div className="mb-6 space-y-4 md:hidden">
       {paginatedData.map((row) => (
         <div
           key={`mobile-${row.id}`}
-          className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 relative"
+          className="relative rounded-xl border border-gray-100 bg-white p-4 shadow-sm"
         >
-          <div className="flex justify-between items-start mb-3">
+          <div className="mb-3 flex items-start justify-between">
             <div>
               <p className="text-base font-semibold text-gray-900">
                 {row.name}
@@ -29,24 +32,32 @@ export default function MembersInterestMobileCards({
                 e.stopPropagation();
                 toggleDropdown(`mobile-${row.id}`);
               }}
-              className="p-1 hover:bg-gray-100 rounded-full text-gray-500 transition-colors"
+              className="rounded-full p-1 text-gray-500 transition-colors hover:bg-gray-100"
             >
               <MoreVertical size={20} />
             </button>
 
-            {/* Mobile Action Dropdown */}
             {openDropdownId === `mobile-${row.id}` && (
               <div
                 ref={dropdownRef}
-                className="absolute right-4 top-12 w-32 bg-white rounded-md shadow-lg border border-gray-100 z-10 overflow-hidden text-left"
+                className="absolute right-4 top-12 z-10 w-32 overflow-hidden rounded-md border border-gray-100 bg-white text-left shadow-lg"
               >
-                <button 
+                <button
                   onClick={() => navigate(`/concierge/members-interest/${row.id}`)}
-                  className="w-full px-4 py-2 text-sm text-white bg-[#257AFC] hover:bg-blue-700 transition-colors text-left font-medium"
+                  className="w-full bg-[#257AFC] px-4 py-2 text-left text-sm font-medium text-white transition-colors hover:bg-blue-700"
                 >
                   See Details
                 </button>
-                <button className="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors text-left">
+                <button
+                  onClick={() => onConfirm(row.id)}
+                  className="w-full px-4 py-2 text-left text-sm text-gray-700 transition-colors hover:bg-gray-50"
+                >
+                  Confirm
+                </button>
+                <button
+                  onClick={() => onDelete(row.id)}
+                  className="w-full px-4 py-2 text-left text-sm text-gray-700 transition-colors hover:bg-gray-50"
+                >
                   Delete
                 </button>
               </div>
@@ -55,28 +66,36 @@ export default function MembersInterestMobileCards({
 
           <div className="grid grid-cols-2 gap-3 text-sm">
             <div>
-              <p className="text-gray-500 text-xs">Departure</p>
-              <p className="font-medium text-gray-900 mt-0.5">
+              <p className="text-xs text-gray-500">Departure</p>
+              <p className="mt-0.5 font-medium text-gray-900">
                 {row.departure}
               </p>
             </div>
             <div>
-              <p className="text-gray-500 text-xs">Direction</p>
+              <p className="text-xs text-gray-500">Direction</p>
               <div className="mt-0.5">
-                <span className="inline-block bg-[#1B325F] text-white text-xs font-semibold px-2 py-0.5 rounded-full">
+                <span className="inline-block rounded-full bg-[#1B325F] px-2 py-0.5 text-xs font-semibold text-white">
                   {row.direction}
                 </span>
               </div>
             </div>
             <div>
-              <p className="text-gray-500 text-xs">Trip Type</p>
-              <p className="font-medium text-gray-900 mt-0.5">{row.type}</p>
+              <p className="text-xs text-gray-500">Trip Type</p>
+              <p className="mt-0.5 font-medium text-gray-900">{row.type}</p>
             </div>
             <div>
-              <p className="text-gray-500 text-xs">Passenger</p>
-              <div className="flex items-center gap-2 mt-0.5">
-                <span className="font-medium text-gray-900">
-                  {row.passengers}
+              <p className="text-xs text-gray-500">Passenger</p>
+              <span className="mt-0.5 font-medium text-gray-900">
+                {row.passengers}
+              </span>
+            </div>
+            <div>
+              <p className="text-xs text-gray-500">Status</p>
+              <div className="mt-0.5">
+                <span
+                  className={`inline-block rounded-full px-2 py-0.5 text-xs font-semibold ${getStatusStyle(row.status)}`}
+                >
+                  {row.status}
                 </span>
               </div>
             </div>

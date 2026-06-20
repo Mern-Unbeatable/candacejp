@@ -6,7 +6,18 @@ import MembersInterestMobileCards from "./components/MembersInterestMobileCards"
 import { matchesDirectionFilter } from "./components/DirectionFilter";
 import { INTEREST_DATA } from "./data";
 
+const getStatusStyle = (status) => {
+  switch (status) {
+    case "Confirm":
+      return "bg-green-500 text-white";
+    case "Interested":
+    default:
+      return "bg-gray-500 text-white";
+  }
+};
+
 export default function MembersInterest() {
+  const [interestData, setInterestData] = useState(INTEREST_DATA);
   const [openDropdownId, setOpenDropdownId] = useState(null);
   const [directionFilter, setDirectionFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
@@ -40,7 +51,7 @@ export default function MembersInterest() {
     setOpenDropdownId(openDropdownId === id ? null : id);
   };
 
-  const filteredData = INTEREST_DATA.filter((row) =>
+  const filteredData = interestData.filter((row) =>
     matchesDirectionFilter(row.direction, directionFilter)
   );
 
@@ -55,6 +66,18 @@ export default function MembersInterest() {
     setCurrentPage(1);
   };
 
+  const handleConfirm = (id) => {
+    setInterestData((prev) =>
+      prev.map((row) => (row.id === id ? { ...row, status: "Confirm" } : row))
+    );
+    setOpenDropdownId(null);
+  };
+
+  const handleDelete = (id) => {
+    setInterestData((prev) => prev.filter((row) => row.id !== id));
+    setOpenDropdownId(null);
+  };
+
   return (
     <div className="mx-auto">
       <MembersInterestHeader
@@ -67,6 +90,9 @@ export default function MembersInterest() {
         openDropdownId={openDropdownId}
         toggleDropdown={toggleDropdown}
         dropdownRef={dropdownRef}
+        getStatusStyle={getStatusStyle}
+        onConfirm={handleConfirm}
+        onDelete={handleDelete}
       />
 
       <MembersInterestMobileCards
@@ -74,6 +100,9 @@ export default function MembersInterest() {
         openDropdownId={openDropdownId}
         toggleDropdown={toggleDropdown}
         dropdownRef={dropdownRef}
+        getStatusStyle={getStatusStyle}
+        onConfirm={handleConfirm}
+        onDelete={handleDelete}
       />
 
       <Pagination
