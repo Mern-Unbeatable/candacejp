@@ -29,6 +29,7 @@ export default function Contact() {
       <ContactMethods />
       <ContactForm />
       <ExperienceBanner
+      backgroundImage="contact_bottom_banner.webp"
         title="Experience the Difference"
         description="See how Raven transforms the way you travel. Apply for membership today."
         buttonText="Become a Member"
