@@ -31,23 +31,37 @@ export default function OneTimeTravelForm({ forms, onAddForm, onRemoveForm, onCh
               <div>
                 <label className="block text-xs font-semibold text-gray-700 mb-2">Direction</label>
                 <div className="flex flex-col md:flex-row md:items-center gap-3">
-                  <input
-                    type="text"
-                    placeholder="From"
-                    value={form.from}
-                    onChange={(e) => onChange(form.id, 'from', e.target.value)}
-                    className="w-full rounded-xl border border-gray-200 bg-[#F8FAFC] px-4 py-3 text-sm text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all"
-                  />
+                  <div className="relative w-full">
+                    <select
+                      value={form.from}
+                      onChange={(e) => onChange(form.id, 'from', e.target.value)}
+                      className="w-full rounded-xl border border-gray-200 bg-[#F8FAFC] px-4 py-3 pr-10 text-sm text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all appearance-none cursor-pointer"
+                    >
+                      <option value="" disabled>From</option>
+                      <option value="NYC">NYC</option>
+                      <option value="TAMPA">TAMPA</option>
+                    </select>
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
+                      <ChevronDown size={16} className="text-gray-400" />
+                    </div>
+                  </div>
                   <div className="flex justify-center hidden md:block">
                     <ArrowRight size={16} className="text-gray-500" />
                   </div>
-                  <input
-                    type="text"
-                    placeholder="To"
-                    value={form.to}
-                    onChange={(e) => onChange(form.id, 'to', e.target.value)}
-                    className="w-full rounded-xl border border-gray-200 bg-[#F8FAFC] px-4 py-3 text-sm text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all"
-                  />
+                  <div className="relative w-full">
+                    <select
+                      value={form.to}
+                      onChange={(e) => onChange(form.id, 'to', e.target.value)}
+                      className="w-full rounded-xl border border-gray-200 bg-[#F8FAFC] px-4 py-3 pr-10 text-sm text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all appearance-none cursor-pointer"
+                    >
+                      <option value="" disabled>To</option>
+                      <option value="NYC">NYC</option>
+                      <option value="TAMPA">TAMPA</option>
+                    </select>
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
+                      <ChevronDown size={16} className="text-gray-400" />
+                    </div>
+                  </div>
                 </div>
               </div>
 
