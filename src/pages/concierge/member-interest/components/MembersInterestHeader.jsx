@@ -1,16 +1,19 @@
-import React from 'react';
+import React from "react";
+import DirectionFilter from "./DirectionFilter";
 
-export default function MembersInterestHeader() {
+export default function MembersInterestHeader({ directionFilter, onDirectionFilterChange }) {
   return (
-    <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4 mt-4">
+    <div className="mb-8 mt-4 flex flex-col justify-between gap-4 md:flex-row md:items-start">
       <div>
-        <h1 className="font-serif text-2xl md:text-4xl font-bold text-gray-900 tracking-tight">
+        <h1 className="font-serif text-2xl font-bold tracking-tight text-gray-900 md:text-4xl">
           Member Interest List
         </h1>
-        <p className="mt-1 text-sm md:text-base text-gray-500">
+        <p className="mt-1 text-sm text-gray-500 md:text-base">
           Manage member preferences and bookings
         </p>
       </div>
+
+      <DirectionFilter value={directionFilter} onChange={onDirectionFilterChange} />
     </div>
   );
 }
