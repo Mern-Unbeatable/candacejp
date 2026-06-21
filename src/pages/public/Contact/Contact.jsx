@@ -26,7 +26,7 @@ export default function Contact() {
   return (
     <section className="">
       <GetInTouchHero />
-      <ContactMethods />
+      {/* <ContactMethods /> */}
       <ContactForm />
       <ExperienceBanner
       backgroundImage="contact_bottom_banner.webp"

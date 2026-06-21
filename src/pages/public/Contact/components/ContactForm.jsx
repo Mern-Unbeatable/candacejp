@@ -51,7 +51,7 @@ const ContactForm = () => {
 
   return (
     <section ref={sectionRef} className="w-full bg-[#FFFFFF] font-sans selection:bg-blue-100">
-      <div className="container mx-auto px-4 md:px-6 lg:px-6 pb-8 md:pb-16 lg:pb-24 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+      <div className="container mx-auto px-4 md:px-6 lg:px-6 py-8 md:py-16 lg:py-24 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
         
         {/* Left Column: Text & Phone Contact Info (5 Columns) */}
         <div className="contact-form-left lg:col-span-5 flex flex-col items-start space-y-6 max-w-lg">
