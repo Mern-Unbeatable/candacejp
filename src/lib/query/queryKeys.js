@@ -42,6 +42,12 @@ export const queryKeys = {
       { page, limit, direction, status },
     ],
     opportunity: (id) => [...queryKeys.staff.all, 'opportunity', id],
+    travelPreferences: (page, limit, type, direction, status) => [
+      ...queryKeys.staff.all,
+      'travel-preferences',
+      { page, limit, type, direction, status },
+    ],
+    travelPreference: (id) => [...queryKeys.staff.all, 'travel-preference', id],
   },
 
   admin: {

@@ -141,3 +141,37 @@ export function useUpdateOpportunityStatusMutation() {
     },
   })
 }
+
+export function useStaffTravelPreferencesQuery(
+  { page = 1, limit = 10, type, direction = 'all', status = 'all' } = {},
+  options = {},
+) {
+  return useQuery({
+    queryKey: queryKeys.staff.travelPreferences(page, limit, type, direction, status),
+    queryFn: () => staffApi.getTravelPreferences({ page, limit, type, direction, status }),
+    ...staffLiveQueryOptions,
+    ...options,
+  })
+}
+
+export function useStaffTravelPreferenceQuery(id, options = {}) {
+  return useQuery({
+    queryKey: queryKeys.staff.travelPreference(id),
+    queryFn: () => staffApi.getTravelPreferenceById(id),
+    enabled: Boolean(id),
+    ...staffLiveQueryOptions,
+    ...options,
+  })
+}
+
+export function useUpdateTravelPreferenceStatusMutation() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: ({ id, status }) => staffApi.updateTravelPreferenceStatus(id, status),
+    onSuccess: (_data, variables) => {
+      queryClient.invalidateQueries({ queryKey: [...queryKeys.staff.all, 'travel-preferences'] })
+      queryClient.invalidateQueries({ queryKey: queryKeys.staff.travelPreference(variables.id) })
+    },
+  })
+}

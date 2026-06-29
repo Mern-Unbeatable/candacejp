@@ -54,4 +54,24 @@ export const staffApi = {
   updateOpportunityStatus(id, status) {
     return http.patch(`/staff/opportunities/${id}/status`, { status })
   },
+
+  getTravelPreferences({
+    page = 1,
+    limit = 10,
+    type,
+    direction = 'all',
+    status = 'all',
+  } = {}) {
+    return http.get('/staff/travel-preferences', {
+      params: { page, limit, type, direction, status },
+    })
+  },
+
+  getTravelPreferenceById(id) {
+    return http.get(`/staff/travel-preferences/${id}`)
+  },
+
+  updateTravelPreferenceStatus(id, status) {
+    return http.patch(`/staff/travel-preferences/${id}/status`, { status })
+  },
 }

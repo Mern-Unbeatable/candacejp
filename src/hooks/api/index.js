@@ -45,4 +45,7 @@ export {
   useUpdateOpportunityMutation,
   usePublishOpportunityMutation,
   useUpdateOpportunityStatusMutation,
+  useStaffTravelPreferencesQuery,
+  useStaffTravelPreferenceQuery,
+  useUpdateTravelPreferenceStatusMutation,
 } from './useStaffQueries'
