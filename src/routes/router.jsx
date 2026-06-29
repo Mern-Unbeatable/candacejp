@@ -166,6 +166,7 @@ export const router = createBrowserRouter([
           { path: "members-interest/:id", element: <MemberInterestDetails /> },
           { path: "opportunities", element: <ConciergeOpportunities /> },
           { path: "opportunities/new", element: <NewOpportunity /> },
+          { path: "opportunities/:id/edit", element: <NewOpportunity /> },
           { path: "opportunities/:id", element: <OpportunitiesDetails /> },
           {
             path: "travel-preferences",

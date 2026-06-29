@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { MapPin, Calendar, Send, ChevronDown, ChevronLeft } from "lucide-react";
 import toast from "react-hot-toast";
-import { useCreateOpportunityMutation } from "../../../../hooks/api/useStaffQueries";
+import {
+  useCreateOpportunityMutation,
+  usePublishOpportunityMutation,
+  useStaffOpportunityQuery,
+  useUpdateOpportunityMutation,
+} from "../../../../hooks/api/useStaffQueries";
 import { getApiErrorMessage } from "../../../../hooks/useApiError";
 import { showSuccessAlert } from "../../../../utils/paymentAlerts";
+import { getOpportunitiesListUrl } from "../opportunityUtils";
 
 const ORIGIN_OPTIONS = [
   { value: "New York (TEB)", label: "New York (TEB)" },
@@ -16,8 +22,41 @@ const DESTINATION_OPTIONS = [
   { value: "New York (TEB)", label: "New York (TEB)" },
 ];
 
+const OPPOSITE_AIRPORT = {
+  "New York (TEB)": "Tampa (TPA)",
+  "Tampa (TPA)": "New York (TEB)",
+};
+
+function toDateInputValue(value) {
+  if (!value) return "";
+  return new Date(value).toISOString().split("T")[0];
+}
+
+function getMinDepartureDate() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function FormSkeleton() {
+  return (
+    <div className="space-y-6 rounded-xl border border-gray-100 bg-white p-6 md:p-8 shadow-sm">
+      {Array.from({ length: 6 }).map((_, index) => (
+        <div key={index} className="h-12 animate-pulse rounded-lg bg-gray-100" />
+      ))}
+    </div>
+  );
+}
+
 export default function NewOpportunity() {
   const navigate = useNavigate();
+  const { id } = useParams();
+  const location = useLocation();
+  const isEditMode = Boolean(id);
+  const listReturnUrl = getOpportunitiesListUrl(location.state?.fromStatus);
+
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
   const [departureDate, setDepartureDate] = useState("");
@@ -25,12 +64,38 @@ export default function NewOpportunity() {
   const [aircraftType, setAircraftType] = useState("");
   const [totalCapacity, setTotalCapacity] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isFormReady, setIsFormReady] = useState(!isEditMode);
 
+  const { data: opportunity, isLoading, isError } = useStaffOpportunityQuery(id, {
+    enabled: isEditMode,
+  });
   const { mutateAsync: createOpportunity } = useCreateOpportunityMutation();
+  const { mutateAsync: updateOpportunity } = useUpdateOpportunityMutation();
+  const { mutateAsync: publishOpportunity } = usePublishOpportunityMutation();
 
   useEffect(() => {
-    document.title = "New Opportunities - Concierge | RAVEN";
-  }, []);
+    document.title = isEditMode
+      ? "Edit Opportunity - Concierge | RAVEN"
+      : "New Opportunities - Concierge | RAVEN";
+  }, [isEditMode]);
+
+  useEffect(() => {
+    if (!isEditMode || !opportunity) return;
+
+    if (opportunity.status !== "DRAFT") {
+      toast.error("Only draft opportunities can be edited.");
+      navigate(`/concierge/opportunities/${id}`, { replace: true });
+      return;
+    }
+
+    setOrigin(opportunity.origin ?? "");
+    setDestination(opportunity.destination ?? "");
+    setDepartureDate(toDateInputValue(opportunity.departureDate));
+    setEstimatedPrice(String(opportunity.estimatedPrice ?? ""));
+    setAircraftType(opportunity.aircraftType ?? "");
+    setTotalCapacity(String(opportunity.totalCapacity ?? ""));
+    setIsFormReady(true);
+  }, [isEditMode, opportunity, id, navigate]);
 
   const buildPayload = (status) => ({
     origin,
@@ -38,9 +103,9 @@ export default function NewOpportunity() {
     tripType: "ONE_WAY",
     departureDate: `${departureDate}T10:00:00.000Z`,
     estimatedPrice: Number(estimatedPrice),
-    aircraftType: aircraftType.trim() || undefined,
+    aircraftType: aircraftType.trim() || null,
     totalCapacity: Number(totalCapacity),
-    status,
+    ...(isEditMode ? {} : { status }),
   });
 
   const validateForm = () => {
@@ -50,6 +115,10 @@ export default function NewOpportunity() {
     }
     if (!departureDate) {
       toast.error("Please select a departure date.");
+      return false;
+    }
+    if (departureDate < getMinDepartureDate()) {
+      toast.error("Departure date must be today or in the future.");
       return false;
     }
     if (!estimatedPrice || Number(estimatedPrice) <= 0) {
@@ -63,43 +132,125 @@ export default function NewOpportunity() {
     return true;
   };
 
-  const handleSubmit = async (status) => {
+  const handleBack = () => {
+    navigate(listReturnUrl);
+  };
+
+  const handleOriginChange = (value) => {
+    setOrigin(value);
+    if (OPPOSITE_AIRPORT[value]) {
+      setDestination(OPPOSITE_AIRPORT[value]);
+    }
+  };
+
+  const handleDestinationChange = (value) => {
+    setDestination(value);
+    if (OPPOSITE_AIRPORT[value]) {
+      setOrigin(OPPOSITE_AIRPORT[value]);
+    }
+  };
+
+  const handleSubmit = async (action) => {
     if (!validateForm()) return;
 
     setIsSubmitting(true);
     try {
-      const opportunity = await createOpportunity(buildPayload(status));
+      if (isEditMode) {
+        await updateOpportunity({ id, payload: buildPayload() });
+
+        if (action === "OPEN_FOR_RESERVATION") {
+          await publishOpportunity(id);
+        }
+
+        await showSuccessAlert({
+          title: action === "DRAFT" ? "Draft updated" : "Opportunity published",
+          text:
+            action === "DRAFT"
+              ? "The opportunity was updated successfully."
+              : "The opportunity is now open for reservation.",
+        });
+        navigate(
+          action === "DRAFT"
+            ? listReturnUrl
+            : `/concierge/opportunities/${id}`,
+          action === "DRAFT" ? undefined : { state: { fromStatus: location.state?.fromStatus } },
+        );
+        return;
+      }
+
+      const created = await createOpportunity(buildPayload(action));
       await showSuccessAlert({
-        title: status === "DRAFT" ? "Draft saved" : "Opportunity published",
+        title: action === "DRAFT" ? "Draft saved" : "Opportunity published",
         text:
-          status === "DRAFT"
+          action === "DRAFT"
             ? "The opportunity was saved as a draft."
             : "The opportunity is now open for reservation.",
       });
-      navigate(`/concierge/opportunities/${opportunity.id}`);
+      navigate(action === "DRAFT" ? listReturnUrl : `/concierge/opportunities/${created.id}`);
     } catch (error) {
-      toast.error(getApiErrorMessage(error, "Failed to create opportunity"));
+      toast.error(
+        getApiErrorMessage(
+          error,
+          isEditMode ? "Failed to update opportunity" : "Failed to create opportunity",
+        ),
+      );
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  if (isEditMode && isLoading) {
+    return (
+      <div className="mx-auto">
+        <button
+          type="button"
+          onClick={handleBack}
+          className="mb-6 flex items-center gap-2 text-sm font-semibold text-gray-500 transition-colors hover:text-gray-900"
+        >
+          <ChevronLeft size={16} />
+          Back
+        </button>
+        <FormSkeleton />
+      </div>
+    );
+  }
+
+  if (isEditMode && (isError || !opportunity || !isFormReady)) {
+    return (
+      <div className="mx-auto">
+        <button
+          type="button"
+          onClick={() => navigate(listReturnUrl)}
+          className="mb-6 flex items-center gap-2 text-sm font-semibold text-gray-500 transition-colors hover:text-gray-900"
+        >
+          <ChevronLeft size={16} />
+          Back to Opportunities
+        </button>
+        <div className="rounded-xl border border-gray-100 bg-white p-12 text-center text-gray-500 shadow-sm">
+          Unable to load opportunity for editing.
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="mx-auto">
       <button
         type="button"
-        onClick={() => navigate("/concierge/opportunities")}
+        onClick={handleBack}
         className="mb-6 flex items-center gap-2 text-sm font-semibold text-gray-500 transition-colors hover:text-gray-900"
       >
         <ChevronLeft size={16} />
-        Back to Opportunities
+        {isEditMode ? "Back" : "Back to Opportunities"}
       </button>
 
       <div className="mb-8 mt-4">
         <h1 className="font-serif text-2xl md:text-4xl font-bold text-gray-900 tracking-tight">
-          New Opportunities
+          {isEditMode ? "Edit Opportunity" : "New Opportunities"}
         </h1>
-        <p className="text-sm text-gray-500 mt-2">Create New Opportunities</p>
+        <p className="text-sm text-gray-500 mt-2">
+          {isEditMode ? "Update draft opportunity" : "Create New Opportunities"}
+        </p>
       </div>
 
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8">
@@ -126,7 +277,7 @@ export default function NewOpportunity() {
               <div className="relative">
                 <select
                   value={origin}
-                  onChange={(e) => setOrigin(e.target.value)}
+                  onChange={(e) => handleOriginChange(e.target.value)}
                   className="w-full cursor-pointer appearance-none rounded-lg border border-transparent bg-[#F4F5F7] px-4 py-3 pr-10 text-sm text-gray-900 outline-none transition-colors focus:border-blue-500 focus:bg-white"
                 >
                   <option value="" disabled>Select origin</option>
@@ -149,7 +300,7 @@ export default function NewOpportunity() {
               <div className="relative">
                 <select
                   value={destination}
-                  onChange={(e) => setDestination(e.target.value)}
+                  onChange={(e) => handleDestinationChange(e.target.value)}
                   className="w-full cursor-pointer appearance-none rounded-lg border border-transparent bg-[#F4F5F7] px-4 py-3 pr-10 text-sm text-gray-900 outline-none transition-colors focus:border-blue-500 focus:bg-white"
                 >
                   <option value="" disabled>Select destination</option>
@@ -174,6 +325,7 @@ export default function NewOpportunity() {
               <input
                 type="date"
                 value={departureDate}
+                min={getMinDepartureDate()}
                 onChange={(e) => setDepartureDate(e.target.value)}
                 onClick={(e) => {
                   try {
@@ -250,7 +402,7 @@ export default function NewOpportunity() {
             onClick={() => handleSubmit("DRAFT")}
             className="w-full py-3 bg-[#257AFC] text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
           >
-            Draft
+            {isEditMode ? "Save Draft" : "Draft"}
           </button>
         </div>
       </div>

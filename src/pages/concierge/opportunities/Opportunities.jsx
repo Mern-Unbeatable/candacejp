@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import Pagination from "../../../components/common/Pagination";
 import OpportunitiesTable from "./components/OpportunitiesTable";
@@ -17,6 +17,7 @@ import {
   showSuccessAlert,
 } from "../../../utils/paymentAlerts";
 import {
+  getTabFromStatusFilter,
   mapOpportunityRow,
   OPPORTUNITY_TABS,
   TAB_TO_API_STATUS,
@@ -38,13 +39,17 @@ const getStatusStyle = (status) => {
 };
 
 export default function ConciergeOpportunities() {
-  const [activeTab, setActiveTab] = useState(OPPORTUNITY_TABS[0]);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const statusFromUrl = searchParams.get("status") ?? "all";
+  const [activeTab, setActiveTab] = useState(() => getTabFromStatusFilter(statusFromUrl));
   const [currentPage, setCurrentPage] = useState(1);
   const [openDropdownId, setOpenDropdownId] = useState(null);
   const [pendingActionId, setPendingActionId] = useState(null);
   const itemsPerPage = 7;
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
+
+  const listStatus = TAB_TO_API_STATUS[activeTab] ?? "all";
 
   const { data, isLoading, isError } = useStaffOpportunitiesQuery({
     page: currentPage,
@@ -66,6 +71,11 @@ export default function ConciergeOpportunities() {
   }, []);
 
   useEffect(() => {
+    setActiveTab(getTabFromStatusFilter(statusFromUrl));
+    setCurrentPage(1);
+  }, [statusFromUrl]);
+
+  useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setOpenDropdownId(null);
@@ -85,9 +95,25 @@ export default function ConciergeOpportunities() {
     setOpenDropdownId(id);
   };
 
+  const updateActiveTab = (tab) => {
+    setActiveTab(tab);
+    setCurrentPage(1);
+    const status = TAB_TO_API_STATUS[tab] ?? "all";
+    if (status === "all") {
+      setSearchParams({}, { replace: true });
+      return;
+    }
+    setSearchParams({ status }, { replace: true });
+  };
+
+  const handleViewDetails = (row) => {
+    setOpenDropdownId(null);
+    navigate(`/concierge/opportunities/${row.id}`, { state: { fromStatus: listStatus } });
+  };
+
   const handleEdit = (row) => {
     setOpenDropdownId(null);
-    navigate(`/concierge/opportunities/${row.id}`);
+    navigate(`/concierge/opportunities/${row.id}/edit`, { state: { fromStatus: listStatus } });
   };
 
   const handlePublish = async (row) => {
@@ -190,8 +216,7 @@ export default function ConciergeOpportunities() {
           <select
             value={activeTab}
             onChange={(e) => {
-              setActiveTab(e.target.value);
-              setCurrentPage(1);
+              updateActiveTab(e.target.value);
             }}
             className="w-full appearance-none bg-[#F0F4FA] border-none rounded-lg px-4 py-3.5 text-gray-700 font-medium text-sm focus:outline-none focus:ring-2 focus:ring-[#257AFC]/20 shadow-sm"
           >
@@ -212,8 +237,7 @@ export default function ConciergeOpportunities() {
               key={tab}
               type="button"
               onClick={() => {
-                setActiveTab(tab);
-                setCurrentPage(1);
+                updateActiveTab(tab);
               }}
               className={`whitespace-nowrap px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                 activeTab === tab
@@ -243,6 +267,7 @@ export default function ConciergeOpportunities() {
               openDropdownId={openDropdownId}
               dropdownRef={dropdownRef}
               onEdit={handleEdit}
+              onViewDetails={handleViewDetails}
               onPublish={handlePublish}
               onConfirm={handleConfirm}
               onComplete={handleComplete}
@@ -256,6 +281,7 @@ export default function ConciergeOpportunities() {
               openDropdownId={openDropdownId}
               dropdownRef={dropdownRef}
               onEdit={handleEdit}
+              onViewDetails={handleViewDetails}
               onPublish={handlePublish}
               onConfirm={handleConfirm}
               onComplete={handleComplete}

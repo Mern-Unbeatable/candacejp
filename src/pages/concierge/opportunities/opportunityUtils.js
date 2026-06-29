@@ -31,6 +31,16 @@ export const TAB_TO_API_STATUS = {
   Draft: 'DRAFT',
 }
 
+export function getTabFromStatusFilter(status = 'all') {
+  const entry = Object.entries(TAB_TO_API_STATUS).find(([, apiStatus]) => apiStatus === status)
+  return entry?.[0] ?? OPPORTUNITY_TABS[0]
+}
+
+export function getOpportunitiesListUrl(status = 'all') {
+  if (!status || status === 'all') return '/concierge/opportunities'
+  return `/concierge/opportunities?status=${status}`
+}
+
 export function formatOpportunityRoute(opportunity) {
   if (opportunity?.route) return opportunity.route
   if (opportunity?.direction && DIRECTION_LABELS[opportunity.direction]) {

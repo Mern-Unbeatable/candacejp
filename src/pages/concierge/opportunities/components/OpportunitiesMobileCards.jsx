@@ -1,7 +1,6 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { MoreVertical } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 
 const MENU_WIDTH = 176;
 const MENU_ESTIMATED_HEIGHT = 180;
@@ -11,6 +10,7 @@ function ActionMenu({
   anchorRect,
   dropdownRef,
   onClose,
+  onViewDetails,
   onEdit,
   onPublish,
   onConfirm,
@@ -20,7 +20,6 @@ function ActionMenu({
   showConfirm,
   showComplete,
 }) {
-  const navigate = useNavigate();
   const [position, setPosition] = useState({ top: 0, left: 0 });
 
   useLayoutEffect(() => {
@@ -51,7 +50,7 @@ function ActionMenu({
         type="button"
         onClick={() => {
           onClose();
-          navigate(`/concierge/opportunities/${row.id}`);
+          onViewDetails(row);
         }}
         className="w-full bg-[#257AFC] px-4 py-2 text-left text-sm font-medium text-white transition-colors hover:bg-blue-700"
       >
@@ -104,6 +103,7 @@ export default function OpportunitiesMobileCards({
   toggleDropdown,
   openDropdownId,
   dropdownRef,
+  onViewDetails,
   onEdit,
   onPublish,
   onConfirm,
@@ -193,6 +193,7 @@ export default function OpportunitiesMobileCards({
           anchorRect={menuAnchor}
           dropdownRef={dropdownRef}
           onClose={handleCloseMenu}
+          onViewDetails={onViewDetails}
           onEdit={onEdit}
           onPublish={onPublish}
           onConfirm={onConfirm}
