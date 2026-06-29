@@ -56,3 +56,65 @@ export function useUpdateAdminMemberMutation() {
     },
   })
 }
+
+export function useAdminConciergeStaffQuery({ page = 1, limit = 10 } = {}, options = {}) {
+  return useQuery({
+    queryKey: queryKeys.admin.conciergeStaff(page, limit),
+    queryFn: () => adminApi.getConciergeStaff({ page, limit }),
+    ...options,
+  })
+}
+
+export function useAdminConciergeStaffMemberQuery(id, options = {}) {
+  return useQuery({
+    queryKey: queryKeys.admin.conciergeStaffMember(id),
+    queryFn: () => adminApi.getConciergeStaffById(id),
+    enabled: Boolean(id),
+    ...options,
+  })
+}
+
+export function useCreateConciergeStaffMutation() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: adminApi.createConciergeStaff,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [...queryKeys.admin.all, 'concierge-staff'] })
+    },
+  })
+}
+
+export function useUpdateConciergeStaffMutation() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: ({ id, data }) => adminApi.updateConciergeStaff(id, data),
+    onSuccess: (_, { id }) => {
+      queryClient.invalidateQueries({ queryKey: [...queryKeys.admin.all, 'concierge-staff'] })
+      queryClient.invalidateQueries({ queryKey: queryKeys.admin.conciergeStaffMember(id) })
+    },
+  })
+}
+
+export function useUpdateConciergeStaffStatusMutation() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: ({ id, status }) => adminApi.updateConciergeStaffStatus(id, status),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [...queryKeys.admin.all, 'concierge-staff'] })
+    },
+  })
+}
+
+export function useDeleteConciergeStaffMutation() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: adminApi.deleteConciergeStaff,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [...queryKeys.admin.all, 'concierge-staff'] })
+    },
+  })
+}

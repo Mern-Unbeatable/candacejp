@@ -87,6 +87,26 @@ export async function showErrorAlert({
   })
 }
 
+export async function showConfirmAlert({
+  title,
+  text,
+  confirmButtonText = 'Yes',
+  cancelButtonText = 'Cancel',
+} = {}) {
+  const result = await Swal.fire({
+    ...swalBase,
+    icon: 'warning',
+    title,
+    text,
+    showCancelButton: true,
+    confirmButtonText,
+    cancelButtonText,
+    reverseButtons: true,
+  })
+
+  return result.isConfirmed
+}
+
 export function redirectToCheckout(checkoutUrl) {
   if (!checkoutUrl) {
     throw new Error('Checkout URL is missing')

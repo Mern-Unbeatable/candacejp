@@ -24,4 +24,28 @@ export const adminApi = {
   updateMember(id, data) {
     return http.put(`/admin/members/${id}`, data)
   },
+
+  getConciergeStaff({ page = 1, limit = 10 } = {}) {
+    return http.get('/admin/concierge', { params: { page, limit } })
+  },
+
+  getConciergeStaffById(id) {
+    return http.get(`/admin/concierge/${id}`)
+  },
+
+  createConciergeStaff(data) {
+    return http.post('/admin/concierge', data)
+  },
+
+  updateConciergeStaff(id, data) {
+    return http.put(`/admin/concierge/${id}`, data)
+  },
+
+  updateConciergeStaffStatus(id, status) {
+    return http.patch(`/admin/concierge/${id}/status`, { status })
+  },
+
+  deleteConciergeStaff(id) {
+    return http.delete(`/admin/concierge/${id}`)
+  },
 }

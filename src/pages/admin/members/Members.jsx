@@ -14,7 +14,7 @@ export default function Members() {
   const [modalMode, setModalMode] = useState("view");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const itemsPerPage = 10;
+  const itemsPerPage = 8;
 
   const { data, isLoading, isError } = useAdminMembersQuery({
     page: currentPage,

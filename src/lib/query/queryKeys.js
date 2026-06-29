@@ -34,5 +34,7 @@ export const queryKeys = {
     monthlyActivity: (year) => [...queryKeys.admin.all, 'monthly-activity', { year }],
     members: (page, limit) => [...queryKeys.admin.all, 'members', { page, limit }],
     member: (id) => [...queryKeys.admin.all, 'member', id],
+    conciergeStaff: (page, limit) => [...queryKeys.admin.all, 'concierge-staff', { page, limit }],
+    conciergeStaffMember: (id) => [...queryKeys.admin.all, 'concierge-staff', id],
   },
 }

@@ -64,8 +64,10 @@ const Members = Loadable(
   lazy(() => import("../pages/admin/members/Members")),
   <MembersPageSkeleton />,
 );
-const ConciergeStaff = Loadable(lazy(() => import("../pages/admin/concierge-staff/ConciergeStaff")));
-const AddConcierge = Loadable(lazy(() => import("../pages/admin/add-concierge/AddConcierge")));
+const ConciergeStaff = Loadable(
+  lazy(() => import("../pages/admin/concierge-staff/ConciergeStaff")),
+  <MembersPageSkeleton />,
+);
 const Setting = Loadable(lazy(() => import("../pages/admin/settings/Settings")));
 const FlightDemandCalendar = Loadable(lazy(() => import("../components/flight-demand-calendar/FlightDemandCalendar")));
 
@@ -152,7 +154,6 @@ export const router = createBrowserRouter([
           { path: "dashboard-overview", element: <AdminDashboardOverview /> },
           { path: "members", element: <Members /> },
           { path: "concierge-staff", element: <ConciergeStaff /> },
-          { path: "add-concierge", element: <AddConcierge /> },
           { path: "setting", element: <Setting /> },
         ],
       },
