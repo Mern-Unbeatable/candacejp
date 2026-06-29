@@ -28,4 +28,8 @@ export const authApi = {
   resumePayment(credentials) {
     return http.post('/auth/resume-payment', credentials)
   },
+
+  verifyPayment(sessionId) {
+    return http.post('/auth/verify-payment', { session_id: sessionId })
+  },
 }

@@ -29,4 +29,8 @@ export class ApiError extends Error {
   get isValidationError() {
     return this.status === 400 || this.status === 422
   }
+
+  get isPaymentRequired() {
+    return this.status === 402 && Boolean(this.data?.requiresPayment)
+  }
 }

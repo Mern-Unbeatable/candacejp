@@ -23,6 +23,7 @@ const Register = Loadable(lazy(() => import("../pages/public/register/Register")
 const ForgotPassword = Loadable(lazy(() => import("../pages/public/forgot-password/ForgotPassword")));
 const VerifyOTP = Loadable(lazy(() => import("../pages/public/varify-otp/VerifyOTP")));
 const ResetPassword = Loadable(lazy(() => import("../pages/public/reset-password/ResetPassword")));
+const PaymentSuccess = Loadable(lazy(() => import("../pages/public/payment-success/PaymentSuccess")));
 
 const Overview = Loadable(lazy(() => import("../pages/member/overview/Overview")));
 const TravelOpportunities = Loadable(lazy(() => import("../pages/member/travel-opportunities/TravelOpportunities")));
@@ -68,6 +69,7 @@ export const router = createBrowserRouter([
     children: [
       { path: "/login", element: <Login /> },
       { path: "/register", element: <Register /> },
+      { path: "/payment-success", element: <PaymentSuccess /> },
       { path: "/forgot-password", element: <ForgotPassword /> },
       { path: "/verify-otp", element: <VerifyOTP /> },
       { path: "/reset-password", element: <ResetPassword /> },
