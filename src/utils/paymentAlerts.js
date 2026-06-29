@@ -59,6 +59,34 @@ export async function showPaymentFailedAlert(message) {
   })
 }
 
+export async function showSuccessAlert({
+  title = 'Success',
+  text,
+  confirmButtonText = 'OK',
+} = {}) {
+  return Swal.fire({
+    ...swalBase,
+    icon: 'success',
+    title,
+    text,
+    confirmButtonText,
+  })
+}
+
+export async function showErrorAlert({
+  title = 'Something went wrong',
+  text,
+  confirmButtonText = 'OK',
+} = {}) {
+  return Swal.fire({
+    ...swalBase,
+    icon: 'error',
+    title,
+    text,
+    confirmButtonText,
+  })
+}
+
 export function redirectToCheckout(checkoutUrl) {
   if (!checkoutUrl) {
     throw new Error('Checkout URL is missing')

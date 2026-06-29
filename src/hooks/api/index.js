@@ -16,4 +16,7 @@ export {
   useAdminDashboardOverviewQuery,
   useAdminMembersOverTimeQuery,
   useAdminMonthlyActivityQuery,
+  useAdminMembersQuery,
+  useAdminMemberQuery,
+  useUpdateAdminMemberMutation,
 } from './useAdminQueries'

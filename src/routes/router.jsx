@@ -9,6 +9,7 @@ import PublicRoute from "./PublicRoute";
 
 import AuthPageSkeleton from "../components/common/skeletons/AuthPageSkeleton";
 import AdminDashboardSkeleton from "../components/common/skeletons/AdminDashboardSkeleton";
+import MembersPageSkeleton from "../components/common/skeletons/MembersPageSkeleton";
 
 const PageSpinner = () => (
   <div className="flex h-screen items-center justify-center">
@@ -59,7 +60,10 @@ const AdminDashboardOverview = Loadable(
   lazy(() => import("../pages/admin/dashboard-overview/DashboardOverview")),
   <AdminDashboardSkeleton />,
 );
-const Members = Loadable(lazy(() => import("../pages/admin/members/Members")));
+const Members = Loadable(
+  lazy(() => import("../pages/admin/members/Members")),
+  <MembersPageSkeleton />,
+);
 const ConciergeStaff = Loadable(lazy(() => import("../pages/admin/concierge-staff/ConciergeStaff")));
 const AddConcierge = Loadable(lazy(() => import("../pages/admin/add-concierge/AddConcierge")));
 const Setting = Loadable(lazy(() => import("../pages/admin/settings/Settings")));
