@@ -10,6 +10,7 @@ import PublicRoute from "./PublicRoute";
 import AuthPageSkeleton from "../components/common/skeletons/AuthPageSkeleton";
 import AdminDashboardSkeleton from "../components/common/skeletons/AdminDashboardSkeleton";
 import MembersPageSkeleton from "../components/common/skeletons/MembersPageSkeleton";
+import SettingsPageSkeleton from "../components/common/skeletons/SettingsPageSkeleton";
 
 const PageSpinner = () => (
   <div className="flex h-screen items-center justify-center">
@@ -68,7 +69,10 @@ const ConciergeStaff = Loadable(
   lazy(() => import("../pages/admin/concierge-staff/ConciergeStaff")),
   <MembersPageSkeleton />,
 );
-const Setting = Loadable(lazy(() => import("../pages/admin/settings/Settings")));
+const Setting = Loadable(
+  lazy(() => import("../pages/admin/settings/Settings")),
+  <SettingsPageSkeleton />,
+);
 const FlightDemandCalendar = Loadable(lazy(() => import("../components/flight-demand-calendar/FlightDemandCalendar")));
 
 export const router = createBrowserRouter([

@@ -8,6 +8,7 @@ import {
 } from "../../../hooks/api/useAuthQueries";
 import { getApiErrorMessage } from "../../../hooks/useApiError";
 import { showSuccessAlert } from "../../../utils/paymentAlerts";
+import { SettingsContentSkeleton } from "../../../components/common/skeletons/SettingsPageSkeleton";
 
 function formatFullName(user) {
   return [user?.firstName, user?.lastName].filter(Boolean).join(" ");
@@ -134,6 +135,22 @@ export default function Settings() {
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="mx-auto pb-10">
+        <div className="mb-6 mt-4">
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">
+            Profile Settings
+          </h1>
+          <p className="mt-1 text-sm text-gray-500">
+            Manage your account preferences and personal information
+          </p>
+        </div>
+        <SettingsContentSkeleton />
+      </div>
+    );
+  }
+
   return (
     <div className="mx-auto pb-10">
       <div className="mb-6 mt-4">
@@ -151,13 +168,7 @@ export default function Settings() {
             Personal Information
           </h2>
 
-          {isLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 animate-pulse">
-              <div className="h-12 rounded-lg bg-gray-100" />
-              <div className="h-12 rounded-lg bg-gray-100" />
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div>
                 <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
                   <User size={16} className="text-gray-400" />
@@ -188,11 +199,10 @@ export default function Settings() {
                 />
               </div>
             </div>
-          )}
 
           <button
             type="submit"
-            disabled={isLoading || isSavingProfile}
+            disabled={isSavingProfile}
             className="flex items-center gap-2 px-6 py-2.5 bg-[#257AFC] hover:bg-blue-600 disabled:opacity-60 text-white text-sm font-semibold rounded-md transition-colors shadow-sm"
           >
             <Save size={16} />
