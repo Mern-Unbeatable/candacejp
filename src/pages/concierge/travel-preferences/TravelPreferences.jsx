@@ -7,7 +7,7 @@ import TravelPreferencesMobileCards from "./components/TravelPreferencesMobileCa
 import TravelPreferencesModal from "./components/TravelPreferencesModal";
 import DirectionFilter from "../member-interest/components/DirectionFilter";
 import StatusFilter from "./components/StatusFilter";
-import { MembersContentSkeleton } from "../../../components/common/skeletons/MembersPageSkeleton";
+import { TravelPreferencesContentSkeleton } from "../../../components/common/skeletons/MembersPageSkeleton";
 import {
   useStaffTravelPreferencesQuery,
   useUpdateTravelPreferenceStatusMutation,
@@ -210,7 +210,7 @@ export default function TravelPreferences() {
       </div>
 
       {isLoading ? (
-        <MembersContentSkeleton />
+        <TravelPreferencesContentSkeleton rows={itemsPerPage} />
       ) : preferences.length === 0 ? (
         <div className="rounded-xl border border-gray-100 bg-white p-12 text-center text-gray-500 shadow-sm">
           No travel preferences found.

@@ -79,7 +79,10 @@ const NewOpportunity = Loadable(
   lazy(() => import("../pages/concierge/opportunities/components/NewOpportunity")),
   <CalendarDemandPageSkeleton />,
 );
-const ConciergeTravelPreferences = Loadable(lazy(() => import("../pages/concierge/travel-preferences/TravelPreferences")));
+const ConciergeTravelPreferences = Loadable(
+  lazy(() => import("../pages/concierge/travel-preferences/TravelPreferences")),
+  null,
+);
 const ConciergeMessage = Loadable(lazy(() => import("../pages/concierge/message/Message")));
 const ConciergeProfile = Loadable(
   lazy(() => import("../pages/concierge/Profile")),
