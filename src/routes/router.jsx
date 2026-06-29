@@ -81,7 +81,10 @@ const NewOpportunity = Loadable(
 );
 const ConciergeTravelPreferences = Loadable(lazy(() => import("../pages/concierge/travel-preferences/TravelPreferences")));
 const ConciergeMessage = Loadable(lazy(() => import("../pages/concierge/message/Message")));
-const ConciergeProfile = Loadable(lazy(() => import("../pages/concierge/Profile")));
+const ConciergeProfile = Loadable(
+  lazy(() => import("../pages/concierge/Profile")),
+  <SettingsPageSkeleton />,
+);
 
 const AdminDashboardOverview = Loadable(
   lazy(() => import("../pages/admin/dashboard-overview/DashboardOverview")),
