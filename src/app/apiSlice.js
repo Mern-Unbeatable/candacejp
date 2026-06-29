@@ -1,10 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import Cookies from 'js-cookie'
+import { env } from '../config/env'
+import { tokenStorage } from '../lib/api/tokenStorage'
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: import.meta.env.VITE_API_URL || 'http://localhost:8000/api',
+  baseUrl: env.apiUrl,
   prepareHeaders: (headers) => {
-    const token = Cookies.get('access_token')
+    const token = tokenStorage.getAccessToken()
     if (token) {
       headers.set('Authorization', `Bearer ${token}`)
     }
