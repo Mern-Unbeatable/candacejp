@@ -47,7 +47,7 @@ export default function Overview() {
   }, []);
 
   // Get first name from full name
-  const firstName = user?.name ? user.name.split(" ")[0] : "Member";
+  const firstName = user?.firstName || "Member";
 
   // Dummy stats data (will be replaced by API call later)
   const stats = {

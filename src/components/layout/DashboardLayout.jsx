@@ -79,7 +79,19 @@ const ADMIN_LINKS = [
 export default function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
-  const { user, logout } = useAuth();
+  const { user, logout, role } = useAuth();
+
+  const displayName =
+    [user?.firstName, user?.lastName].filter(Boolean).join(" ") ||
+    user?.email ||
+    "User Name";
+  const initials =
+    displayName
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .substring(0, 2) || "U";
 
   const overlayRef = useRef(null);
   const sidebarRef = useRef(null);
@@ -100,13 +112,13 @@ export default function DashboardLayout() {
   let sidebarLinks = [];
   let headerLabel = "Dashboard";
 
-  if (user?.role === "member") {
+  if (role === "member") {
     sidebarLinks = MEMBER_LINKS;
     headerLabel = "Member Portal";
-  } else if (user?.role === "concierge") {
+  } else if (role === "concierge") {
     sidebarLinks = STAFF_LINKS;
     headerLabel = "Concierge Panel";
-  } else if (user?.role === "admin") {
+  } else if (role === "admin") {
     sidebarLinks = ADMIN_LINKS;
     headerLabel = "Admin Dashboard";
   }
@@ -154,16 +166,11 @@ export default function DashboardLayout() {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#f1f5f9] text-sm font-medium text-gray-700">
-              {user?.name
-                ?.split(" ")
-                .map((n) => n[0])
-                .join("")
-                .toUpperCase()
-                .substring(0, 2) || "U"}
+              {initials}
             </div>
             <div>
               <p className="text-[15px] font-medium text-gray-900">
-                {user?.name || "User Name"}
+                {displayName}
               </p>
             </div>
           </div>
