@@ -32,3 +32,8 @@ export {
   useUpdateSupportRequestStatusMutation,
   useDeleteSupportRequestMutation,
 } from './useAdminQueries'
+
+export {
+  useStaffDashboardSummaryQuery,
+  useStaffDashboardCalendarQuery,
+} from './useStaffQueries'

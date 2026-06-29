@@ -27,6 +27,12 @@ export const queryKeys = {
     all: ['concierge'],
   },
 
+  staff: {
+    all: ['staff'],
+    dashboardSummary: () => [...queryKeys.staff.all, 'dashboard-summary'],
+    dashboardCalendar: (params = {}) => [...queryKeys.staff.all, 'dashboard-calendar', params],
+  },
+
   admin: {
     all: ['admin'],
     dashboardOverview: () => [...queryKeys.admin.all, 'dashboard-overview'],
