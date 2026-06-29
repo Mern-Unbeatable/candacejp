@@ -1,22 +1,27 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Filter, ChevronDown } from "lucide-react";
 
-const FILTER_OPTIONS = [
+const DIRECTION_OPTIONS = [
   { value: "all", label: "All Direction" },
-  { value: "nyc-tampa", label: "NYC - TAMPA" },
-  { value: "tampa-nyc", label: "TAMPA - NYC" },
+  { value: "NYC_TAMPA", label: "NYC → Tampa" },
+  { value: "TAMPA_NYC", label: "Tampa → NYC" },
 ];
 
 export function matchesDirectionFilter(direction, filter) {
   if (filter === "all") return true;
 
   const normalized = direction.toUpperCase().replace(/\s*→\s*|\s*-\s*/g, "-");
-  if (filter === "nyc-tampa") {
-    return normalized.includes("NYC") && normalized.includes("TAMPA") && normalized.indexOf("NYC") < normalized.indexOf("TAMPA");
-  }
-  if (filter === "tampa-nyc") {
-    return normalized.includes("TAMPA") && normalized.includes("NYC") && normalized.indexOf("TAMPA") < normalized.indexOf("NYC");
-  }
+  const isNycTampa =
+    normalized.includes("NYC") &&
+    normalized.includes("TAMPA") &&
+    normalized.indexOf("NYC") < normalized.indexOf("TAMPA");
+  const isTampaNyc =
+    normalized.includes("TAMPA") &&
+    normalized.includes("NYC") &&
+    normalized.indexOf("TAMPA") < normalized.indexOf("NYC");
+
+  if (filter === "NYC_TAMPA" || filter === "nyc-tampa") return isNycTampa;
+  if (filter === "TAMPA_NYC" || filter === "tampa-nyc") return isTampaNyc;
   return true;
 }
 
@@ -24,7 +29,8 @@ export default function DirectionFilter({ value, onChange, hideLabel = false }) 
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef(null);
 
-  const selectedLabel = FILTER_OPTIONS.find((opt) => opt.value === value)?.label ?? "All Direction";
+  const selectedLabel =
+    DIRECTION_OPTIONS.find((opt) => opt.value === value)?.label ?? "All Direction";
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -56,8 +62,8 @@ export default function DirectionFilter({ value, onChange, hideLabel = false }) 
         </button>
 
         {isOpen && (
-          <div className="absolute right-0 top-full z-20 mt-1 min-w-[140px] overflow-hidden rounded-lg border border-gray-200 bg-white shadow-lg">
-            {FILTER_OPTIONS.map((option) => (
+          <div className="absolute right-0 top-full z-30 mt-1 min-w-[140px] overflow-hidden rounded-lg border border-gray-200 bg-white shadow-lg">
+            {DIRECTION_OPTIONS.map((option) => (
               <button
                 key={option.value}
                 type="button"

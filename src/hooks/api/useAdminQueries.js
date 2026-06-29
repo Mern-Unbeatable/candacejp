@@ -131,7 +131,7 @@ export function useAdminSupportQuery(
     refetchOnWindowFocus: true,
     // Poll while the admin support page is open so new contact submissions appear
     // without a manual browser reload.
-    refetchInterval: 10_000,
+    refetchInterval: 60_000,
     ...options,
   })
 }

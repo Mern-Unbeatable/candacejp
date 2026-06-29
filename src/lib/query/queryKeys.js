@@ -31,6 +31,11 @@ export const queryKeys = {
     all: ['staff'],
     dashboardSummary: () => [...queryKeys.staff.all, 'dashboard-summary'],
     dashboardCalendar: (params = {}) => [...queryKeys.staff.all, 'dashboard-calendar', params],
+    memberInterests: (page, limit, direction, status) => [
+      ...queryKeys.staff.all,
+      'member-interests',
+      { page, limit, direction, status },
+    ],
   },
 
   admin: {

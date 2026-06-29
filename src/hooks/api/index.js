@@ -36,4 +36,7 @@ export {
 export {
   useStaffDashboardSummaryQuery,
   useStaffDashboardCalendarQuery,
+  useStaffMemberInterestsQuery,
+  useConfirmMemberInterestMutation,
+  useDeleteMemberInterestMutation,
 } from './useStaffQueries'

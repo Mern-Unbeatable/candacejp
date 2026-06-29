@@ -1,105 +1,152 @@
 import React, { useEffect } from "react";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, MapPin } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useStaffDashboardCalendarQuery } from "../../../hooks/api/useStaffQueries";
+
+function DetailRow({ label, value }) {
+  return (
+    <div className="flex flex-col py-1 sm:flex-row sm:items-center sm:justify-between">
+      <span className="mb-1 text-base text-gray-500 sm:mb-0">{label}</span>
+      <span className="text-left text-base font-medium text-gray-900 sm:text-right">
+        {value || "—"}
+      </span>
+    </div>
+  );
+}
+
+function DetailsSkeleton() {
+  return (
+    <div className="space-y-8">
+      <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm md:p-8">
+        <div className="mb-6 h-7 w-40 animate-pulse rounded-md bg-gray-100" />
+        <div className="space-y-4">
+          {Array.from({ length: 7 }).map((_, index) => (
+            <div key={index} className="h-5 animate-pulse rounded-md bg-gray-100" />
+          ))}
+        </div>
+      </div>
+      <div className="rounded-xl border border-gray-200 bg-white p-6 md:p-8">
+        <div className="mb-6 h-6 w-48 animate-pulse rounded-md bg-gray-100" />
+        <div className="space-y-6">
+          {Array.from({ length: 2 }).map((_, index) => (
+            <div key={index} className="h-24 animate-pulse rounded-md bg-gray-100" />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function MemberInterestDetails() {
   const navigate = useNavigate();
   const { id } = useParams();
 
+  const { data: interest, isLoading, isError } = useStaffDashboardCalendarQuery(
+    { interestId: id },
+    { enabled: Boolean(id) },
+  );
+
   useEffect(() => {
     document.title = "Member Details - Concierge | RAVEN";
   }, []);
 
+  const departureRoute = interest?.routes?.[0];
+  const returnRoute = interest?.routes?.[1];
+
   return (
     <div className="mx-auto">
-      {/* Back button */}
       <button
-        onClick={() => navigate(-1)}
-        className="flex items-center gap-2 text-sm font-semibold text-gray-500 hover:text-gray-900 mb-6 transition-colors"
+        type="button"
+        onClick={() => navigate("/concierge/members-interest")}
+        className="mb-6 flex items-center gap-2 text-sm font-semibold text-gray-500 transition-colors hover:text-gray-900"
       >
         <ChevronLeft size={16} />
-        Back to Dashboard
+        Back to Member Interest
       </button>
 
-      {/* Member Details Card */}
-      <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 md:p-8 mb-8">
-        <h2 className="font-serif text-xl font-bold text-gray-900 mb-6">
-          Member Details
-        </h2>
-        
-        <div className="space-y-4">
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1">
-            <span className="text-gray-500 text-base mb-1 sm:mb-0">Member Name:</span>
-            <span className="text-gray-900 text-base font-medium text-left sm:text-right">Savannah Nguyen</span>
-          </div>
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1">
-            <span className="text-gray-500 text-base mb-1 sm:mb-0">Direction:</span>
-            <span className="text-gray-900 text-base font-medium text-left sm:text-right">NYC - TAMPA, TAMPA - NYC</span>
-          </div>
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1">
-            <span className="text-gray-500 text-base mb-1 sm:mb-0">Preferred Date:</span>
-            <span className="text-gray-900 text-base font-medium text-left sm:text-right">06/062026</span>
-          </div>
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1">
-            <span className="text-gray-500 text-base mb-1 sm:mb-0">Return Date:</span>
-            <span className="text-gray-900 text-base font-medium text-left sm:text-right">20/062026</span>
-          </div>
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1">
-            <span className="text-gray-500 text-base mb-1 sm:mb-0">Phone Number:</span>
-            <span className="text-gray-900 text-base font-medium text-left sm:text-right">(405) 555-0128</span>
-          </div>
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center py-1">
-            <span className="text-gray-500 text-base mb-1 sm:mb-0">Email:</span>
-            <span className="text-gray-900 text-base font-medium text-left sm:text-right">michelle.rivera@example.com</span>
-          </div>
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start py-1">
-            <span className="text-gray-500 text-base mb-1 sm:mb-0">Address</span>
-            <span className="text-gray-900 text-base font-medium text-left sm:text-right">2972 Westheimer Rd. Santa Ana, Illinois 85486</span>
-          </div>
+      {isLoading ? (
+        <DetailsSkeleton />
+      ) : isError || !interest ? (
+        <div className="rounded-xl border border-gray-100 bg-white p-12 text-center text-gray-500 shadow-sm">
+          Unable to load member interest details.
         </div>
-      </div>
+      ) : (
+        <>
+          <div className="mb-8 rounded-xl border border-gray-200 bg-white p-6 shadow-sm md:p-8">
+            <h2 className="mb-6 font-serif text-xl font-bold text-gray-900">
+              Member Details
+            </h2>
 
-      {/* Passenger Information Section */}
-      <div className="mb-8 bg-white p-6 md:p-8">
-        <h2 className="font-bold text-gray-900 text-lg mb-6">Passenger Information</h2>
-        
-        <div className="space-y-6">
-          {/* Passenger 1 */}
-          <div>
-            <h3 className="text-[#257AFC] font-medium text-base mb-1">Passenger 1</h3>
-            <p className="font-bold text-gray-900 text-base">Leslie Alexander</p>
-            <p className="text-gray-700 text-sm mt-1">4140 Parker Rd. Allentown, New Mexico 31134</p>
-            <p className="text-gray-700 text-sm mt-0.5">alma.lawson@example.com</p>
-            <p className="text-gray-700 text-sm mt-0.5">(205) 555-0100</p>
+            <div className="space-y-4">
+              <DetailRow label="Member Name:" value={interest.member?.name} />
+              <DetailRow label="Direction:" value={interest.route} />
+              <DetailRow label="Trip Type:" value={interest.tripTypeLabel} />
+              <DetailRow label="Status:" value={interest.status} />
+              <DetailRow
+                label="Preferred Date:"
+                value={departureRoute?.dateLabel}
+              />
+              {returnRoute && (
+                <DetailRow label="Return Date:" value={returnRoute.dateLabel} />
+              )}
+              <DetailRow label="Phone Number:" value={interest.member?.phone} />
+              <DetailRow label="Email:" value={interest.member?.email} />
+              <DetailRow label="Address:" value={interest.member?.address} />
+            </div>
           </div>
 
-          {/* Passenger 2 */}
-          <div>
-            <h3 className="text-[#257AFC] font-medium text-base mb-1">Passenger 2</h3>
-            <p className="font-bold text-gray-900 text-base">Leslie Alexander</p>
-            <p className="text-gray-700 text-sm mt-1">4140 Parker Rd. Allentown, New Mexico 31134</p>
-            <p className="text-gray-700 text-sm mt-0.5">alma.lawson@example.com</p>
-            <p className="text-gray-700 text-sm mt-0.5">(205) 555-0100</p>
+          {(interest.routes ?? []).length > 0 && (
+            <div className="mb-8 rounded-xl border border-gray-200 bg-white p-6 shadow-sm md:p-8">
+              <h2 className="mb-6 text-lg font-bold text-gray-900">Route Information</h2>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6">
+                {interest.routes.map((route) => (
+                  <div
+                    key={`${route.label}-${route.dateLabel}`}
+                    className="flex gap-3 rounded-xl bg-[#ECEEF280] p-4 md:gap-4 md:p-5"
+                  >
+                    <div className="mt-0.5 md:mt-1">
+                      <MapPin size={16} className="text-gray-400 md:h-5 md:w-5" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-gray-900 md:text-base">
+                        {route.label}
+                      </p>
+                      <p className="mt-1 text-xs text-gray-500 md:mt-1.5 md:text-sm">
+                        {route.scheduleType}: {route.dateLabel}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="mb-8 rounded-xl border border-gray-200 bg-white p-6 shadow-sm md:p-8">
+            <h2 className="mb-6 text-lg font-bold text-gray-900">Passenger Information</h2>
+
+            <div className="space-y-6">
+              {(interest.passengers ?? []).map((passenger) => (
+                <div key={passenger.label}>
+                  <h3 className="mb-1 text-base font-medium text-[#257AFC]">
+                    {passenger.label}
+                  </h3>
+                  <p className="text-base font-bold text-gray-900">{passenger.fullName}</p>
+                  <p className="mt-1 text-sm text-gray-700">{passenger.address}</p>
+                  <p className="mt-0.5 text-sm text-gray-700">{passenger.email}</p>
+                  <p className="mt-0.5 text-sm text-gray-700">{passenger.phone}</p>
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* Passenger 3 */}
-          <div>
-            <h3 className="text-[#257AFC] font-medium text-base mb-1">Passenger 3</h3>
-            <p className="font-bold text-gray-900 text-base">Leslie Alexander</p>
-            <p className="text-gray-700 text-sm mt-1">4140 Parker Rd. Allentown, New Mexico 31134</p>
-            <p className="text-gray-700 text-sm mt-0.5">alma.lawson@example.com</p>
-            <p className="text-gray-700 text-sm mt-0.5">(205) 555-0100</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Note Card */}
-      <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-        <h3 className="font-bold text-gray-900 text-lg mb-3">Note</h3>
-        <p className="text-gray-600 text-base">
-          I would like to book a flight. Please provide available options and fares for my preferred travel date.
-        </p>
-      </div>
+          {interest.specialRequests && (
+            <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+              <h3 className="mb-3 text-lg font-bold text-gray-900">Note</h3>
+              <p className="text-base text-gray-600">{interest.specialRequests}</p>
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 }
