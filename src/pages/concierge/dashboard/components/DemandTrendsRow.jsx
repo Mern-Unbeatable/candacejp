@@ -1,33 +1,8 @@
 import React from 'react';
 
-function TrendCardSkeleton() {
-  return (
-    <div className="rounded-xl border border-gray-100 bg-white p-6 shadow-sm">
-      <div className="mb-6 h-5 w-40 animate-pulse rounded-md bg-gray-200/80" />
-      <div className="space-y-4">
-        {Array.from({ length: 7 }).map((_, index) => (
-          <div key={index} className="space-y-2">
-            <div className="h-4 w-full animate-pulse rounded-md bg-gray-200/80" />
-            <div className="h-1.5 w-full animate-pulse rounded-full bg-gray-200/80" />
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-export default function DemandTrendsRow({ summary, isLoading }) {
+export default function DemandTrendsRow({ summary }) {
   const weeklyData = summary?.weeklyDemandTrend ?? [];
   const routesData = summary?.popularRoutes ?? [];
-
-  if (isLoading) {
-    return (
-      <div className="mb-6 grid grid-cols-1 gap-4 md:gap-6 lg:grid-cols-2">
-        <TrendCardSkeleton />
-        <TrendCardSkeleton />
-      </div>
-    );
-  }
 
   return (
     <div className="mb-6 grid grid-cols-1 gap-4 md:gap-6 lg:grid-cols-2">

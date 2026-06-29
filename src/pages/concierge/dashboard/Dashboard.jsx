@@ -3,6 +3,10 @@ import DashboardHeader from './components/DashboardHeader';
 import StatsRow from './components/StatsRow';
 import DemandTrendsRow from './components/DemandTrendsRow';
 import FlightDemandCalendar from '../../../components/flight-demand-calendar/FlightDemandCalendar';
+import {
+  ConciergeStatsSkeleton,
+  ConciergeTrendsSkeleton,
+} from '../../../components/common/skeletons/ConciergeDashboardSkeleton';
 import { useStaffDashboardSummaryQuery } from '../../../hooks/api/useStaffQueries';
 
 export default function Dashboard() {
@@ -24,8 +28,17 @@ export default function Dashboard() {
   return (
     <div className="mx-auto">
       <DashboardHeader />
-      <StatsRow summary={summary} isLoading={isLoading} />
-      <DemandTrendsRow summary={summary} isLoading={isLoading} />
+      {isLoading ? (
+        <>
+          <ConciergeStatsSkeleton />
+          <ConciergeTrendsSkeleton />
+        </>
+      ) : (
+        <>
+          <StatsRow summary={summary} />
+          <DemandTrendsRow summary={summary} />
+        </>
+      )}
       <FlightDemandCalendar />
     </div>
   );

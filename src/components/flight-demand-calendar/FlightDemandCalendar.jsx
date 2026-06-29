@@ -17,19 +17,7 @@ import {
   getDemandStyles,
   isTodayDate,
 } from './calendarUtils';
-
-function CalendarGridSkeleton() {
-  return (
-    <div className="mb-8 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-7 md:gap-4">
-      {Array.from({ length: 35 }).map((_, index) => (
-        <div
-          key={index}
-          className="min-h-[100px] animate-pulse rounded-xl border border-gray-100 bg-gray-100/70 p-3 md:min-h-[120px]"
-        />
-      ))}
-    </div>
-  );
-}
+import { ConciergeCalendarGridSkeleton } from '../common/skeletons/ConciergeDashboardSkeleton';
 
 export default function FlightDemandCalendar() {
   const navigate = useNavigate();
@@ -331,7 +319,7 @@ export default function FlightDemandCalendar() {
       </div>
 
       {isLoading ? (
-        <CalendarGridSkeleton />
+        <ConciergeCalendarGridSkeleton />
       ) : (
         <div className="mb-8 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-7 md:gap-4">
           {cells}

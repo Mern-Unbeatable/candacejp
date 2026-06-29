@@ -12,6 +12,10 @@ import AdminDashboardSkeleton from "../components/common/skeletons/AdminDashboar
 import MembersPageSkeleton from "../components/common/skeletons/MembersPageSkeleton";
 import SupportPageSkeleton from "../components/common/skeletons/SupportPageSkeleton";
 import SettingsPageSkeleton from "../components/common/skeletons/SettingsPageSkeleton";
+import ConciergeDashboardSkeleton, {
+  ConciergeCalendarPageSkeleton,
+  CalendarDemandPageSkeleton,
+} from "../components/common/skeletons/ConciergeDashboardSkeleton";
 
 const PageSpinner = () => (
   <div className="flex h-screen items-center justify-center">
@@ -47,8 +51,14 @@ const Message = Loadable(lazy(() => import("../pages/member/message/Message")));
 const Notification = Loadable(lazy(() => import("../pages/member/notification/Notification")));
 const Profile = Loadable(lazy(() => import("../pages/member/profile/Profile")));
 
-const ConciergeDashboard = Loadable(lazy(() => import("../pages/concierge/dashboard/Dashboard")));
-const CalendarDemand = Loadable(lazy(() => import("../pages/concierge/calendar-demand/CalendarDemand")));
+const ConciergeDashboard = Loadable(
+  lazy(() => import("../pages/concierge/dashboard/Dashboard")),
+  <ConciergeDashboardSkeleton />,
+);
+const CalendarDemand = Loadable(
+  lazy(() => import("../pages/concierge/calendar-demand/CalendarDemand")),
+  <CalendarDemandPageSkeleton />,
+);
 const MembersInterest = Loadable(lazy(() => import("../pages/concierge/member-interest/MembersInterest")));
 const MemberInterestDetails = Loadable(lazy(() => import("../pages/concierge/member-interest/MemberInterestDetails")));
 const ConciergeOpportunities = Loadable(lazy(() => import("../pages/concierge/opportunities/Opportunities")));
@@ -78,7 +88,10 @@ const Setting = Loadable(
   lazy(() => import("../pages/admin/settings/Settings")),
   <SettingsPageSkeleton />,
 );
-const FlightDemandCalendar = Loadable(lazy(() => import("../components/flight-demand-calendar/FlightDemandCalendar")));
+const FlightDemandCalendar = Loadable(
+  lazy(() => import("../components/flight-demand-calendar/FlightDemandCalendar")),
+  <ConciergeCalendarPageSkeleton />,
+);
 
 export const router = createBrowserRouter([
   {
