@@ -29,5 +29,8 @@ export const queryKeys = {
 
   admin: {
     all: ['admin'],
+    dashboardOverview: () => [...queryKeys.admin.all, 'dashboard-overview'],
+    membersOverTime: (year) => [...queryKeys.admin.all, 'members-over-time', { year }],
+    monthlyActivity: (year) => [...queryKeys.admin.all, 'monthly-activity', { year }],
   },
 }

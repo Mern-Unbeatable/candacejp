@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import { ChevronDown } from "lucide-react";
 import {
   ComposedChart,
@@ -10,60 +10,103 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import { useAdminMonthlyActivityQuery } from "../../../../hooks/api/useAdminQueries";
+import { ComposedChartSkeleton } from "../../../../components/common/skeletons/ChartSkeleton";
+import { adminChartColors } from "../chartColors";
 
-const data = [
-  { name: "Jan", opportunities: 10, reservation: 15, booked: 25 },
-  { name: "Feb", opportunities: 15, reservation: 22, booked: 30 },
-  { name: "Mar", opportunities: 14, reservation: 23, booked: 25 },
-  { name: "Apr", opportunities: 12, reservation: 17, booked: 28 },
-  { name: "May", opportunities: 18, reservation: 20, booked: 32 },
-  { name: "Jun", opportunities: 28, reservation: 32, booked: 34 },
-  { name: "Jul", opportunities: 25, reservation: 32, booked: 20 },
-  { name: "Aug", opportunities: 23, reservation: 28, booked: 32 },
-  { name: "Sep", opportunities: 30, reservation: 35, booked: 25 },
-  { name: "Oct", opportunities: 25, reservation: 28, booked: 27 },
-  { name: "Nov", opportunities: 15, reservation: 20, booked: 18 },
-  { name: "Dec", opportunities: 18, reservation: 23, booked: 28 },
+const currentYear = new Date().getFullYear();
+const yearOptions = [
+  { label: "This year", value: currentYear },
+  { label: "Last year", value: currentYear - 1 },
 ];
 
-const CustomTooltip = ({ active, payload }) => {
+function CustomTooltip({ active, payload, label, year }) {
   if (active && payload && payload.length) {
+    const byKey = Object.fromEntries(
+      payload.map((entry) => [entry.dataKey, entry.value]),
+    );
+
     return (
       <div className="bg-white p-4 rounded-xl shadow-xl border border-gray-100 min-w-[200px] z-50 relative">
-        <p className="text-xs font-bold text-gray-400 uppercase mb-3">May 2026</p>
+        <p className="text-xs font-bold text-gray-400 uppercase mb-3">
+          {label} {year}
+        </p>
         <div className="space-y-2">
           <div className="flex justify-between items-center text-sm">
             <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#6366F1]"></span>
-              <span className="font-semibold text-gray-700">Travel Opportunities</span>
+              <span
+                className="w-1.5 h-1.5 rounded-full"
+                style={{ backgroundColor: adminChartColors.travelOpportunities }}
+              />
+              <span className="font-semibold text-gray-700">
+                Travel Opportunities
+              </span>
             </div>
-            <span className="font-bold text-[#6366F1]">{payload[0]?.value}</span>
+            <span
+              className="font-bold"
+              style={{ color: adminChartColors.travelOpportunities }}
+            >
+              {byKey.opportunities ?? 0}
+            </span>
           </div>
           <div className="flex justify-between items-center text-sm">
             <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#257AFC]"></span>
+              <span
+                className="w-1.5 h-1.5 rounded-full"
+                style={{ backgroundColor: adminChartColors.reservations }}
+              />
               <span className="font-semibold text-gray-700">Reservation</span>
             </div>
-            <span className="font-bold text-[#257AFC]">{payload[1]?.value}</span>
+            <span
+              className="font-bold"
+              style={{ color: adminChartColors.reservations }}
+            >
+              {byKey.reservation ?? 0}
+            </span>
           </div>
           <div className="flex justify-between items-center text-sm">
             <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#F97316]"></span>
+              <span
+                className="w-1.5 h-1.5 rounded-full"
+                style={{ backgroundColor: adminChartColors.flightsBooked }}
+              />
               <span className="font-semibold text-gray-700">Flights Booked</span>
             </div>
-            <span className="font-bold text-[#F97316]">{payload[2]?.value}</span>
+            <span
+              className="font-bold"
+              style={{ color: adminChartColors.flightsBooked }}
+            >
+              {byKey.booked ?? 0}
+            </span>
           </div>
         </div>
       </div>
     );
   }
   return null;
-};
+}
 
 export default function DailyActivityChart() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [selectedYear, setSelectedYear] = useState("This year");
+  const [selectedYear, setSelectedYear] = useState(currentYear);
   const dropdownRef = useRef(null);
+
+  const { data, isLoading, isError } = useAdminMonthlyActivityQuery(selectedYear);
+
+  const chartData = useMemo(
+    () =>
+      (data?.monthlyActivity ?? []).map((item) => ({
+        name: item.month,
+        opportunities: item.travelOpportunities,
+        reservation: item.reservations,
+        booked: item.flightsBooked,
+      })),
+    [data?.monthlyActivity],
+  );
+
+  const selectedLabel =
+    yearOptions.find((option) => option.value === selectedYear)?.label ??
+    String(selectedYear);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -80,39 +123,54 @@ export default function DailyActivityChart() {
       <div className="flex justify-between items-start mb-6">
         <div>
           <h2 className="text-xl font-bold text-gray-900">Daily Activity</h2>
-          <p className="text-sm text-gray-600 mt-1">Total number of registered members <br className="md:hidden"/> — Jan to Dec 2026</p>
+          <p className="text-sm text-gray-600 mt-1">
+            Monthly travel activity{" "}
+            <br className="md:hidden" />— Jan to Dec {selectedYear}
+          </p>
           <div className="flex flex-wrap items-center gap-4 mt-3">
             <div className="flex items-center gap-1.5 text-xs font-bold text-gray-600 uppercase">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#6366F1]"></span> Travel Opportunities
+              <span
+                className="w-1.5 h-1.5 rounded-full"
+                style={{ backgroundColor: adminChartColors.travelOpportunities }}
+              />{" "}
+              Travel Opportunities
             </div>
             <div className="flex items-center gap-1.5 text-xs font-bold text-gray-500 uppercase">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#257AFC]"></span> Reservation
+              <span
+                className="w-1.5 h-1.5 rounded-full"
+                style={{ backgroundColor: adminChartColors.reservations }}
+              />{" "}
+              Reservation
             </div>
             <div className="flex items-center gap-1.5 text-xs font-bold text-gray-500 uppercase">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#F97316]"></span> Flights Booked (round trip)
+              <span
+                className="w-1.5 h-1.5 rounded-full"
+                style={{ backgroundColor: adminChartColors.flightsBooked }}
+              />{" "}
+              Flights Booked (round trip)
             </div>
           </div>
         </div>
         <div className="relative" ref={dropdownRef}>
-          <button 
+          <button
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             className="flex items-center gap-2 text-sm font-semibold text-gray-600 bg-gray-50 px-3 py-1.5 rounded-md hover:bg-gray-100 transition-colors border border-gray-200 whitespace-nowrap"
           >
-            {selectedYear} <ChevronDown size={14} />
+            {selectedLabel} <ChevronDown size={14} />
           </button>
-          
+
           {isDropdownOpen && (
             <div className="absolute right-0 mt-1 min-w-[100px] bg-white rounded-md shadow-lg border border-gray-100 z-50 py-1">
-              {["This year", "Last year"].map((year) => (
+              {yearOptions.map((option) => (
                 <button
-                  key={year}
+                  key={option.value}
                   onClick={() => {
-                    setSelectedYear(year);
+                    setSelectedYear(option.value);
                     setIsDropdownOpen(false);
                   }}
                   className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors whitespace-nowrap"
                 >
-                  {year}
+                  {option.label}
                 </button>
               ))}
             </div>
@@ -120,46 +178,79 @@ export default function DailyActivityChart() {
         </div>
       </div>
 
-      <div className="h-[300px] w-full">
-        <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart data={data} margin={{ top: 20, right: 10, left: -30, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#F3F4F6" />
-            <XAxis 
-              dataKey="name" 
-              axisLine={false} 
-              tickLine={false} 
-              tick={{ fontSize: 12, fill: "#000000" }} 
-              dy={10} 
-            />
-            <YAxis 
-              axisLine={false} 
-              tickLine={false} 
-              tick={{ fontSize: 12, fill: "#000000" }} 
-            />
-            <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#E5E7EB', strokeWidth: 1, strokeDasharray: "5 5" }} />
-            <Line
-              type="monotone"
-              dataKey="opportunities"
-              stroke="#6366F1"
-              strokeWidth={2}
-              dot={false}
-              activeDot={{ r: 4, fill: "#6366F1", stroke: "#FFF", strokeWidth: 2 }}
-            />
-            <Line
-              type="monotone"
-              dataKey="reservation"
-              stroke="#257AFC"
-              strokeWidth={2}
-              dot={false}
-              activeDot={{ r: 4, fill: "#257AFC", stroke: "#FFF", strokeWidth: 2 }}
-            />
-            <Scatter 
-              dataKey="booked" 
-              fill="#F97316" 
-            />
-          </ComposedChart>
-        </ResponsiveContainer>
-      </div>
+      {isLoading ? (
+        <ComposedChartSkeleton />
+      ) : isError ? (
+        <p className="text-sm text-red-500 py-12 text-center">
+          Unable to load monthly activity.
+        </p>
+      ) : (
+        <div className="h-[300px] w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <ComposedChart
+              data={chartData}
+              margin={{ top: 20, right: 10, left: -30, bottom: 0 }}
+            >
+              <CartesianGrid
+                strokeDasharray="3 3"
+                vertical={false}
+                stroke="#F3F4F6"
+              />
+              <XAxis
+                dataKey="name"
+                axisLine={false}
+                tickLine={false}
+                tick={{ fontSize: 12, fill: "#000000" }}
+                dy={10}
+              />
+              <YAxis
+                axisLine={false}
+                tickLine={false}
+                tick={{ fontSize: 12, fill: "#000000" }}
+                allowDecimals={false}
+              />
+              <Tooltip
+                content={<CustomTooltip year={selectedYear} />}
+                cursor={{
+                  stroke: "#E5E7EB",
+                  strokeWidth: 1,
+                  strokeDasharray: "5 5",
+                }}
+              />
+              <Line
+                type="monotone"
+                dataKey="opportunities"
+                stroke={adminChartColors.travelOpportunities}
+                strokeWidth={2}
+                dot={false}
+                activeDot={{
+                  r: 4,
+                  fill: adminChartColors.travelOpportunities,
+                  stroke: "#FFF",
+                  strokeWidth: 2,
+                }}
+              />
+              <Line
+                type="monotone"
+                dataKey="reservation"
+                stroke={adminChartColors.reservations}
+                strokeWidth={2}
+                dot={false}
+                activeDot={{
+                  r: 4,
+                  fill: adminChartColors.reservations,
+                  stroke: "#FFF",
+                  strokeWidth: 2,
+                }}
+              />
+              <Scatter
+                dataKey="booked"
+                fill={adminChartColors.flightsBooked}
+              />
+            </ComposedChart>
+          </ResponsiveContainer>
+        </div>
+      )}
     </div>
   );
 }

@@ -11,3 +11,9 @@ export {
   useMarkMessagesSeenMutation,
   useMessageThreadQuery,
 } from './useMessageQueries'
+
+export {
+  useAdminDashboardOverviewQuery,
+  useAdminMembersOverTimeQuery,
+  useAdminMonthlyActivityQuery,
+} from './useAdminQueries'

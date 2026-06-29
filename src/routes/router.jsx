@@ -8,6 +8,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
 
 import AuthPageSkeleton from "../components/common/skeletons/AuthPageSkeleton";
+import AdminDashboardSkeleton from "../components/common/skeletons/AdminDashboardSkeleton";
 
 const PageSpinner = () => (
   <div className="flex h-screen items-center justify-center">
@@ -54,7 +55,10 @@ const ConciergeTravelPreferences = Loadable(lazy(() => import("../pages/concierg
 const ConciergeMessage = Loadable(lazy(() => import("../pages/concierge/message/Message")));
 const ConciergeProfile = Loadable(lazy(() => import("../pages/concierge/Profile")));
 
-const AdminDashboardOverview = Loadable(lazy(() => import("../pages/admin/dashboard-overview/DashboardOverview")));
+const AdminDashboardOverview = Loadable(
+  lazy(() => import("../pages/admin/dashboard-overview/DashboardOverview")),
+  <AdminDashboardSkeleton />,
+);
 const Members = Loadable(lazy(() => import("../pages/admin/members/Members")));
 const ConciergeStaff = Loadable(lazy(() => import("../pages/admin/concierge-staff/ConciergeStaff")));
 const AddConcierge = Loadable(lazy(() => import("../pages/admin/add-concierge/AddConcierge")));
