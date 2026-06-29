@@ -48,4 +48,20 @@ export const adminApi = {
   deleteConciergeStaff(id) {
     return http.delete(`/admin/concierge/${id}`)
   },
+
+  getSupportRequests({ page = 1, limit = 10, status = 'all' } = {}) {
+    return http.get('/admin/support', { params: { page, limit, status } })
+  },
+
+  getSupportRequestById(id) {
+    return http.get(`/admin/support/${id}`)
+  },
+
+  updateSupportRequestStatus(id, status) {
+    return http.put(`/admin/support/${id}`, { status })
+  },
+
+  deleteSupportRequest(id) {
+    return http.delete(`/admin/support/${id}`)
+  },
 }

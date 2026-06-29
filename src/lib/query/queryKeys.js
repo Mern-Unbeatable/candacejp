@@ -36,5 +36,7 @@ export const queryKeys = {
     member: (id) => [...queryKeys.admin.all, 'member', id],
     conciergeStaff: (page, limit) => [...queryKeys.admin.all, 'concierge-staff', { page, limit }],
     conciergeStaffMember: (id) => [...queryKeys.admin.all, 'concierge-staff', id],
+    support: (page, limit, status) => [...queryKeys.admin.all, 'support', { page, limit, status }],
+    supportRequest: (id) => [...queryKeys.admin.all, 'support-request', id],
   },
 }

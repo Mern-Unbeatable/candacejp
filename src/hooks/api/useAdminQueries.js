@@ -118,3 +118,52 @@ export function useDeleteConciergeStaffMutation() {
     },
   })
 }
+
+export function useAdminSupportQuery(
+  { page = 1, limit = 10, status = 'all' } = {},
+  options = {},
+) {
+  return useQuery({
+    queryKey: queryKeys.admin.support(page, limit, status),
+    queryFn: () => adminApi.getSupportRequests({ page, limit, status }),
+    staleTime: 0,
+    refetchOnMount: 'always',
+    refetchOnWindowFocus: true,
+    // Poll while the admin support page is open so new contact submissions appear
+    // without a manual browser reload.
+    refetchInterval: 10_000,
+    ...options,
+  })
+}
+
+export function useAdminSupportRequestQuery(id, options = {}) {
+  return useQuery({
+    queryKey: queryKeys.admin.supportRequest(id),
+    queryFn: () => adminApi.getSupportRequestById(id),
+    enabled: Boolean(id),
+    ...options,
+  })
+}
+
+export function useUpdateSupportRequestStatusMutation() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: ({ id, status }) => adminApi.updateSupportRequestStatus(id, status),
+    onSuccess: (_, { id }) => {
+      queryClient.invalidateQueries({ queryKey: [...queryKeys.admin.all, 'support'] })
+      queryClient.invalidateQueries({ queryKey: queryKeys.admin.supportRequest(id) })
+    },
+  })
+}
+
+export function useDeleteSupportRequestMutation() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: adminApi.deleteSupportRequest,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [...queryKeys.admin.all, 'support'] })
+    },
+  })
+}

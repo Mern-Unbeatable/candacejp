@@ -27,4 +27,8 @@ export {
   useUpdateConciergeStaffMutation,
   useUpdateConciergeStaffStatusMutation,
   useDeleteConciergeStaffMutation,
+  useAdminSupportQuery,
+  useAdminSupportRequestQuery,
+  useUpdateSupportRequestStatusMutation,
+  useDeleteSupportRequestMutation,
 } from './useAdminQueries'

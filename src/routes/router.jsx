@@ -10,6 +10,7 @@ import PublicRoute from "./PublicRoute";
 import AuthPageSkeleton from "../components/common/skeletons/AuthPageSkeleton";
 import AdminDashboardSkeleton from "../components/common/skeletons/AdminDashboardSkeleton";
 import MembersPageSkeleton from "../components/common/skeletons/MembersPageSkeleton";
+import SupportPageSkeleton from "../components/common/skeletons/SupportPageSkeleton";
 import SettingsPageSkeleton from "../components/common/skeletons/SettingsPageSkeleton";
 
 const PageSpinner = () => (
@@ -68,6 +69,10 @@ const Members = Loadable(
 const ConciergeStaff = Loadable(
   lazy(() => import("../pages/admin/concierge-staff/ConciergeStaff")),
   <MembersPageSkeleton />,
+);
+const Support = Loadable(
+  lazy(() => import("../pages/admin/support/Support")),
+  <SupportPageSkeleton />,
 );
 const Setting = Loadable(
   lazy(() => import("../pages/admin/settings/Settings")),
@@ -158,6 +163,7 @@ export const router = createBrowserRouter([
           { path: "dashboard-overview", element: <AdminDashboardOverview /> },
           { path: "members", element: <Members /> },
           { path: "concierge-staff", element: <ConciergeStaff /> },
+          { path: "support", element: <Support /> },
           { path: "setting", element: <Setting /> },
         ],
       },

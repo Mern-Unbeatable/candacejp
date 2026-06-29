@@ -12,6 +12,7 @@ import {
   Calendar,
   Users,
   UserCog,
+  Headphones,
   Settings,
   Menu,
   X,
@@ -71,6 +72,7 @@ const ADMIN_LINKS = [
   },
   { to: "/admin/members", label: "Members", icon: Users },
   { to: "/admin/concierge-staff", label: "Concierge Staff", icon: UserCog },
+  { to: "/admin/support", label: "Support", icon: Headphones },
   { to: "/admin/setting", label: "Setting", icon: Settings },
 ];
 
