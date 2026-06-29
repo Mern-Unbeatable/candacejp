@@ -23,6 +23,8 @@ export function useLoginMutation() {
         user: data.user,
         token: data.accessToken,
         refreshToken: data.refreshToken,
+        accessTokenExpiresAt: data.accessTokenExpiresAt,
+        refreshTokenExpiresAt: data.refreshTokenExpiresAt,
       }))
       queryClient.setQueryData(queryKeys.auth.me(), data.user)
     },

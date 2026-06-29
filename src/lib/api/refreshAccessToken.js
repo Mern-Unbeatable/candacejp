@@ -28,7 +28,12 @@ export async function refreshAccessToken() {
     throw new ApiError(body?.message || 'Token refresh failed', response.status, body)
   }
 
-  const { accessToken, refreshToken: nextRefreshToken } = body.data || {}
+  const {
+    accessToken,
+    refreshToken: nextRefreshToken,
+    accessTokenExpiresAt,
+    refreshTokenExpiresAt,
+  } = body.data || {}
 
   if (!accessToken) {
     throw new ApiError('Token refresh failed', response.status, body)
@@ -37,6 +42,8 @@ export async function refreshAccessToken() {
   tokenStorage.setTokens({
     accessToken,
     refreshToken: nextRefreshToken || refreshToken,
+    accessTokenExpiresAt,
+    refreshTokenExpiresAt,
   })
 
   return accessToken
