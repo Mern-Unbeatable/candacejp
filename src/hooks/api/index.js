@@ -4,6 +4,8 @@ export {
   useLogoutMutation,
   useRegisterMutation,
   useResumePaymentMutation,
+  useUpdateProfileMutation,
+  useChangePasswordMutation,
 } from './useAuthQueries'
 
 export {

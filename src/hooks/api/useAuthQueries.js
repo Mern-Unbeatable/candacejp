@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { authApi } from '../../api/auth.api'
 import { queryKeys } from '../../lib/query/queryKeys'
 import { setCredentials, logout } from '../../features/auth/authSlice'
+import { tokenStorage } from '../../lib/api/tokenStorage'
 
 export function useCurrentUserQuery(options = {}) {
   return useQuery({
@@ -53,5 +54,30 @@ export function useLogoutMutation() {
 export function useResumePaymentMutation() {
   return useMutation({
     mutationFn: authApi.resumePayment,
+  })
+}
+
+export function useUpdateProfileMutation() {
+  const dispatch = useDispatch()
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: authApi.updateProfile,
+    onSuccess: (user) => {
+      queryClient.setQueryData(queryKeys.auth.me(), user)
+      dispatch(setCredentials({
+        user,
+        token: tokenStorage.getAccessToken(),
+        refreshToken: tokenStorage.getRefreshToken(),
+        accessTokenExpiresAt: tokenStorage.getAccessTokenExpiresAt(),
+        refreshTokenExpiresAt: tokenStorage.getRefreshTokenExpiresAt(),
+      }))
+    },
+  })
+}
+
+export function useChangePasswordMutation() {
+  return useMutation({
+    mutationFn: authApi.changePassword,
   })
 }

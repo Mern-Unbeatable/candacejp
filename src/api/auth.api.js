@@ -13,6 +13,14 @@ export const authApi = {
     return http.get('/users/me')
   },
 
+  updateProfile(data) {
+    return http.put('/users/profile', data)
+  },
+
+  changePassword(data) {
+    return http.put('/users/change-password', data)
+  },
+
   refresh(refreshToken) {
     return http.post('/auth/refresh', { refreshToken }, { skipAuthRefresh: true })
   },
