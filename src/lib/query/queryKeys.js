@@ -36,6 +36,12 @@ export const queryKeys = {
       'member-interests',
       { page, limit, direction, status },
     ],
+    opportunities: (page, limit, direction, status) => [
+      ...queryKeys.staff.all,
+      'opportunities',
+      { page, limit, direction, status },
+    ],
+    opportunity: (id) => [...queryKeys.staff.all, 'opportunity', id],
   },
 
   admin: {

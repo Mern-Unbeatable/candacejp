@@ -28,4 +28,30 @@ export const staffApi = {
   deleteMemberInterest(id) {
     return http.delete(`/staff/member-interests/${id}`)
   },
+
+  getOpportunities({ page = 1, limit = 10, direction = 'all', status = 'all' } = {}) {
+    return http.get('/staff/opportunities', {
+      params: { page, limit, direction, status },
+    })
+  },
+
+  getOpportunityById(id) {
+    return http.get(`/staff/opportunities/${id}`)
+  },
+
+  createOpportunity(payload) {
+    return http.post('/staff/opportunities', payload)
+  },
+
+  updateOpportunity(id, payload) {
+    return http.put(`/staff/opportunities/${id}`, payload)
+  },
+
+  publishOpportunity(id) {
+    return http.patch(`/staff/opportunities/${id}/publish`)
+  },
+
+  updateOpportunityStatus(id, status) {
+    return http.patch(`/staff/opportunities/${id}/status`, { status })
+  },
 }

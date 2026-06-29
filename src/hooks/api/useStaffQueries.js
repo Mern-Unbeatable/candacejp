@@ -72,3 +72,72 @@ export function useDeleteMemberInterestMutation() {
     },
   })
 }
+
+export function useStaffOpportunitiesQuery(
+  { page = 1, limit = 10, direction = 'all', status = 'all' } = {},
+  options = {},
+) {
+  return useQuery({
+    queryKey: queryKeys.staff.opportunities(page, limit, direction, status),
+    queryFn: () => staffApi.getOpportunities({ page, limit, direction, status }),
+    ...staffLiveQueryOptions,
+    ...options,
+  })
+}
+
+export function useStaffOpportunityQuery(id, options = {}) {
+  return useQuery({
+    queryKey: queryKeys.staff.opportunity(id),
+    queryFn: () => staffApi.getOpportunityById(id),
+    enabled: Boolean(id),
+    ...staffLiveQueryOptions,
+    ...options,
+  })
+}
+
+export function useCreateOpportunityMutation() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: staffApi.createOpportunity,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [...queryKeys.staff.all, 'opportunities'] })
+    },
+  })
+}
+
+export function useUpdateOpportunityMutation() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: ({ id, payload }) => staffApi.updateOpportunity(id, payload),
+    onSuccess: (_data, variables) => {
+      queryClient.invalidateQueries({ queryKey: [...queryKeys.staff.all, 'opportunities'] })
+      queryClient.invalidateQueries({ queryKey: queryKeys.staff.opportunity(variables.id) })
+    },
+  })
+}
+
+export function usePublishOpportunityMutation() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: staffApi.publishOpportunity,
+    onSuccess: (_data, id) => {
+      queryClient.invalidateQueries({ queryKey: [...queryKeys.staff.all, 'opportunities'] })
+      queryClient.invalidateQueries({ queryKey: queryKeys.staff.opportunity(id) })
+    },
+  })
+}
+
+export function useUpdateOpportunityStatusMutation() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: ({ id, status }) => staffApi.updateOpportunityStatus(id, status),
+    onSuccess: (_data, variables) => {
+      queryClient.invalidateQueries({ queryKey: [...queryKeys.staff.all, 'opportunities'] })
+      queryClient.invalidateQueries({ queryKey: queryKeys.staff.opportunity(variables.id) })
+    },
+  })
+}

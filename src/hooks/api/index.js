@@ -39,4 +39,10 @@ export {
   useStaffMemberInterestsQuery,
   useConfirmMemberInterestMutation,
   useDeleteMemberInterestMutation,
+  useStaffOpportunitiesQuery,
+  useStaffOpportunityQuery,
+  useCreateOpportunityMutation,
+  useUpdateOpportunityMutation,
+  usePublishOpportunityMutation,
+  useUpdateOpportunityStatusMutation,
 } from './useStaffQueries'

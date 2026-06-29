@@ -67,9 +67,18 @@ const MemberInterestDetails = Loadable(
   lazy(() => import("../pages/concierge/member-interest/MemberInterestDetails")),
   <CalendarDemandPageSkeleton />,
 );
-const ConciergeOpportunities = Loadable(lazy(() => import("../pages/concierge/opportunities/Opportunities")));
-const OpportunitiesDetails = Loadable(lazy(() => import("../pages/concierge/opportunities/opportunities-details/OpportunitiesDetails")));
-const NewOpportunity = Loadable(lazy(() => import("../pages/concierge/opportunities/components/NewOpportunity")));
+const ConciergeOpportunities = Loadable(
+  lazy(() => import("../pages/concierge/opportunities/Opportunities")),
+  null,
+);
+const OpportunitiesDetails = Loadable(
+  lazy(() => import("../pages/concierge/opportunities/opportunities-details/OpportunitiesDetails")),
+  <CalendarDemandPageSkeleton />,
+);
+const NewOpportunity = Loadable(
+  lazy(() => import("../pages/concierge/opportunities/components/NewOpportunity")),
+  <CalendarDemandPageSkeleton />,
+);
 const ConciergeTravelPreferences = Loadable(lazy(() => import("../pages/concierge/travel-preferences/TravelPreferences")));
 const ConciergeMessage = Loadable(lazy(() => import("../pages/concierge/message/Message")));
 const ConciergeProfile = Loadable(lazy(() => import("../pages/concierge/Profile")));
