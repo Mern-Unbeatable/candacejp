@@ -55,3 +55,10 @@ export {
   useMemberOpportunitiesQuery,
   usePlaceMemberReservationMutation,
 } from './useMemberQueries'
+
+export {
+  useNotificationsQuery,
+  useNotificationUnreadCountQuery,
+  useMarkNotificationReadMutation,
+  useMarkAllNotificationsReadMutation,
+} from './useNotificationQueries'

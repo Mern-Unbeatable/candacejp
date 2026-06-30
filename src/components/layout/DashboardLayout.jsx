@@ -21,6 +21,9 @@ import {
 import { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
 import useAuth from "../../hooks/useAuth";
+import { useNotificationUnreadCountQuery } from "../../hooks/api/useNotificationQueries";
+
+const NOTIFICATION_PATH = "/member/notification";
 
 const MEMBER_LINKS = [
   { to: "/member/overview", label: "Overview", icon: LayoutDashboard },
@@ -80,6 +83,9 @@ export default function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
   const { user, logout, role } = useAuth();
+  const { data: unreadNotificationCount = 0 } = useNotificationUnreadCountQuery({
+    enabled: role === "member",
+  });
 
   const displayName =
     [user?.firstName, user?.lastName].filter(Boolean).join(" ") ||
@@ -156,7 +162,18 @@ export default function DashboardLayout() {
               }`}
             >
               <Icon size={18} />
-              {link.label}
+              <span className="flex-1">{link.label}</span>
+              {link.to === NOTIFICATION_PATH && unreadNotificationCount > 0 && (
+                <span
+                  className={`min-w-[1.25rem] rounded-full px-1.5 py-0.5 text-center text-[12px] font-bold leading-none ${
+                    isActive
+                      ? "bg-white text-[#257AFC]"
+                      : "bg-[#257AFC] text-white"
+                  }`}
+                >
+                  {unreadNotificationCount > 99 ? "99+" : unreadNotificationCount}
+                </span>
+              )}
             </Link>
           );
         })}

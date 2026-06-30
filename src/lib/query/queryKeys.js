@@ -14,6 +14,12 @@ export const queryKeys = {
     thread: (userId, params = {}) => [...queryKeys.messages.all, 'thread', userId, params],
   },
 
+  notifications: {
+    all: ['notifications'],
+    list: (page, limit) => [...queryKeys.notifications.all, 'list', { page, limit }],
+    unreadCount: () => [...queryKeys.notifications.all, 'unread-count'],
+  },
+
   member: {
     all: ['member'],
     overview: () => [...queryKeys.member.all, 'overview'],
