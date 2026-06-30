@@ -1,3 +1,5 @@
+import PaginationSkeleton from './PaginationSkeleton'
+
 function SkeletonBlock({ className = '' }) {
   return <div className={`animate-pulse rounded-md bg-gray-200/80 ${className}`} />
 }
@@ -42,6 +44,8 @@ export default function PendingReservationsPageSkeleton() {
           <ReservationCardSkeleton key={index} />
         ))}
       </div>
+
+      <PaginationSkeleton />
     </div>
   )
 }

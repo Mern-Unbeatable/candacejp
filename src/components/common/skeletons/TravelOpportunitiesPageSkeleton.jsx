@@ -1,3 +1,5 @@
+import PaginationSkeleton from './PaginationSkeleton'
+
 function SkeletonBlock({ className = '' }) {
   return <div className={`animate-pulse rounded-md bg-gray-200/80 ${className}`} />
 }
@@ -37,6 +39,8 @@ export default function TravelOpportunitiesPageSkeleton() {
           <OpportunityCardSkeleton key={index} />
         ))}
       </div>
+
+      <PaginationSkeleton />
     </div>
   )
 }

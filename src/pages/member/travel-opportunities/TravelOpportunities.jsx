@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 import TravelOpportunitiesHeader from './components/TravelOpportunitiesHeader';
 import OpportunityCard from './components/OpportunityCard';
 import Pagination from '../../../components/common/Pagination';
+import PaginationSkeleton from '../../../components/common/skeletons/PaginationSkeleton';
 import {
   useMemberOpportunitiesQuery,
   usePlaceMemberReservationMutation,
@@ -122,7 +123,9 @@ export default function TravelOpportunities() {
         )}
       </div>
 
-      {!isLoading && totalItems > 0 && (
+      {isLoading ? (
+        <PaginationSkeleton />
+      ) : totalItems > 0 ? (
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
@@ -130,7 +133,7 @@ export default function TravelOpportunities() {
           itemsPerPage={itemsPerPage}
           onPageChange={setCurrentPage}
         />
-      )}
+      ) : null}
     </div>
   );
 }
