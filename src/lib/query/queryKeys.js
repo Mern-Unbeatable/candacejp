@@ -17,6 +17,7 @@ export const queryKeys = {
   member: {
     all: ['member'],
     overview: () => [...queryKeys.member.all, 'overview'],
+    opportunities: (page, limit) => [...queryKeys.member.all, 'opportunities', { page, limit }],
     travelPlans: () => [...queryKeys.member.all, 'travel-plans'],
     reservations: () => [...queryKeys.member.all, 'reservations'],
     trips: () => [...queryKeys.member.all, 'trips'],

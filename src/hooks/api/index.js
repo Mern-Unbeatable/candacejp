@@ -50,4 +50,8 @@ export {
   useUpdateTravelPreferenceStatusMutation,
 } from './useStaffQueries'
 
-export { useMemberDashboardOverviewQuery } from './useMemberQueries'
+export {
+  useMemberDashboardOverviewQuery,
+  useMemberOpportunitiesQuery,
+  usePlaceMemberReservationMutation,
+} from './useMemberQueries'
