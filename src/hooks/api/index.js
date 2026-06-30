@@ -49,3 +49,5 @@ export {
   useStaffTravelPreferenceQuery,
   useUpdateTravelPreferenceStatusMutation,
 } from './useStaffQueries'
+
+export { useMemberDashboardOverviewQuery } from './useMemberQueries'
