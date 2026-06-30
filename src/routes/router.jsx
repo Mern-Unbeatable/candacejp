@@ -17,6 +17,7 @@ import ConciergeDashboardSkeleton, {
   CalendarDemandPageSkeleton,
 } from "../components/common/skeletons/ConciergeDashboardSkeleton";
 import MemberOverviewSkeleton from "../components/common/skeletons/MemberOverviewSkeleton";
+import TravelOpportunitiesPageSkeleton from "../components/common/skeletons/TravelOpportunitiesPageSkeleton";
 
 const PageSpinner = () => (
   <div className="flex h-screen items-center justify-center">
@@ -46,7 +47,10 @@ const Overview = Loadable(
   lazy(() => import("../pages/member/overview/Overview")),
   <MemberOverviewSkeleton />,
 );
-const TravelOpportunities = Loadable(lazy(() => import("../pages/member/travel-opportunities/TravelOpportunities")));
+const TravelOpportunities = Loadable(
+  lazy(() => import("../pages/member/travel-opportunities/TravelOpportunities")),
+  <TravelOpportunitiesPageSkeleton />,
+);
 const PendingReservations = Loadable(lazy(() => import("../pages/member/pending-reservations/PendingReservations")));
 const UpcomingTrips = Loadable(lazy(() => import("../pages/member/upcoming-trips/UpcomingTrips")));
 const TravelPreferences = Loadable(lazy(() => import("../pages/member/travel-preferences/TravelPreferences")));
