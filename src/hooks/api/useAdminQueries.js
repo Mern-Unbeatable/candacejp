@@ -126,12 +126,6 @@ export function useAdminSupportQuery(
   return useQuery({
     queryKey: queryKeys.admin.support(page, limit, status),
     queryFn: () => adminApi.getSupportRequests({ page, limit, status }),
-    staleTime: 0,
-    refetchOnMount: 'always',
-    refetchOnWindowFocus: true,
-    // Poll while the admin support page is open so new contact submissions appear
-    // without a manual browser reload.
-    refetchInterval: 60_000,
     ...options,
   })
 }

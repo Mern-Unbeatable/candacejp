@@ -8,13 +8,12 @@ function hasCalendarParams(params = {}) {
   )
 }
 
-// Poll while concierge pages are open so new member interests and calendar
-// updates appear without a manual browser reload.
+// Live polling for concierge pages that should stay up to date while open.
 const staffLiveQueryOptions = {
   staleTime: 0,
   refetchOnMount: 'always',
   refetchOnWindowFocus: true,
-  refetchInterval: 60_000,
+  refetchInterval: 90_000,
 }
 
 export function useStaffDashboardSummaryQuery(options = {}) {
