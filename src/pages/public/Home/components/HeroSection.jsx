@@ -1,12 +1,10 @@
-import { Link } from "react-router-dom";
-
 const HeroSection = () => {
   return (
     <section className="mx-auto container px-4 md:px-6 lg:px-6 w-full pt-4 md:pt-8">
       <div className="relative w-full rounded-2xl overflow-hidden flex flex-col lg:block rounded-bl-none">
         <div className="w-full mx-auto h-[250px] sm:h-[350px] md:h-[450px] lg:h-[650px] xl:h-[650px] 2xl:h-[750px]">
           <img
-            src="/Subtract.webp"
+            src="/Subtract1.webp"
             alt="Private jet flying through blue sky"
             className="w-full h-full object-cover object-center block rounded-2xl lg:rounded-none"
           />
@@ -33,7 +31,7 @@ const HeroSection = () => {
           </svg>
 
           <h1 className="font-serif text-[#0F172A] text-[2.2rem] lg:text-[2.5rem] font-semibold leading-[1.15] tracking-tight mb-3">
-            Private Travel
+            Private Travel-
             <br />
             Reimagined
           </h1>
@@ -43,10 +41,9 @@ const HeroSection = () => {
             private <br className="hidden lg:block" /> charter opportunities.
           </p>
 
-          <Link
-          to={'/register'} className="bg-[#257AFC] hover:bg-[#1D4ED8] text-white text-sm font-medium px-7 py-3 rounded-full transition-colors duration-200">
+          <button className="bg-[#257AFC] hover:bg-[#1D4ED8] text-white text-sm font-medium px-7 py-3 rounded-full transition-colors duration-200">
             Become a Member
-          </Link>
+          </button>
         </div>
       </div>
     </section>
