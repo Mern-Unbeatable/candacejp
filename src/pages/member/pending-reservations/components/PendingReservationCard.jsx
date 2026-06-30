@@ -1,7 +1,11 @@
 import React from 'react';
 import { Plane, Calendar, Clock, DollarSign } from "lucide-react";
 
-export default function PendingReservationCard({ reservation, onCancel }) {
+export default function PendingReservationCard({
+  reservation,
+  onCancel,
+  isCancelling = false,
+}) {
   return (
     <div className="flex flex-col md:flex-row md:items-center justify-between rounded-2xl border border-gray-100 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
       
@@ -47,14 +51,15 @@ export default function PendingReservationCard({ reservation, onCancel }) {
       {/* Right Section */}
       <div className="mt-6 md:mt-0 flex flex-col md:items-end justify-between gap-4">
         <span className="inline-flex items-center rounded-full bg-orange-100 px-3 py-1 text-xs md:text-sm font-medium text-orange-800 self-start md:self-end">
-          {reservation.status}
+          {reservation.status === 'PENDING' ? 'Pending' : reservation.status}
         </span>
         
         <button 
           onClick={() => onCancel(reservation.id)}
-          className="w-full md:w-auto rounded-lg bg-[#257AFC] px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 transition-colors"
+          disabled={isCancelling}
+          className="w-full md:w-auto rounded-lg bg-[#257AFC] px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 transition-colors disabled:cursor-not-allowed disabled:bg-blue-300"
         >
-          Cancel Reservation
+          {isCancelling ? 'Cancelling...' : 'Cancel Reservation'}
         </button>
       </div>
     </div>

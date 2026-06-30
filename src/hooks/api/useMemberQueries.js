@@ -33,3 +33,28 @@ export function usePlaceMemberReservationMutation() {
     },
   })
 }
+
+export function useMemberPendingReservationsQuery(
+  { page = 1, limit = 3 } = {},
+  options = {},
+) {
+  return useQuery({
+    queryKey: queryKeys.member.pendingReservations(page, limit),
+    queryFn: () => memberApi.getPendingReservations({ page, limit }),
+    ...options,
+  })
+}
+
+export function useCancelMemberReservationMutation() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (reservationId) => memberApi.cancelReservation(reservationId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [...queryKeys.member.all, 'pending-reservations'] })
+      queryClient.invalidateQueries({ queryKey: queryKeys.member.reservations() })
+      queryClient.invalidateQueries({ queryKey: queryKeys.member.overview() })
+      queryClient.invalidateQueries({ queryKey: queryKeys.notifications.all })
+    },
+  })
+}

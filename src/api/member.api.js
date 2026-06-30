@@ -12,4 +12,12 @@ export const memberApi = {
   placeReservation(opportunityId) {
     return http.post(`/member/opportunities/${opportunityId}/reservations`)
   },
+
+  getPendingReservations({ page = 1, limit = 3 } = {}) {
+    return http.get('/member/reservations/pending', { params: { page, limit } })
+  },
+
+  cancelReservation(reservationId) {
+    return http.patch(`/member/reservations/${reservationId}/cancel`)
+  },
 }
