@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 import NotificationHeader from './components/NotificationHeader';
 import NotificationStream from './components/NotificationStream';
 import Pagination from '../../../components/common/Pagination';
+import NotificationPageSkeleton from '../../../components/common/skeletons/NotificationPageSkeleton';
 import {
   useMarkAllNotificationsReadMutation,
   useMarkNotificationReadMutation,
@@ -71,12 +72,16 @@ export default function Notification() {
     }
   };
 
+  if (isLoading) {
+    return <NotificationPageSkeleton />;
+  }
+
   return (
     <div className="mx-auto">
       <NotificationHeader
         onMarkAllAsRead={handleMarkAllAsRead}
         isMarkingAllRead={isMarkingAllRead}
-        showMarkAll={unreadCount > 0 && !isLoading}
+        showMarkAll={unreadCount > 0}
       />
 
       <div className="mb-8">
@@ -84,13 +89,12 @@ export default function Notification() {
           notifications={notifications}
           totalItems={totalItems}
           unreadCount={unreadCount}
-          isLoading={isLoading}
           onMarkAsRead={handleMarkAsRead}
           markingReadId={markingReadId}
         />
       </div>
 
-      {!isLoading && totalItems > 0 && (
+      {totalItems > 0 ? (
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
@@ -98,7 +102,7 @@ export default function Notification() {
           totalItems={totalItems}
           itemsPerPage={itemsPerPage}
         />
-      )}
+      ) : null}
     </div>
   );
 }
