@@ -4,7 +4,7 @@ const HeroSection = () => {
       <div className="relative w-full rounded-2xl overflow-hidden flex flex-col lg:block rounded-bl-none">
         <div className="w-full mx-auto h-[250px] sm:h-[350px] md:h-[450px] lg:h-[650px] xl:h-[650px] 2xl:h-[750px]">
           <img
-            src="/Subtract.webp"
+            src="/Subtract1.webp"
             alt="Private jet flying through blue sky"
             className="w-full h-full object-cover object-center block rounded-2xl lg:rounded-none"
           />
@@ -31,7 +31,7 @@ const HeroSection = () => {
           </svg>
 
           <h1 className="font-serif text-[#0F172A] text-[2.2rem] lg:text-[2.5rem] font-semibold leading-[1.15] tracking-tight mb-3">
-            Private Travel
+            Private Travel-
             <br />
             Reimagined
           </h1>

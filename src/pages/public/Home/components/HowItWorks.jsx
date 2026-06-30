@@ -45,7 +45,7 @@ const HowItWorks = () => {
       icon: <UserCheck className="w-5 h-5 text-[#2563EB]" />,
       title: "Operator Coordination",
       description:
-        "we coordinate with certified operators to secure premium aircraft availability, timing and up to date communication with our members.",
+        "We coordinate with certified operators to secure premium aircraft availability, timing and up to date communication with our members.",
     },
     {
       number: "04",
