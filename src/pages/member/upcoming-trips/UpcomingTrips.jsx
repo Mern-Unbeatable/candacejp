@@ -1,137 +1,91 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import toast from 'react-hot-toast';
 import UpcomingTripsHeader from './components/UpcomingTripsHeader';
 import UpcomingTripCard from './components/UpcomingTripCard';
 import TripDetailsModal from './components/TripDetailsModal';
 import Pagination from '../../../components/common/Pagination';
-
-const dummyPassengers = [
-  {
-    name: 'Leslie Alexander',
-    address: '4140 Parker Rd. Allentown, New Mexico 31134',
-    email: 'alma.lawson@example.com',
-    phone: '(205) 555-0100'
-  },
-  {
-    name: 'Leslie Alexander',
-    address: '4140 Parker Rd. Allentown, New Mexico 31134',
-    email: 'alma.lawson@example.com',
-    phone: '(205) 555-0100'
-  },
-  {
-    name: 'Leslie Alexander',
-    address: '4140 Parker Rd. Allentown, New Mexico 31134',
-    email: 'alma.lawson@example.com',
-    phone: '(205) 555-0100'
-  }
-];
-
-const MOCK_TRIPS = [
-  {
-    id: 1,
-    route: 'TAMPA >> NYC',
-    type: 'Opportunities',
-    departureDate: 'Jun 18, 2026',
-    departureTime: 'Afternoon',
-    costFormatted: '4,500',
-    status: 'Confirmed',
-    passengers: dummyPassengers
-  },
-  {
-    id: 2,
-    route: 'NYC >> TAMPA',
-    type: 'Opportunities',
-    departureDate: 'Jun 18, 2026',
-    departureTime: 'Afternoon',
-    costFormatted: '4,500',
-    status: 'Confirmed',
-    passengers: dummyPassengers
-  },
-  {
-    id: 3,
-    route: 'NYC >> TAMPA',
-    type: 'Recurring Travel',
-    departureDate: 'Sunday',
-    departureTime: 'Afternoon',
-    status: 'Confirmed',
-    passengers: dummyPassengers
-  },
-  {
-    id: 4,
-    route: 'NYC >> TAMPA',
-    type: 'One-Time Travel',
-    departureDate: '6/8/2026',
-    departureTime: 'Afternoon',
-    status: 'Confirmed',
-    passengers: dummyPassengers
-  },
-  {
-    id: 5,
-    route: 'NYC >> TAMPA',
-    type: 'One Way Trip',
-    departureDate: '6/8/2026',
-    passengerCount: 6,
-    status: 'Confirmed',
-    passengers: dummyPassengers
-  },
-  {
-    id: 6,
-    route: 'NYC >> TAMPA , TAMPA >> NYC',
-    type: 'Round Trip',
-    departureDate: '6/8/2026',
-    passengerCount: 6,
-    status: 'Confirmed',
-    passengers: dummyPassengers,
-    routes: [
-      { route: 'NYC → TAMPA', departureDate: 'Jun 15, 2026' },
-      { route: 'TAMPA → NYC', departureDate: 'Jun 18, 2026' }
-    ]
-  }
-];
+import UpcomingTripsPageSkeleton from '../../../components/common/skeletons/UpcomingTripsPageSkeleton';
+import {
+  useMemberUpcomingTripDetailsQuery,
+  useMemberUpcomingTripsQuery,
+} from '../../../hooks/api/useMemberQueries';
+import { mapTripDetailsForModal, mapUpcomingTripListItem } from './upcomingTripsUtils';
 
 export default function UpcomingTrips() {
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedTripId, setSelectedTripId] = useState(null);
+  const [selectedTrip, setSelectedTrip] = useState(null);
+  const itemsPerPage = 4;
+
+  const { data, isLoading, isError } = useMemberUpcomingTripsQuery({
+    page: currentPage,
+    limit: itemsPerPage,
+  });
+
+  const {
+    data: tripDetails,
+    isLoading: isDetailsLoading,
+    isError: isDetailsError,
+  } = useMemberUpcomingTripDetailsQuery(selectedTrip);
 
   useEffect(() => {
-    document.title = "Upcoming Trips - Member | RAVEN";
+    document.title = 'Upcoming Trips - Member | RAVEN';
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute('content', 'View details of your confirmed private flights and itineraries with Raven.');
+      metaDescription.setAttribute(
+        'content',
+        'View details of your confirmed private flights and itineraries with Raven.',
+      );
     } else {
       const newMeta = document.createElement('meta');
       newMeta.name = 'description';
-      newMeta.content = 'View details of your confirmed private flights and itineraries with Raven.';
+      newMeta.content =
+        'View details of your confirmed private flights and itineraries with Raven.';
       document.head.appendChild(newMeta);
     }
   }, []);
 
-  const handleViewDetails = (id) => {
-    setSelectedTripId(id);
-  };
+  useEffect(() => {
+    if (isError) {
+      toast.error('Unable to load upcoming trips.');
+    }
+  }, [isError]);
 
-  const selectedTrip = MOCK_TRIPS.find(trip => trip.id === selectedTripId);
+  useEffect(() => {
+    if (isDetailsError) {
+      toast.error('Unable to load trip details.');
+      setSelectedTrip(null);
+    }
+  }, [isDetailsError]);
 
-  // Pagination logic
-  const itemsPerPage = 4;
-  const totalItems = MOCK_TRIPS.length;
-  const totalPages = Math.ceil(totalItems / itemsPerPage) || 1;
-
-  const paginatedTrips = MOCK_TRIPS.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+  const trips = useMemo(
+    () => (data?.trips ?? []).map(mapUpcomingTripListItem),
+    [data?.trips],
   );
+
+  const pagination = data?.pagination;
+  const totalPages = pagination?.totalPages ?? 1;
+  const totalItems = pagination?.total ?? 0;
+
+  const modalTrip = useMemo(
+    () => mapTripDetailsForModal(tripDetails),
+    [tripDetails],
+  );
+
+  if (isLoading) {
+    return <UpcomingTripsPageSkeleton />;
+  }
 
   return (
     <div className="mx-auto space-y-8">
       <UpcomingTripsHeader />
-      
+
       <div className="space-y-4">
-        {paginatedTrips.length > 0 ? (
-          paginatedTrips.map((trip) => (
-            <UpcomingTripCard 
-              key={trip.id} 
+        {trips.length > 0 ? (
+          trips.map((trip) => (
+            <UpcomingTripCard
+              key={`${trip.source}-${trip.id}`}
               trip={trip}
-              onViewDetails={handleViewDetails}
+              onViewDetails={() => setSelectedTrip({ id: trip.id, source: trip.source })}
             />
           ))
         ) : (
@@ -142,7 +96,7 @@ export default function UpcomingTrips() {
       </div>
 
       {totalItems > 0 && (
-        <Pagination 
+        <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
           totalItems={totalItems}
@@ -151,10 +105,10 @@ export default function UpcomingTrips() {
         />
       )}
 
-      {/* View Details Modal */}
-      <TripDetailsModal 
-        trip={selectedTrip} 
-        onClose={() => setSelectedTripId(null)} 
+      <TripDetailsModal
+        trip={modalTrip}
+        isLoading={Boolean(selectedTrip) && isDetailsLoading}
+        onClose={() => setSelectedTrip(null)}
       />
     </div>
   );

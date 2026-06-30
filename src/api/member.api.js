@@ -20,4 +20,20 @@ export const memberApi = {
   cancelReservation(reservationId) {
     return http.patch(`/member/reservations/${reservationId}/cancel`)
   },
+
+  getUpcomingTrips({ page = 1, limit = 4 } = {}) {
+    return http.get('/member/reservations/upcoming', { params: { page, limit } })
+  },
+
+  getReservationDetails(reservationId) {
+    return http.get(`/member/reservations/${reservationId}`)
+  },
+
+  getTravelPreferenceDetails(preferenceId) {
+    return http.get(`/member/travel-preferences/${preferenceId}`)
+  },
+
+  getCustomTravelDetails(interestId) {
+    return http.get(`/member/custom-travels/${interestId}`)
+  },
 }

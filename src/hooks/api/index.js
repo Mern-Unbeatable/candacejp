@@ -56,6 +56,8 @@ export {
   usePlaceMemberReservationMutation,
   useMemberPendingReservationsQuery,
   useCancelMemberReservationMutation,
+  useMemberUpcomingTripsQuery,
+  useMemberUpcomingTripDetailsQuery,
 } from './useMemberQueries'
 
 export {

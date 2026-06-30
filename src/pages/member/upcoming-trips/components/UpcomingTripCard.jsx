@@ -19,8 +19,10 @@ export default function UpcomingTripCard({ trip, onViewDetails }) {
                 {trip.route}
               </h3>
             </div>
-            {trip.type && (
-              <p className="text-xs md:text-sm text-gray-500 mt-0.5">{trip.type}</p>
+            {(trip.typeLabel || trip.type) && (
+              <p className="text-xs md:text-sm text-gray-500 mt-0.5">
+                {trip.typeLabel || trip.type}
+              </p>
             )}
           </div>
           
@@ -73,7 +75,7 @@ export default function UpcomingTripCard({ trip, onViewDetails }) {
         )}
         
         <button 
-          onClick={() => onViewDetails(trip.id)}
+          onClick={() => onViewDetails(trip)}
           className="flex w-full md:w-auto items-center justify-center gap-2 rounded-lg bg-[#257AFC] px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 transition-colors"
         >
           <Eye size={16} />

@@ -52,9 +52,41 @@ export function useCancelMemberReservationMutation() {
     mutationFn: (reservationId) => memberApi.cancelReservation(reservationId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [...queryKeys.member.all, 'pending-reservations'] })
+      queryClient.invalidateQueries({ queryKey: [...queryKeys.member.all, 'upcoming-trips'] })
       queryClient.invalidateQueries({ queryKey: queryKeys.member.reservations() })
       queryClient.invalidateQueries({ queryKey: queryKeys.member.overview() })
       queryClient.invalidateQueries({ queryKey: queryKeys.notifications.all })
     },
+  })
+}
+
+export function useMemberUpcomingTripsQuery(
+  { page = 1, limit = 4 } = {},
+  options = {},
+) {
+  return useQuery({
+    queryKey: queryKeys.member.upcomingTrips(page, limit),
+    queryFn: () => memberApi.getUpcomingTrips({ page, limit }),
+    ...options,
+  })
+}
+
+export function useMemberUpcomingTripDetailsQuery(trip, options = {}) {
+  return useQuery({
+    queryKey: queryKeys.member.upcomingTripDetails(trip?.source, trip?.id),
+    queryFn: async () => {
+      if (trip.source === 'RESERVATION') {
+        return memberApi.getReservationDetails(trip.id)
+      }
+      if (trip.source === 'TRAVEL_PREFERENCE') {
+        return memberApi.getTravelPreferenceDetails(trip.id)
+      }
+      if (trip.source === 'CUSTOM_TRAVEL') {
+        return memberApi.getCustomTravelDetails(trip.id)
+      }
+      throw new Error('Unknown trip source')
+    },
+    enabled: Boolean(trip?.id && trip?.source),
+    ...options,
   })
 }
