@@ -18,8 +18,30 @@ const EMPTY_PASSENGER = {
   phone: '',
 };
 
+const TRIP_TYPE_STORAGE_KEY = 'member-custom-travel-trip-type';
+
+function getStoredTripType() {
+  try {
+    const stored = sessionStorage.getItem(TRIP_TYPE_STORAGE_KEY);
+    if (stored === 'Round trip' || stored === 'One Way') {
+      return stored;
+    }
+  } catch {
+    // ignore storage errors
+  }
+  return 'One Way';
+}
+
+function storeTripType(tripType) {
+  try {
+    sessionStorage.setItem(TRIP_TYPE_STORAGE_KEY, tripType);
+  } catch {
+    // ignore storage errors
+  }
+}
+
 const INITIAL_FORM = {
-  tripType: 'One Way',
+  tripType: getStoredTripType(),
   origin: '',
   destination: '',
   returnOrigin: '',
@@ -43,9 +65,10 @@ function mapUserToPassenger(user) {
   };
 }
 
-function createInitialForm(profile) {
+function createInitialForm(profile, tripType = getStoredTripType()) {
   return {
     ...INITIAL_FORM,
+    tripType,
     passengers: [mapUserToPassenger(profile)],
   };
 }
@@ -128,7 +151,7 @@ function validateForm(form) {
 }
 
 export default function CustomTravel() {
-  const [form, setForm] = useState(() => createInitialForm());
+  const [form, setForm] = useState(() => createInitialForm(undefined, getStoredTripType()));
   const [hasPrefilledUser, setHasPrefilledUser] = useState(false);
   const { data: profile } = useCurrentUserQuery();
   const { mutateAsync: createCustomTravel, isPending: isSubmitting } =
@@ -202,7 +225,7 @@ export default function CustomTravel() {
 
     try {
       await createCustomTravel(buildPayload(form));
-      setForm(createInitialForm(profile));
+      setForm(createInitialForm(profile, form.tripType));
       toast.success('Custom travel request submitted successfully.');
     } catch (error) {
       toast.error(getApiErrorMessage(error, 'Failed to submit custom travel request.'));
@@ -216,7 +239,8 @@ export default function CustomTravel() {
       <div className="mb-8 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm md:p-8">
         <RouteDetailsSection
           tripType={form.tripType}
-          setTripType={(tripType) =>
+          setTripType={(tripType) => {
+            storeTripType(tripType);
             setForm((prev) => {
               const next = { ...prev, tripType };
               if (tripType === 'Round trip' && next.origin && next.destination) {
@@ -224,8 +248,8 @@ export default function CustomTravel() {
                 next.returnDestination = next.origin;
               }
               return next;
-            })
-          }
+            });
+          }}
           origin={form.origin}
           onRouteChange={handleRouteChange}
           destination={form.destination}
