@@ -189,9 +189,18 @@ export default function CalendarDemand() {
     }
   }, []);
 
-  const handleMessage = () => {
-    navigate("/concierge/message");
-  };
+  const handleMessage = (member) => {
+    if (member?.memberId) {
+      const params = new URLSearchParams({ memberId: member.memberId })
+      if (member.memberName) {
+        params.set('memberName', member.memberName)
+      }
+      navigate(`/concierge/message?${params.toString()}`)
+      return
+    }
+
+    navigate('/concierge/message')
+  }
 
   const interests = data?.interests ?? [];
   const routeSummary = data?.routeSummary ?? [];

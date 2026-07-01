@@ -227,18 +227,17 @@ export default function OpportunitiesDetails() {
 
 
   const handleMessageTraveler = (traveler) => {
-
     if (traveler.memberId) {
-
-      navigate(`/concierge/message?memberId=${traveler.memberId}`);
-
-      return;
-
+      const params = new URLSearchParams({ memberId: traveler.memberId })
+      if (traveler.fullName) {
+        params.set('memberName', traveler.fullName)
+      }
+      navigate(`/concierge/message?${params.toString()}`)
+      return
     }
 
-    navigate("/concierge/message");
-
-  };
+    navigate('/concierge/message')
+  }
 
 
 

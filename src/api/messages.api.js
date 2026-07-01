@@ -15,4 +15,12 @@ export const messagesApi = {
   markSeen(payload) {
     return http.patch('/messages/seen', payload)
   },
+
+  updateMessage(messageId, content) {
+    return http.patch(`/messages/${messageId}`, { content })
+  },
+
+  deleteMessage(messageId) {
+    return http.delete(`/messages/${messageId}`)
+  },
 }

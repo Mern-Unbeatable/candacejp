@@ -1,5 +1,5 @@
 import React from "react";
-import { MoreVertical } from "lucide-react";
+import { MessageSquare, MoreVertical } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export default function MembersInterestMobileCards({
@@ -13,6 +13,18 @@ export default function MembersInterestMobileCards({
   pendingActionId,
 }) {
   const navigate = useNavigate();
+
+  const handleMessageMember = (row) => {
+    if (!row.memberId) {
+      return;
+    }
+
+    const params = new URLSearchParams({ memberId: row.memberId });
+    if (row.name) {
+      params.set("memberName", row.name);
+    }
+    navigate(`/concierge/message?${params.toString()}`);
+  };
 
   return (
     <div className="mb-6 space-y-4 md:hidden">
@@ -31,17 +43,30 @@ export default function MembersInterestMobileCards({
                 <p className="text-base font-semibold text-gray-900">{row.name}</p>
                 <p className="text-sm text-gray-500">{row.email}</p>
               </div>
-              <button
-                type="button"
-                disabled={isPending}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  toggleDropdown(mobileId);
-                }}
-                className="rounded-full p-1 text-gray-500 transition-colors hover:bg-gray-100 disabled:opacity-60"
-              >
-                <MoreVertical size={20} />
-              </button>
+              <div className="flex items-center gap-1">
+                {row.memberId && (
+                  <button
+                    type="button"
+                    disabled={isPending}
+                    onClick={() => handleMessageMember(row)}
+                    className="rounded-full p-1.5 text-[#257AFC] transition-colors hover:bg-[#E5EEFF] disabled:opacity-60"
+                    aria-label={`Message ${row.name}`}
+                  >
+                    <MessageSquare size={18} />
+                  </button>
+                )}
+                <button
+                  type="button"
+                  disabled={isPending}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleDropdown(mobileId);
+                  }}
+                  className="rounded-full p-1 text-gray-500 transition-colors hover:bg-gray-100 disabled:opacity-60"
+                >
+                  <MoreVertical size={20} />
+                </button>
+              </div>
 
               {openDropdownId === mobileId && (
                 <div
