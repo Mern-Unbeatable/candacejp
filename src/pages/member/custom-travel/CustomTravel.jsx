@@ -6,6 +6,7 @@ import PassengerInformationSection from './components/PassengerInformationSectio
 import WhatHappensNext from './components/WhatHappensNext';
 import { useCreateMemberCustomTravelMutation } from '../../../hooks/api/useMemberQueries';
 import { useCurrentUserQuery } from '../../../hooks/api/useAuthQueries';
+import { applyCustomTravelRouteChange } from '../travel-preferences/routeOptions';
 import { getApiErrorMessage } from '../../../hooks/useApiError';
 
 const EMPTY_PASSENGER = {
@@ -180,6 +181,10 @@ export default function CustomTravel() {
     setForm((prev) => ({ ...prev, ...updates }));
   };
 
+  const handleRouteChange = (field, value) => {
+    setForm((prev) => applyCustomTravelRouteChange(field, value, prev));
+  };
+
   const handlePassengerChange = (index, field, value) => {
     setForm((prev) => {
       const passengers = [...prev.passengers];
@@ -211,15 +216,21 @@ export default function CustomTravel() {
       <div className="mb-8 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm md:p-8">
         <RouteDetailsSection
           tripType={form.tripType}
-          setTripType={(tripType) => updateForm({ tripType })}
+          setTripType={(tripType) =>
+            setForm((prev) => {
+              const next = { ...prev, tripType };
+              if (tripType === 'Round trip' && next.origin && next.destination) {
+                next.returnOrigin = next.destination;
+                next.returnDestination = next.origin;
+              }
+              return next;
+            })
+          }
           origin={form.origin}
-          setOrigin={(origin) => updateForm({ origin })}
+          onRouteChange={handleRouteChange}
           destination={form.destination}
-          setDestination={(destination) => updateForm({ destination })}
           returnOrigin={form.returnOrigin}
-          setReturnOrigin={(returnOrigin) => updateForm({ returnOrigin })}
           returnDestination={form.returnDestination}
-          setReturnDestination={(returnDestination) => updateForm({ returnDestination })}
           departureDate={form.departureDate}
           setDepartureDate={(departureDate) => updateForm({ departureDate })}
           returnDate={form.returnDate}

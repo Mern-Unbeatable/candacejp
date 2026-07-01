@@ -1,47 +1,48 @@
 import React from 'react';
-import { MapPin, Calendar, Minus, Plus, ChevronDown } from "lucide-react";
+import { MapPin, Calendar, Minus, Plus, ChevronDown } from 'lucide-react';
+import { MEMBER_ROUTE_OPTIONS } from '../../travel-preferences/routeOptions';
 
-export default function RouteDetailsSection({ 
-  tripType, 
+export default function RouteDetailsSection({
+  tripType,
   setTripType,
   origin,
-  setOrigin,
   destination,
-  setDestination,
   returnOrigin,
-  setReturnOrigin,
   returnDestination,
-  setReturnDestination,
+  onRouteChange,
   departureDate,
   setDepartureDate,
   returnDate,
   setReturnDate,
   passengerCount,
-  setPassengerCount
+  setPassengerCount,
 }) {
   return (
-    <div className="border-b border-gray-100 pb-8 mb-8">
-      <h2 className="text-sm md:text-base font-bold text-gray-900 mb-6">Route Details</h2>
-      
-      {/* Trip Type Toggle */}
+    <div className="mb-8 border-b border-gray-100 pb-8">
+      <h2 className="mb-6 text-sm font-bold text-gray-900 md:text-base">Route Details</h2>
+
       <div className="mb-6">
-        <label className="block text-xs md:text-sm font-semibold text-gray-700 mb-2">Trip Type</label>
+        <label className="mb-2 block text-xs font-semibold text-gray-700 md:text-sm">
+          Trip Type
+        </label>
         <div className="inline-flex rounded-full bg-[#F4F5F6] p-1">
           <button
+            type="button"
             onClick={() => setTripType('One Way')}
-            className={`rounded-full px-5 py-2 text-xs md:text-sm font-semibold transition-all ${
-              tripType === 'One Way' 
-                ? 'bg-[#257AFC] text-white shadow-sm' 
+            className={`rounded-full px-5 py-2 text-xs font-semibold transition-all md:text-sm ${
+              tripType === 'One Way'
+                ? 'bg-[#257AFC] text-white shadow-sm'
                 : 'text-gray-500 hover:text-gray-700'
             }`}
           >
             One Way
           </button>
           <button
+            type="button"
             onClick={() => setTripType('Round trip')}
-            className={`rounded-full px-5 py-2 text-xs md:text-sm font-semibold transition-all ${
-              tripType === 'Round trip' 
-                ? 'bg-[#257AFC] text-white shadow-sm' 
+            className={`rounded-full px-5 py-2 text-xs font-semibold transition-all md:text-sm ${
+              tripType === 'Round trip'
+                ? 'bg-[#257AFC] text-white shadow-sm'
                 : 'text-gray-500 hover:text-gray-700'
             }`}
           >
@@ -50,22 +51,28 @@ export default function RouteDetailsSection({
         </div>
       </div>
 
-      {/* Locations */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2">
         <div>
-          <label className="block text-xs md:text-sm font-semibold text-gray-700 mb-2">Origin</label>
+          <label className="mb-2 block text-xs font-semibold text-gray-700 md:text-sm">
+            Origin
+          </label>
           <div className="relative">
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
               <MapPin size={16} className="text-gray-400" />
             </div>
             <select
               value={origin}
-              onChange={(e) => setOrigin(e.target.value)}
-              className="w-full rounded-xl border border-gray-200 bg-[#F8FAFC] pl-10 pr-10 py-3 text-sm md:text-base text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all appearance-none cursor-pointer"
+              onChange={(e) => onRouteChange('origin', e.target.value)}
+              className="w-full cursor-pointer appearance-none rounded-xl border border-gray-200 bg-[#F8FAFC] py-3 pl-10 pr-10 text-sm text-gray-900 outline-none transition-all focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] md:text-base"
             >
-              <option value="" disabled>Select origin</option>
-              <option value="NYC">NYC</option>
-              <option value="TAMPA">TAMPA</option>
+              <option value="" disabled>
+                Select origin
+              </option>
+              {MEMBER_ROUTE_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
             </select>
             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
               <ChevronDown size={16} className="text-gray-400" />
@@ -73,19 +80,26 @@ export default function RouteDetailsSection({
           </div>
         </div>
         <div>
-          <label className="block text-xs md:text-sm font-semibold text-gray-700 mb-2">Destination</label>
+          <label className="mb-2 block text-xs font-semibold text-gray-700 md:text-sm">
+            Destination
+          </label>
           <div className="relative">
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
               <MapPin size={16} className="text-gray-400" />
             </div>
             <select
               value={destination}
-              onChange={(e) => setDestination(e.target.value)}
-              className="w-full rounded-xl border border-gray-200 bg-[#F8FAFC] pl-10 pr-10 py-3 text-sm md:text-base text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all appearance-none cursor-pointer"
+              onChange={(e) => onRouteChange('destination', e.target.value)}
+              className="w-full cursor-pointer appearance-none rounded-xl border border-gray-200 bg-[#F8FAFC] py-3 pl-10 pr-10 text-sm text-gray-900 outline-none transition-all focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] md:text-base"
             >
-              <option value="" disabled>Select destination</option>
-              <option value="NYC">NYC</option>
-              <option value="TAMPA">TAMPA</option>
+              <option value="" disabled>
+                Select destination
+              </option>
+              {MEMBER_ROUTE_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
             </select>
             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
               <ChevronDown size={16} className="text-gray-400" />
@@ -95,21 +109,28 @@ export default function RouteDetailsSection({
       </div>
 
       {tripType === 'Round trip' && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2">
           <div>
-            <label className="block text-xs md:text-sm font-semibold text-gray-700 mb-2">Return Origin</label>
+            <label className="mb-2 block text-xs font-semibold text-gray-700 md:text-sm">
+              Return Origin
+            </label>
             <div className="relative">
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
                 <MapPin size={16} className="text-gray-400" />
               </div>
               <select
                 value={returnOrigin}
-                onChange={(e) => setReturnOrigin(e.target.value)}
-                className="w-full rounded-xl border border-gray-200 bg-[#F8FAFC] pl-10 pr-10 py-3 text-sm md:text-base text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all appearance-none cursor-pointer"
+                onChange={(e) => onRouteChange('returnOrigin', e.target.value)}
+                className="w-full cursor-pointer appearance-none rounded-xl border border-gray-200 bg-[#F8FAFC] py-3 pl-10 pr-10 text-sm text-gray-900 outline-none transition-all focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] md:text-base"
               >
-                <option value="" disabled>Select return origin</option>
-                <option value="NYC">NYC</option>
-                <option value="TAMPA">TAMPA</option>
+                <option value="" disabled>
+                  Select return origin
+                </option>
+                {MEMBER_ROUTE_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
               </select>
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
                 <ChevronDown size={16} className="text-gray-400" />
@@ -117,19 +138,26 @@ export default function RouteDetailsSection({
             </div>
           </div>
           <div>
-            <label className="block text-xs md:text-sm font-semibold text-gray-700 mb-2">Return Destination</label>
+            <label className="mb-2 block text-xs font-semibold text-gray-700 md:text-sm">
+              Return Destination
+            </label>
             <div className="relative">
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
                 <MapPin size={16} className="text-gray-400" />
               </div>
               <select
                 value={returnDestination}
-                onChange={(e) => setReturnDestination(e.target.value)}
-                className="w-full rounded-xl border border-gray-200 bg-[#F8FAFC] pl-10 pr-10 py-3 text-sm md:text-base text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all appearance-none cursor-pointer"
+                onChange={(e) => onRouteChange('returnDestination', e.target.value)}
+                className="w-full cursor-pointer appearance-none rounded-xl border border-gray-200 bg-[#F8FAFC] py-3 pl-10 pr-10 text-sm text-gray-900 outline-none transition-all focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] md:text-base"
               >
-                <option value="" disabled>Select return destination</option>
-                <option value="NYC">NYC</option>
-                <option value="TAMPA">TAMPA</option>
+                <option value="" disabled>
+                  Select return destination
+                </option>
+                {MEMBER_ROUTE_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
               </select>
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
                 <ChevronDown size={16} className="text-gray-400" />
@@ -139,10 +167,13 @@ export default function RouteDetailsSection({
         </div>
       )}
 
-      {/* Dates */}
-      <div className={`grid grid-cols-1 ${tripType === 'Round trip' ? 'md:grid-cols-2' : ''} gap-4 mb-8`}>
+      <div
+        className={`mb-8 grid grid-cols-1 gap-4 ${tripType === 'Round trip' ? 'md:grid-cols-2' : ''}`}
+      >
         <div>
-          <label className="block text-xs md:text-sm font-semibold text-gray-700 mb-2">Preferred Departure</label>
+          <label className="mb-2 block text-xs font-semibold text-gray-700 md:text-sm">
+            Preferred Departure
+          </label>
           <div className="relative">
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
               <Calendar size={16} className="text-gray-400" />
@@ -154,13 +185,15 @@ export default function RouteDetailsSection({
                 if (e.target.showPicker) e.target.showPicker();
               }}
               onChange={(e) => setDepartureDate(e.target.value)}
-              className="w-full rounded-xl border border-gray-200 bg-[#F8FAFC] pl-10 pr-4 py-3 text-sm md:text-base text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all cursor-pointer"
+              className="w-full cursor-pointer rounded-xl border border-gray-200 bg-[#F8FAFC] py-3 pl-10 pr-4 text-sm text-gray-900 outline-none transition-all focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] md:text-base"
             />
           </div>
         </div>
         {tripType === 'Round trip' && (
           <div>
-            <label className="block text-xs md:text-sm font-semibold text-gray-700 mb-2">Return Date</label>
+            <label className="mb-2 block text-xs font-semibold text-gray-700 md:text-sm">
+              Return Date
+            </label>
             <div className="relative">
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
                 <Calendar size={16} className="text-gray-400" />
@@ -172,16 +205,17 @@ export default function RouteDetailsSection({
                   if (e.target.showPicker) e.target.showPicker();
                 }}
                 onChange={(e) => setReturnDate(e.target.value)}
-                className="w-full rounded-xl border border-gray-200 bg-[#F8FAFC] pl-10 pr-4 py-3 text-sm md:text-base text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all cursor-pointer"
+                className="w-full cursor-pointer rounded-xl border border-gray-200 bg-[#F8FAFC] py-3 pl-10 pr-4 text-sm text-gray-900 outline-none transition-all focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] md:text-base"
               />
             </div>
           </div>
         )}
       </div>
 
-      {/* Passenger Count */}
       <div>
-        <label className="block text-xs md:text-sm font-semibold text-gray-700 mb-4">Number Of Passenger</label>
+        <label className="mb-4 block text-xs font-semibold text-gray-700 md:text-sm">
+          Number Of Passenger
+        </label>
         <div className="flex items-center gap-10">
           <button
             type="button"
@@ -190,10 +224,14 @@ export default function RouteDetailsSection({
           >
             <Minus size={18} />
           </button>
-          <div className="text-center flex flex-col items-center">
-            <span className="block text-3xl font-bold text-gray-900 leading-none">{passengerCount}</span>
-            <span className="text-xs md:text-sm uppercase tracking-wider text-gray-600 font-bold mt-1">seat{passengerCount !== 1 ? 's' : ''}</span>
-            <span className="text-xs font-semibold text-[#257AFC] mt-1">6 seats available</span>
+          <div className="flex flex-col items-center text-center">
+            <span className="block text-3xl font-bold leading-none text-gray-900">
+              {passengerCount}
+            </span>
+            <span className="mt-1 text-xs font-bold uppercase tracking-wider text-gray-600 md:text-sm">
+              seat{passengerCount !== 1 ? 's' : ''}
+            </span>
+            <span className="mt-1 text-xs font-semibold text-[#257AFC]">6 seats available</span>
           </div>
           <button
             type="button"
@@ -205,7 +243,6 @@ export default function RouteDetailsSection({
           </button>
         </div>
       </div>
-
     </div>
   );
 }
