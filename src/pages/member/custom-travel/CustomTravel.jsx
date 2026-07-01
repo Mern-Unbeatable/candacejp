@@ -1,31 +1,130 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import CustomTravelHeader from './components/CustomTravelHeader';
 import RouteDetailsSection from './components/RouteDetailsSection';
 import PassengerInformationSection from './components/PassengerInformationSection';
 import WhatHappensNext from './components/WhatHappensNext';
+import { useCreateMemberCustomTravelMutation } from '../../../hooks/api/useMemberQueries';
+import { getApiErrorMessage } from '../../../hooks/useApiError';
+
+const EMPTY_PASSENGER = {
+  firstName: '',
+  lastName: '',
+  address: '',
+  zip: '',
+  email: '',
+  phone: '',
+};
+
+const INITIAL_FORM = {
+  tripType: 'One Way',
+  origin: '',
+  destination: '',
+  returnOrigin: '',
+  returnDestination: '',
+  departureDate: '',
+  returnDate: '',
+  passengerCount: 1,
+  specialRequests: '',
+};
+
+function createInitialForm() {
+  return {
+    ...INITIAL_FORM,
+    passengers: [{ ...EMPTY_PASSENGER }],
+  };
+}
+
+function buildPayload(form) {
+  const tripType = form.tripType === 'Round trip' ? 'ROUND_TRIP' : 'ONE_WAY';
+  const payload = {
+    tripType,
+    origin: form.origin,
+    destination: form.destination,
+    departureDate: form.departureDate,
+    passengerCount: form.passengerCount,
+    passengers: form.passengers.map((passenger) => ({
+      firstName: passenger.firstName.trim(),
+      lastName: passenger.lastName.trim(),
+      address: passenger.address.trim(),
+      zip: passenger.zip.trim(),
+      email: passenger.email.trim(),
+      phone: passenger.phone.trim(),
+    })),
+    specialRequests: form.specialRequests.trim() || undefined,
+  };
+
+  if (tripType === 'ROUND_TRIP') {
+    payload.returnOrigin = form.returnOrigin;
+    payload.returnDestination = form.returnDestination;
+    payload.returnDate = form.returnDate;
+  }
+
+  return payload;
+}
+
+function validateForm(form) {
+  if (!form.origin || !form.destination) {
+    return 'Origin and destination are required.';
+  }
+
+  if (form.origin === form.destination) {
+    return 'Origin and destination must be different.';
+  }
+
+  if (!form.departureDate) {
+    return 'Preferred departure date is required.';
+  }
+
+  if (form.tripType === 'Round trip') {
+    if (!form.returnOrigin || !form.returnDestination) {
+      return 'Return origin and return destination are required for round trips.';
+    }
+    if (form.returnOrigin === form.returnDestination) {
+      return 'Return origin and return destination must be different.';
+    }
+    if (!form.returnDate) {
+      return 'Return date is required for round trips.';
+    }
+    if (form.returnDate <= form.departureDate) {
+      return 'Return date must be after departure date.';
+    }
+  }
+
+  const incompletePassenger = form.passengers.some(
+    (passenger) =>
+      !passenger.firstName.trim() ||
+      !passenger.lastName.trim() ||
+      !passenger.address.trim() ||
+      !passenger.zip.trim() ||
+      !passenger.email.trim() ||
+      !passenger.phone.trim(),
+  );
+
+  if (incompletePassenger) {
+    return 'Complete all passenger information fields.';
+  }
+
+  if (form.passengers.length !== form.passengerCount) {
+    return 'Passenger count must match the number of passenger records.';
+  }
+
+  return null;
+}
 
 export default function CustomTravel() {
-  const [tripType, setTripType] = useState('One Way');
-  const [origin, setOrigin] = useState('');
-  const [destination, setDestination] = useState('');
-  const [returnOrigin, setReturnOrigin] = useState('');
-  const [returnDestination, setReturnDestination] = useState('');
-  const [departureDate, setDepartureDate] = useState('');
-  const [returnDate, setReturnDate] = useState('');
-  
-  const [passengerCount, setPassengerCount] = useState(3);
-  const [passengers, setPassengers] = useState([
-    { firstName: '', lastName: '', address: '', zip: '', email: '', phone: '' },
-    { firstName: '', lastName: '', address: '', zip: '', email: '', phone: '' },
-    { firstName: '', lastName: '', address: '', zip: '', email: '', phone: '' }
-  ]);
-  const [specialRequests, setSpecialRequests] = useState('');
+  const [form, setForm] = useState(createInitialForm);
+  const { mutateAsync: createCustomTravel, isPending: isSubmitting } =
+    useCreateMemberCustomTravelMutation();
 
   useEffect(() => {
-    document.title = "Custom Travel - Member | RAVEN";
+    document.title = 'Custom Travel - Member | RAVEN';
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute('content', 'Request custom travel arrangements tailored to your desires.');
+      metaDescription.setAttribute(
+        'content',
+        'Request custom travel arrangements tailored to your desires.',
+      );
     } else {
       const newMeta = document.createElement('meta');
       newMeta.name = 'description';
@@ -34,67 +133,84 @@ export default function CustomTravel() {
     }
   }, []);
 
-  // Sync passengers array with passengerCount
   useEffect(() => {
-    setPassengers(prev => {
-      const currentLength = prev.length;
-      if (passengerCount > currentLength) {
-        // Add empty objects
-        const newPassengers = [...prev];
-        for (let i = 0; i < passengerCount - currentLength; i++) {
-          newPassengers.push({ firstName: '', lastName: '', address: '', zip: '', email: '', phone: '' });
+    setForm((prev) => {
+      const currentLength = prev.passengers.length;
+      if (prev.passengerCount > currentLength) {
+        const passengers = [...prev.passengers];
+        for (let i = 0; i < prev.passengerCount - currentLength; i += 1) {
+          passengers.push({ ...EMPTY_PASSENGER });
         }
-        return newPassengers;
-      } else if (passengerCount < currentLength) {
-        // Remove objects from the end
-        return prev.slice(0, passengerCount);
+        return { ...prev, passengers };
+      }
+      if (prev.passengerCount < currentLength) {
+        return { ...prev, passengers: prev.passengers.slice(0, prev.passengerCount) };
       }
       return prev;
     });
-  }, [passengerCount]);
+  }, [form.passengerCount]);
+
+  const updateForm = (updates) => {
+    setForm((prev) => ({ ...prev, ...updates }));
+  };
 
   const handlePassengerChange = (index, field, value) => {
-    setPassengers(prev => {
-      const newPassengers = [...prev];
-      newPassengers[index] = { ...newPassengers[index], [field]: value };
-      return newPassengers;
+    setForm((prev) => {
+      const passengers = [...prev.passengers];
+      passengers[index] = { ...passengers[index], [field]: value };
+      return { ...prev, passengers };
     });
   };
 
-  const handleSubmit = () => {
-    alert("Custom Travel request successfully submitted!");
+  const handleSubmit = async () => {
+    const validationError = validateForm(form);
+    if (validationError) {
+      toast.error(validationError);
+      return;
+    }
+
+    try {
+      await createCustomTravel(buildPayload(form));
+      setForm(createInitialForm());
+      toast.success('Custom travel request submitted successfully.');
+    } catch (error) {
+      toast.error(getApiErrorMessage(error, 'Failed to submit custom travel request.'));
+    }
   };
 
   return (
     <div className="mx-auto pb-12">
       <CustomTravelHeader />
-      
-      <div className="rounded-2xl border border-gray-100 bg-white p-6 md:p-8 shadow-sm mb-8">
-        <RouteDetailsSection 
-          tripType={tripType}
-          setTripType={setTripType}
-          origin={origin}
-          setOrigin={setOrigin}
-          destination={destination}
-          setDestination={setDestination}
-          returnOrigin={returnOrigin}
-          setReturnOrigin={setReturnOrigin}
-          returnDestination={returnDestination}
-          setReturnDestination={setReturnDestination}
-          departureDate={departureDate}
-          setDepartureDate={setDepartureDate}
-          returnDate={returnDate}
-          setReturnDate={setReturnDate}
-          passengerCount={passengerCount}
-          setPassengerCount={setPassengerCount}
+
+      <div className="mb-8 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm md:p-8">
+        <RouteDetailsSection
+          tripType={form.tripType}
+          setTripType={(tripType) => updateForm({ tripType })}
+          origin={form.origin}
+          setOrigin={(origin) => updateForm({ origin })}
+          destination={form.destination}
+          setDestination={(destination) => updateForm({ destination })}
+          returnOrigin={form.returnOrigin}
+          setReturnOrigin={(returnOrigin) => updateForm({ returnOrigin })}
+          returnDestination={form.returnDestination}
+          setReturnDestination={(returnDestination) => updateForm({ returnDestination })}
+          departureDate={form.departureDate}
+          setDepartureDate={(departureDate) => updateForm({ departureDate })}
+          returnDate={form.returnDate}
+          setReturnDate={(returnDate) => updateForm({ returnDate })}
+          passengerCount={form.passengerCount}
+          setPassengerCount={(passengerCount) =>
+            updateForm({ passengerCount: Math.min(8, Math.max(1, passengerCount)) })
+          }
         />
 
-        <PassengerInformationSection 
-          passengers={passengers}
+        <PassengerInformationSection
+          passengers={form.passengers}
           handlePassengerChange={handlePassengerChange}
-          specialRequests={specialRequests}
-          setSpecialRequests={setSpecialRequests}
+          specialRequests={form.specialRequests}
+          setSpecialRequests={(specialRequests) => updateForm({ specialRequests })}
           onSubmit={handleSubmit}
+          isSubmitting={isSubmitting}
         />
       </div>
 

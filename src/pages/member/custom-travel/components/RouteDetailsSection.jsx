@@ -184,8 +184,9 @@ export default function RouteDetailsSection({
         <label className="block text-xs md:text-sm font-semibold text-gray-700 mb-4">Number Of Passenger</label>
         <div className="flex items-center gap-10">
           <button
+            type="button"
             onClick={() => setPassengerCount(Math.max(1, passengerCount - 1))}
-            className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#E0EDFF] text-[#257AFC] hover:bg-blue-100 transition-colors"
+            className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#E0EDFF] text-[#257AFC] transition-colors hover:bg-blue-100"
           >
             <Minus size={18} />
           </button>
@@ -195,8 +196,10 @@ export default function RouteDetailsSection({
             <span className="text-xs font-semibold text-[#257AFC] mt-1">6 seats available</span>
           </div>
           <button
-            onClick={() => setPassengerCount(passengerCount + 1)}
-            className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#257AFC] text-white hover:bg-blue-700 transition-colors shadow-sm"
+            type="button"
+            onClick={() => setPassengerCount(Math.min(8, passengerCount + 1))}
+            disabled={passengerCount >= 8}
+            className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#257AFC] text-white shadow-sm transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <Plus size={18} />
           </button>

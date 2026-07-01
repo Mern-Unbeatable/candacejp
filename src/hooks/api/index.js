@@ -61,6 +61,7 @@ export {
   useMemberTravelPreferencesQuery,
   useCreateMemberTravelPreferenceMutation,
   useDeleteMemberTravelPreferenceMutation,
+  useCreateMemberCustomTravelMutation,
 } from './useMemberQueries'
 
 export {

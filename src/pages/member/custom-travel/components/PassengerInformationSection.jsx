@@ -6,7 +6,8 @@ export default function PassengerInformationSection({
   handlePassengerChange,
   specialRequests,
   setSpecialRequests,
-  onSubmit 
+  onSubmit,
+  isSubmitting = false,
 }) {
   return (
     <div>
@@ -103,12 +104,14 @@ export default function PassengerInformationSection({
       </p>
 
       {/* Submit Button */}
-      <button 
+      <button
+        type="button"
         onClick={onSubmit}
-        className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#257AFC] py-3.5 text-sm md:text-base font-semibold text-white shadow-sm hover:bg-blue-700 transition-colors"
+        disabled={isSubmitting}
+        className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#257AFC] py-3.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60 md:text-base"
       >
         <Send size={16} />
-        Submit Request
+        {isSubmitting ? 'Submitting...' : 'Submit Request'}
       </button>
     </div>
   );

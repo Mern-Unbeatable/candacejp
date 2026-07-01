@@ -124,3 +124,15 @@ export function useDeleteMemberTravelPreferenceMutation() {
     },
   })
 }
+
+export function useCreateMemberCustomTravelMutation() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (payload) => memberApi.createCustomTravel(payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [...queryKeys.member.all, 'upcoming-trips'] })
+      queryClient.invalidateQueries({ queryKey: queryKeys.member.overview() })
+    },
+  })
+}

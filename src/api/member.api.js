@@ -48,4 +48,8 @@ export const memberApi = {
   getCustomTravelDetails(interestId) {
     return http.get(`/member/custom-travels/${interestId}`)
   },
+
+  createCustomTravel(payload) {
+    return http.post('/member/custom-travels', payload)
+  },
 }

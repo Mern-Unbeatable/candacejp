@@ -23,6 +23,7 @@ import UpcomingTripsPageSkeleton from "../components/common/skeletons/UpcomingTr
 import NotificationPageSkeleton from "../components/common/skeletons/NotificationPageSkeleton";
 import MemberProfilePageSkeleton from "../components/common/skeletons/MemberProfilePageSkeleton";
 import TravelPreferencesPageSkeleton from "../components/common/skeletons/TravelPreferencesPageSkeleton";
+import CustomTravelPageSkeleton from "../components/common/skeletons/CustomTravelPageSkeleton";
 
 const PageSpinner = () => (
   <div className="flex h-screen items-center justify-center">
@@ -68,7 +69,10 @@ const TravelPreferences = Loadable(
   lazy(() => import("../pages/member/travel-preferences/TravelPreferences")),
   <TravelPreferencesPageSkeleton />,
 );
-const CustomTravel = Loadable(lazy(() => import("../pages/member/custom-travel/CustomTravel")));
+const CustomTravel = Loadable(
+  lazy(() => import("../pages/member/custom-travel/CustomTravel")),
+  <CustomTravelPageSkeleton />,
+);
 const Message = Loadable(lazy(() => import("../pages/member/message/Message")));
 const Notification = Loadable(
   lazy(() => import("../pages/member/notification/Notification")),
