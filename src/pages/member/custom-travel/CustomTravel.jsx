@@ -5,6 +5,7 @@ import RouteDetailsSection from './components/RouteDetailsSection';
 import PassengerInformationSection from './components/PassengerInformationSection';
 import WhatHappensNext from './components/WhatHappensNext';
 import { useCreateMemberCustomTravelMutation } from '../../../hooks/api/useMemberQueries';
+import { useCurrentUserQuery } from '../../../hooks/api/useAuthQueries';
 import { getApiErrorMessage } from '../../../hooks/useApiError';
 
 const EMPTY_PASSENGER = {
@@ -28,10 +29,23 @@ const INITIAL_FORM = {
   specialRequests: '',
 };
 
-function createInitialForm() {
+function mapUserToPassenger(user) {
+  if (!user) return { ...EMPTY_PASSENGER };
+
+  return {
+    firstName: user.firstName || '',
+    lastName: user.lastName || '',
+    address: user.address || '',
+    zip: user.zipCode || '',
+    email: user.email || '',
+    phone: user.phone || '',
+  };
+}
+
+function createInitialForm(profile) {
   return {
     ...INITIAL_FORM,
-    passengers: [{ ...EMPTY_PASSENGER }],
+    passengers: [mapUserToPassenger(profile)],
   };
 }
 
@@ -113,7 +127,9 @@ function validateForm(form) {
 }
 
 export default function CustomTravel() {
-  const [form, setForm] = useState(createInitialForm);
+  const [form, setForm] = useState(() => createInitialForm());
+  const [hasPrefilledUser, setHasPrefilledUser] = useState(false);
+  const { data: profile } = useCurrentUserQuery();
   const { mutateAsync: createCustomTravel, isPending: isSubmitting } =
     useCreateMemberCustomTravelMutation();
 
@@ -132,6 +148,16 @@ export default function CustomTravel() {
       document.head.appendChild(newMeta);
     }
   }, []);
+
+  useEffect(() => {
+    if (!profile || hasPrefilledUser) return;
+
+    setForm((prev) => ({
+      ...prev,
+      passengers: [mapUserToPassenger(profile), ...prev.passengers.slice(1)],
+    }));
+    setHasPrefilledUser(true);
+  }, [profile, hasPrefilledUser]);
 
   useEffect(() => {
     setForm((prev) => {
@@ -171,7 +197,7 @@ export default function CustomTravel() {
 
     try {
       await createCustomTravel(buildPayload(form));
-      setForm(createInitialForm());
+      setForm(createInitialForm(profile));
       toast.success('Custom travel request submitted successfully.');
     } catch (error) {
       toast.error(getApiErrorMessage(error, 'Failed to submit custom travel request.'));
