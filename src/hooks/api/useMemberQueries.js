@@ -90,3 +90,37 @@ export function useMemberUpcomingTripDetailsQuery(trip, options = {}) {
     ...options,
   })
 }
+
+export function useMemberTravelPreferencesQuery(options = {}) {
+  return useQuery({
+    queryKey: queryKeys.member.travelPreferences(),
+    queryFn: () => memberApi.getTravelPreferences(),
+    ...options,
+  })
+}
+
+export function useCreateMemberTravelPreferenceMutation() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (payload) => memberApi.createTravelPreference(payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.member.travelPreferences() })
+      queryClient.invalidateQueries({ queryKey: [...queryKeys.member.all, 'upcoming-trips'] })
+      queryClient.invalidateQueries({ queryKey: queryKeys.member.overview() })
+    },
+  })
+}
+
+export function useDeleteMemberTravelPreferenceMutation() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (preferenceId) => memberApi.deleteTravelPreference(preferenceId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.member.travelPreferences() })
+      queryClient.invalidateQueries({ queryKey: [...queryKeys.member.all, 'upcoming-trips'] })
+      queryClient.invalidateQueries({ queryKey: queryKeys.member.overview() })
+    },
+  })
+}

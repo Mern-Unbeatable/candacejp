@@ -33,6 +33,18 @@ export const memberApi = {
     return http.get(`/member/travel-preferences/${preferenceId}`)
   },
 
+  getTravelPreferences() {
+    return http.get('/member/travel-preferences')
+  },
+
+  createTravelPreference(payload) {
+    return http.post('/member/travel-preferences', payload)
+  },
+
+  deleteTravelPreference(preferenceId) {
+    return http.delete(`/member/travel-preferences/${preferenceId}`)
+  },
+
   getCustomTravelDetails(interestId) {
     return http.get(`/member/custom-travels/${interestId}`)
   },

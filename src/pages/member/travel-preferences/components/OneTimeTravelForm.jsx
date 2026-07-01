@@ -1,116 +1,73 @@
 import React from 'react';
-import { ArrowRight, Plus, X, ChevronDown } from "lucide-react";
+import { Plus, ChevronDown } from 'lucide-react';
+import DirectionFields from './DirectionFields';
 
-export default function OneTimeTravelForm({ forms, onAddForm, onRemoveForm, onChange }) {
+export default function OneTimeTravelForm({ form, onChange, onAdd, isAdding = false }) {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="font-serif text-xl font-bold text-gray-900 tracking-tight mb-1">
+        <h2 className="mb-1 font-serif text-xl font-bold tracking-tight text-gray-900">
           One-Time Travel Requests
         </h2>
-        <p className="text-sm md:text-base text-gray-600">
-          Add specific trips you're planning. These help us identify demand spikes for curated flights.
+        <p className="text-sm text-gray-600 md:text-base">
+          Add specific trips you're planning. These help us identify demand spikes for curated
+          flights.
         </p>
       </div>
 
-      <div className="space-y-4">
-        {forms.map((form, index) => (
-          <div key={form.id} className="relative rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
-            {/* Close button if there's more than one form */}
-            {forms.length > 1 && (
-              <button 
-                onClick={() => onRemoveForm(form.id)}
-                className="absolute top-4 right-4 p-1 text-gray-500 hover:text-gray-700 transition-colors"
-              >
-                <X size={16} />
-              </button>
-            )}
+      <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+        <div className="space-y-5">
+          <DirectionFields from={form.from} to={form.to} onChange={onChange} />
 
-            <div className="space-y-5">
-              {/* Direction */}
-              <div>
-                <label className="block text-xs font-semibold text-gray-700 mb-2">Direction</label>
-                <div className="flex flex-col md:flex-row md:items-center gap-3">
-                  <div className="relative w-full">
-                    <select
-                      value={form.from}
-                      onChange={(e) => onChange(form.id, 'from', e.target.value)}
-                      className="w-full rounded-xl border border-gray-200 bg-[#F8FAFC] px-4 py-3 pr-10 text-sm text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all appearance-none cursor-pointer"
-                    >
-                      <option value="" disabled>From</option>
-                      <option value="NYC">NYC</option>
-                      <option value="TAMPA">TAMPA</option>
-                    </select>
-                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
-                      <ChevronDown size={16} className="text-gray-400" />
-                    </div>
-                  </div>
-                  <div className="flex justify-center hidden md:block">
-                    <ArrowRight size={16} className="text-gray-500" />
-                  </div>
-                  <div className="relative w-full">
-                    <select
-                      value={form.to}
-                      onChange={(e) => onChange(form.id, 'to', e.target.value)}
-                      className="w-full rounded-xl border border-gray-200 bg-[#F8FAFC] px-4 py-3 pr-10 text-sm text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all appearance-none cursor-pointer"
-                    >
-                      <option value="" disabled>To</option>
-                      <option value="NYC">NYC</option>
-                      <option value="TAMPA">TAMPA</option>
-                    </select>
-                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
-                      <ChevronDown size={16} className="text-gray-400" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Date & Time */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-2">Date</label>
-                  <input 
-                    type="date"
-                    value={form.date}
-                    onClick={(e) => {
-                      if (e.target.showPicker) {
-                        e.target.showPicker();
-                      }
-                    }}
-                    onChange={(e) => onChange(form.id, 'date', e.target.value)}
-                    className="w-full rounded-xl border border-gray-200 bg-[#F8FAFC] px-4 py-3 text-sm text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all cursor-pointer"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-2">Preferred Time</label>
-                  <div className="relative">
-                    <select 
-                      value={form.time}
-                      onChange={(e) => onChange(form.id, 'time', e.target.value)}
-                      className="w-full rounded-xl border border-gray-200 bg-[#F8FAFC] px-4 py-3 pr-10 text-sm text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all appearance-none cursor-pointer"
-                    >
-                      <option value="" disabled>Select time</option>
-                      <option value="Morning">Morning</option>
-                      <option value="Afternoon">Afternoon</option>
-                      <option value="Evening">Evening</option>
-                    </select>
-                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
-                      <ChevronDown size={16} className="text-gray-400" />
-                    </div>
-                  </div>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div>
+              <label className="mb-2 block text-xs font-semibold text-gray-700">Date</label>
+              <input
+                type="date"
+                value={form.date}
+                onClick={(e) => {
+                  if (e.target.showPicker) {
+                    e.target.showPicker();
+                  }
+                }}
+                onChange={(e) => onChange('date', e.target.value)}
+                className="w-full cursor-pointer rounded-xl border border-gray-200 bg-[#F8FAFC] px-4 py-3 text-sm text-gray-900 outline-none transition-all focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC]"
+              />
+            </div>
+            <div>
+              <label className="mb-2 block text-xs font-semibold text-gray-700">
+                Preferred Time
+              </label>
+              <div className="relative">
+                <select
+                  value={form.time}
+                  onChange={(e) => onChange('time', e.target.value)}
+                  className="w-full cursor-pointer appearance-none rounded-xl border border-gray-200 bg-[#F8FAFC] px-4 py-3 pr-10 text-sm text-gray-900 outline-none transition-all focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC]"
+                >
+                  <option value="" disabled>
+                    Select time
+                  </option>
+                  <option value="Morning">Morning</option>
+                  <option value="Afternoon">Afternoon</option>
+                  <option value="Evening">Evening</option>
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
+                  <ChevronDown size={16} className="text-gray-400" />
                 </div>
               </div>
             </div>
           </div>
-        ))}
+        </div>
       </div>
 
-      <button 
-        onClick={onAddForm}
-        className="flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white py-3.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-colors shadow-sm"
+      <button
+        type="button"
+        onClick={onAdd}
+        disabled={isAdding}
+        className="flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white py-3.5 text-sm font-semibold text-gray-700 shadow-sm transition-colors hover:border-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60"
       >
         <Plus size={16} />
-        Add One-Time Travel
+        {isAdding ? 'Adding...' : 'Add One-Time Travel'}
       </button>
     </div>
   );

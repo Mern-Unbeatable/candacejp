@@ -1,7 +1,13 @@
 import React from 'react';
 import { X, ArrowRight } from "lucide-react";
 
-export default function SavedPreferences({ recurring, oneTime, onRemoveRecurring, onRemoveOneTime }) {
+export default function SavedPreferences({
+  recurring,
+  oneTime,
+  onRemoveRecurring,
+  onRemoveOneTime,
+  deletingId = null,
+}) {
   if (recurring.length === 0 && oneTime.length === 0) return null;
 
   return (
@@ -32,9 +38,11 @@ export default function SavedPreferences({ recurring, oneTime, onRemoveRecurring
                   <span className="text-xs md:text-sm text-gray-600">{item.day}</span>
                   <span className="text-xs md:text-sm text-gray-600">{item.time}</span>
                 </div>
-                <button 
+                <button
+                  type="button"
                   onClick={() => onRemoveRecurring(item.id)}
-                  className="p-1 text-gray-500 hover:text-gray-700 transition-colors"
+                  disabled={deletingId === item.id}
+                  className="p-1 text-gray-500 transition-colors hover:text-gray-700 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <X size={16} />
                 </button>
@@ -61,9 +69,11 @@ export default function SavedPreferences({ recurring, oneTime, onRemoveRecurring
                   <span className="text-xs md:text-sm text-gray-600">{item.date}</span>
                   <span className="text-xs md:text-sm text-gray-600">{item.time}</span>
                 </div>
-                <button 
+                <button
+                  type="button"
                   onClick={() => onRemoveOneTime(item.id)}
-                  className="p-1 text-gray-500 hover:text-gray-700 transition-colors"
+                  disabled={deletingId === item.id}
+                  className="p-1 text-gray-500 transition-colors hover:text-gray-700 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <X size={16} />
                 </button>

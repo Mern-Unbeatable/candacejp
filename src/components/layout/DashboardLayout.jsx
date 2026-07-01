@@ -1,4 +1,4 @@
-import { Link, Outlet, useLocation, ScrollRestoration } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import {
   LayoutDashboard,
   Plane,
@@ -115,6 +115,16 @@ export default function DashboardLayout() {
     }
   }, [sidebarOpen]);
 
+  useEffect(() => {
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+  }, []);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }, [location.pathname]);
+
   let sidebarLinks = [];
   let headerLabel = "Dashboard";
 
@@ -205,7 +215,6 @@ export default function DashboardLayout() {
 
   return (
     <div className="flex min-h-screen bg-[#F9FAFB]">
-      <ScrollRestoration />
       <aside className="hidden w-64 flex-col border-r border-ink-50 bg-white lg:flex sticky top-0 h-screen">
         <SidebarContent />
       </aside>
