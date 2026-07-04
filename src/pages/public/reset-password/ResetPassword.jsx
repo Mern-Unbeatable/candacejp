@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { authApi } from '../../../api/auth.api'
+import { getApiErrorMessage } from '../../../hooks/useApiError'
 
 export default function ResetPassword() {
   useEffect(() => {
@@ -18,6 +20,15 @@ export default function ResetPassword() {
   }, []);
 
   const navigate = useNavigate()
+  const location = useLocation()
+  const resetToken = location.state?.resetToken
+
+  useEffect(() => {
+    if (!resetToken) {
+      navigate('/forgot-password', { replace: true })
+    }
+  }, [resetToken, navigate])
+
   const [passwords, setPasswords] = useState({ newPassword: '', confirmPassword: '' })
   const [isLoading, setIsLoading] = useState(false)
 
@@ -27,19 +38,37 @@ export default function ResetPassword() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    if (!resetToken) return
     
     if (passwords.newPassword !== passwords.confirmPassword) {
       toast.error('Passwords do not match')
       return
     }
 
+    if (passwords.newPassword.length < 8) {
+      toast.error('Password must be at least 8 characters long')
+      return
+    }
+
     setIsLoading(true)
-    // Simulate API call to reset password
-    setTimeout(() => {
-      setIsLoading(false)
+
+    try {
+      await authApi.resetPassword({
+        resetToken,
+        password: passwords.newPassword,
+      })
       toast.success('Password reset successfully!')
       navigate('/login')
-    }, 1000)
+    } catch (error) {
+      toast.error(getApiErrorMessage(error, 'Unable to reset password.'))
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  if (!resetToken) {
+    return null
   }
 
   return (

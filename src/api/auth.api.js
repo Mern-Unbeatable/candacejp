@@ -29,6 +29,10 @@ export const authApi = {
     return http.post('/auth/forgot-password', { email })
   },
 
+  verifyOtp(data) {
+    return http.post('/auth/verify-otp', data)
+  },
+
   resetPassword(data) {
     return http.post('/auth/reset-password', data)
   },
