@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Filter } from "lucide-react";
+import { Filter, Search } from "lucide-react";
 import toast from "react-hot-toast";
 import Pagination from "../../../components/common/Pagination";
 import TravelPreferencesTable from "./components/TravelPreferencesTable";
@@ -36,6 +36,8 @@ export default function TravelPreferences() {
   const dropdownRef = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPreferenceId, setSelectedPreferenceId] = useState(null);
+  const [searchInput, setSearchInput] = useState("");
+  const [search, setSearch] = useState("");
 
   const preferenceType = TAB_TO_TYPE[activeTab];
 
@@ -45,6 +47,7 @@ export default function TravelPreferences() {
     type: preferenceType,
     direction: directionFilter,
     status: statusFilter,
+    search,
   });
 
   const { mutateAsync: updateStatus } = useUpdateTravelPreferenceStatusMutation();
@@ -57,6 +60,15 @@ export default function TravelPreferences() {
   useEffect(() => {
     document.title = "Travel Preferences - Concierge | RAVEN";
   }, []);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setSearch(searchInput.trim());
+      setCurrentPage(1);
+    }, 300);
+
+    return () => window.clearTimeout(timer);
+  }, [searchInput]);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -207,6 +219,19 @@ export default function TravelPreferences() {
 
           <StatusFilter value={statusFilter} onChange={handleStatusFilterChange} />
         </div>
+      </div>
+
+      <div className="relative mb-6">
+        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+          <Search size={18} className="text-gray-400" />
+        </div>
+        <input
+          type="search"
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
+          placeholder="Search by member name or email..."
+          className="w-full rounded-xl border border-gray-200 bg-white py-3 pl-11 pr-4 text-sm text-gray-900 shadow-sm placeholder:text-gray-400 focus:border-[#257AFC] focus:outline-none focus:ring-1 focus:ring-[#257AFC]"
+        />
       </div>
 
       {isLoading ? (

@@ -170,6 +170,14 @@ export default function TravelPreferencesMobileCards({
             </div>
 
             <div className="grid grid-cols-2 gap-y-3 gap-x-4 text-base mt-5">
+              <div className="col-span-2">
+                <p className="text-gray-500 text-sm mb-0.5">Name</p>
+                <p className="font-medium text-gray-900">{row.memberName || "—"}</p>
+              </div>
+              <div className="col-span-2">
+                <p className="text-gray-500 text-sm mb-0.5">Email</p>
+                <p className="font-medium text-gray-900 break-all">{row.memberEmail || "—"}</p>
+              </div>
               <div>
                 <p className="text-gray-500 text-sm mb-0.5">Date</p>
                 <p className="font-medium text-gray-900">{row.date}</p>

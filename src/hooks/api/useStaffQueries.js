@@ -142,12 +142,12 @@ export function useUpdateOpportunityStatusMutation() {
 }
 
 export function useStaffTravelPreferencesQuery(
-  { page = 1, limit = 10, type, direction = 'all', status = 'all' } = {},
+  { page = 1, limit = 10, type, direction = 'all', status = 'all', search = '' } = {},
   options = {},
 ) {
   return useQuery({
-    queryKey: queryKeys.staff.travelPreferences(page, limit, type, direction, status),
-    queryFn: () => staffApi.getTravelPreferences({ page, limit, type, direction, status }),
+    queryKey: queryKeys.staff.travelPreferences(page, limit, type, direction, status, search),
+    queryFn: () => staffApi.getTravelPreferences({ page, limit, type, direction, status, search }),
     ...staffLiveQueryOptions,
     ...options,
   })

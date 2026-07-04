@@ -129,9 +129,11 @@ export default function TravelPreferencesTable({
     <>
       <div className="hidden md:block bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse min-w-[800px]">
+          <table className="w-full text-left border-collapse min-w-[1100px]">
             <thead>
               <tr className="border-b border-gray-100 bg-white">
+                <th className="py-4 px-6 text-sm font-semibold text-gray-900">Name</th>
+                <th className="py-4 px-6 text-sm font-semibold text-gray-900">Email</th>
                 <th className="py-4 px-6 text-sm font-semibold text-gray-900">Route</th>
                 <th className="py-4 px-6 text-sm font-semibold text-gray-900">Date</th>
                 <th className="py-4 px-6 text-sm font-semibold text-gray-900">Preffered Time</th>
@@ -147,6 +149,12 @@ export default function TravelPreferencesTable({
                     idx !== paginatedData.length - 1 ? "border-b border-gray-100" : ""
                   }`}
                 >
+                  <td className="py-4 px-6 text-sm font-medium text-gray-900">
+                    {row.memberName || "—"}
+                  </td>
+                  <td className="py-4 px-6 text-sm text-gray-600">
+                    {row.memberEmail || "—"}
+                  </td>
                   <td className="py-4 px-6">
                     <span className="inline-flex flex-col items-center justify-center bg-[#1B325F] text-white text-[11px] md:text-sm font-semibold px-4 py-1.5 rounded-full leading-tight text-center whitespace-normal">
                       {row.route}

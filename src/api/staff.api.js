@@ -61,9 +61,10 @@ export const staffApi = {
     type,
     direction = 'all',
     status = 'all',
+    search = '',
   } = {}) {
     return http.get('/staff/travel-preferences', {
-      params: { page, limit, type, direction, status },
+      params: { page, limit, type, direction, status, search },
     })
   },
 

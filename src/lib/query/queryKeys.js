@@ -53,10 +53,10 @@ export const queryKeys = {
       { page, limit, direction, status },
     ],
     opportunity: (id) => [...queryKeys.staff.all, 'opportunity', id],
-    travelPreferences: (page, limit, type, direction, status) => [
+    travelPreferences: (page, limit, type, direction, status, search) => [
       ...queryKeys.staff.all,
       'travel-preferences',
-      { page, limit, type, direction, status },
+      { page, limit, type, direction, status, search },
     ],
     travelPreference: (id) => [...queryKeys.staff.all, 'travel-preference', id],
   },
