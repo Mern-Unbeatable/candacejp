@@ -15,9 +15,9 @@ export const staffApi = {
     return http.get('/staff/dashboard/calendar', { params: cleanParams })
   },
 
-  getMemberInterests({ page = 1, limit = 10, direction = 'all', status = 'all' } = {}) {
+  getMemberInterests({ page = 1, limit = 10, direction = 'all', status = 'all', search = '', date = '' } = {}) {
     return http.get('/staff/member-interests', {
-      params: { page, limit, direction, status },
+      params: { page, limit, direction, status, search, date },
     })
   },
 

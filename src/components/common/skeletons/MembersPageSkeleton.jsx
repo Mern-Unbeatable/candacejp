@@ -82,6 +82,83 @@ export function MembersContentSkeleton() {
   )
 }
 
+export function MembersInterestContentSkeleton({ rows = 7 } = {}) {
+  const columns = 7
+
+  return (
+    <>
+      <div className="hidden overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm md:block">
+        <table className="w-full min-w-[900px] border-collapse text-left text-sm">
+          <thead className="border-b border-gray-100 bg-[#F8F9FA]">
+            <tr>
+              {Array.from({ length: columns }).map((_, index) => (
+                <th key={index} className="px-6 py-4">
+                  <SkeletonBlock className="h-3 w-20" />
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-100">
+            {Array.from({ length: rows }).map((_, index) => (
+              <tr key={index}>
+                <td className="px-6 py-4">
+                  <SkeletonBlock className="mb-2 h-4 w-28" />
+                  <SkeletonBlock className="h-3 w-36" />
+                </td>
+                <td className="px-6 py-4">
+                  <SkeletonBlock className="h-4 w-24" />
+                </td>
+                <td className="px-6 py-4">
+                  <SkeletonBlock className="h-7 w-24 rounded-full" />
+                </td>
+                {Array.from({ length: columns - 4 }).map((__, cellIndex) => (
+                  <td key={cellIndex} className="px-6 py-4">
+                    <SkeletonBlock className="h-4 w-16" />
+                  </td>
+                ))}
+                <td className="px-6 py-4 text-center">
+                  <div className="flex items-center justify-center gap-1">
+                    <SkeletonBlock className="h-8 w-8 rounded-full" />
+                    <SkeletonBlock className="h-8 w-8 rounded-full" />
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="mt-6 flex flex-col gap-4 md:hidden">
+        {Array.from({ length: 4 }).map((_, index) => (
+          <div key={index} className="rounded-xl border border-gray-100 bg-white p-5 shadow-sm">
+            <div className="mb-4 flex items-start justify-between">
+              <div className="space-y-2">
+                <SkeletonBlock className="h-5 w-32" />
+                <SkeletonBlock className="h-4 w-44" />
+              </div>
+              <div className="flex gap-1">
+                <SkeletonBlock className="h-8 w-8 rounded-full" />
+                <SkeletonBlock className="h-8 w-8 rounded-full" />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <SkeletonBlock className="h-10" />
+              <SkeletonBlock className="h-10" />
+              <SkeletonBlock className="h-10" />
+              <SkeletonBlock className="h-10" />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-6 flex items-center justify-between rounded-2xl border border-gray-100 bg-white px-4 py-3 shadow-sm sm:px-6">
+        <SkeletonBlock className="hidden h-4 w-48 sm:block" />
+        <SkeletonBlock className="h-9 w-56" />
+      </div>
+    </>
+  )
+}
+
 export function TravelPreferencesContentSkeleton({ rows = 7 } = {}) {
   const columns = 7
 

@@ -39,12 +39,12 @@ export function useStaffDashboardCalendarQuery(params = {}, options = {}) {
 }
 
 export function useStaffMemberInterestsQuery(
-  { page = 1, limit = 10, direction = 'all', status = 'all' } = {},
+  { page = 1, limit = 10, direction = 'all', status = 'all', search = '', date = '' } = {},
   options = {},
 ) {
   return useQuery({
-    queryKey: queryKeys.staff.memberInterests(page, limit, direction, status),
-    queryFn: () => staffApi.getMemberInterests({ page, limit, direction, status }),
+    queryKey: queryKeys.staff.memberInterests(page, limit, direction, status, search, date),
+    queryFn: () => staffApi.getMemberInterests({ page, limit, direction, status, search, date }),
     ...staffLiveQueryOptions,
     ...options,
   })

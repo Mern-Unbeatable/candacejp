@@ -42,10 +42,10 @@ export const queryKeys = {
     all: ['staff'],
     dashboardSummary: () => [...queryKeys.staff.all, 'dashboard-summary'],
     dashboardCalendar: (params = {}) => [...queryKeys.staff.all, 'dashboard-calendar', params],
-    memberInterests: (page, limit, direction, status) => [
+    memberInterests: (page, limit, direction, status, search, date) => [
       ...queryKeys.staff.all,
       'member-interests',
-      { page, limit, direction, status },
+      { page, limit, direction, status, search, date },
     ],
     opportunities: (page, limit, direction, status, date) => [
       ...queryKeys.staff.all,

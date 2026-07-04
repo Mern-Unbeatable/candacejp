@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Search } from "lucide-react";
 import toast from "react-hot-toast";
 import Pagination from "../../../components/common/Pagination";
 import MembersInterestHeader from "./components/MembersInterestHeader";
 import MembersInterestTable from "./components/MembersInterestTable";
 import MembersInterestMobileCards from "./components/MembersInterestMobileCards";
-import { MembersContentSkeleton } from "../../../components/common/skeletons/MembersPageSkeleton";
+import { MembersInterestContentSkeleton } from "../../../components/common/skeletons/MembersPageSkeleton";
 import {
   useConfirmMemberInterestMutation,
   useDeleteMemberInterestMutation,
@@ -32,6 +33,9 @@ export default function MembersInterest() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const [pendingActionId, setPendingActionId] = useState(null);
+  const [searchInput, setSearchInput] = useState("");
+  const [search, setSearch] = useState("");
+  const [departureDateFilter, setDepartureDateFilter] = useState("");
   const itemsPerPage = 7;
   const dropdownRef = useRef(null);
 
@@ -40,6 +44,8 @@ export default function MembersInterest() {
     limit: itemsPerPage,
     direction: directionFilter,
     status: statusFilter,
+    search,
+    date: departureDateFilter,
   });
 
   const { mutateAsync: confirmInterest } = useConfirmMemberInterestMutation();
@@ -68,6 +74,15 @@ export default function MembersInterest() {
   }, []);
 
   useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setSearch(searchInput.trim());
+      setCurrentPage(1);
+    }, 300);
+
+    return () => window.clearTimeout(timer);
+  }, [searchInput]);
+
+  useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setOpenDropdownId(null);
@@ -94,6 +109,11 @@ export default function MembersInterest() {
 
   const handleStatusFilterChange = (value) => {
     setStatusFilter(value);
+    setCurrentPage(1);
+  };
+
+  const handleDepartureDateFilterChange = (value) => {
+    setDepartureDateFilter(value);
     setCurrentPage(1);
   };
 
@@ -156,11 +176,50 @@ export default function MembersInterest() {
         onStatusFilterChange={handleStatusFilterChange}
       />
 
+      <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center">
+        <div className="relative flex-1">
+          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+            <Search size={18} className="text-gray-400" />
+          </div>
+          <input
+            type="search"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            placeholder="Search by member name or email..."
+            className="w-full rounded-xl border border-gray-200 bg-white py-3 pl-11 pr-4 text-sm text-gray-900 shadow-sm placeholder:text-gray-400 focus:border-[#257AFC] focus:outline-none focus:ring-1 focus:ring-[#257AFC]"
+          />
+        </div>
+
+        <div className="flex w-full items-center gap-3 md:w-auto">
+          <label htmlFor="member-interest-date-filter" className="text-sm font-medium text-gray-700 whitespace-nowrap">
+            Departure Date
+          </label>
+          <input
+            id="member-interest-date-filter"
+            type="date"
+            value={departureDateFilter}
+            onChange={(e) => handleDepartureDateFilterChange(e.target.value)}
+            className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm cursor-pointer focus:border-[#257AFC] focus:outline-none focus:ring-1 focus:ring-[#257AFC] md:w-auto"
+          />
+          {departureDateFilter && (
+            <button
+              type="button"
+              onClick={() => handleDepartureDateFilterChange("")}
+              className="text-sm font-medium text-gray-500 hover:text-gray-900 whitespace-nowrap"
+            >
+              Clear
+            </button>
+          )}
+        </div>
+      </div>
+
       {isLoading ? (
-        <MembersContentSkeleton />
+        <MembersInterestContentSkeleton rows={itemsPerPage} />
       ) : interests.length === 0 ? (
-        <div className="mt-6 rounded-xl border border-gray-100 bg-white p-12 text-center text-gray-500 shadow-sm">
-          No member interests found.
+        <div className="rounded-xl border border-gray-100 bg-white p-12 text-center text-gray-500 shadow-sm">
+          {search || departureDateFilter
+            ? "No member interests found for your search or selected date."
+            : "No member interests found."}
         </div>
       ) : (
         <>
