@@ -61,7 +61,7 @@ function mapUserToPassenger(user) {
     address: user.address || '',
     zip: user.zipCode || '',
     email: user.email || '',
-    phone: user.phone || '',
+    phone: (user.phone || '').replace(/\D/g, ''),
   };
 }
 
@@ -143,6 +143,14 @@ function validateForm(form) {
     return 'Complete all passenger information fields.';
   }
 
+  const invalidPhonePassenger = form.passengers.find(
+    (passenger) => !/^\d{10,15}$/.test(passenger.phone.trim()),
+  );
+
+  if (invalidPhonePassenger) {
+    return 'Please enter a valid phone number (10-15 digits) for each passenger.';
+  }
+
   if (form.passengers.length !== form.passengerCount) {
     return 'Passenger count must match the number of passenger records.';
   }
@@ -209,9 +217,11 @@ export default function CustomTravel() {
   };
 
   const handlePassengerChange = (index, field, value) => {
+    const nextValue = field === 'phone' ? value.replace(/\D/g, '') : value;
+
     setForm((prev) => {
       const passengers = [...prev.passengers];
-      passengers[index] = { ...passengers[index], [field]: value };
+      passengers[index] = { ...passengers[index], [field]: nextValue };
       return { ...prev, passengers };
     });
   };

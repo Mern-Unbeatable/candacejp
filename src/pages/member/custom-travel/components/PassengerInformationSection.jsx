@@ -76,7 +76,10 @@ export default function PassengerInformationSection({
               <label className="block text-xs md:text-sm font-bold text-gray-900 mb-1.5 whitespace-nowrap">Phone</label>
               <input
                 type="tel"
-                placeholder="+1 (555) 123-4567"
+                inputMode="numeric"
+                maxLength={15}
+                pattern="\d{10,15}"
+                placeholder="15551234567"
                 value={passenger.phone}
                 onChange={(e) => handlePassengerChange(index, 'phone', e.target.value)}
                 className="w-full rounded-lg border border-gray-200 bg-[#F4F5F6] px-2 py-2 text-xs text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all"
