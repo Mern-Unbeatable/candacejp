@@ -1,6 +1,7 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { MoreVertical } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { MessageSquare, MoreVertical } from "lucide-react";
 
 const MENU_WIDTH = 144;
 const MENU_ESTIMATED_HEIGHT = 160;
@@ -86,9 +87,22 @@ export default function TravelPreferencesMobileCards({
   onCancel,
   pendingActionId,
 }) {
+  const navigate = useNavigate();
   const [menuAnchor, setMenuAnchor] = useState(null);
   const activeKey = openDropdownId?.startsWith("mobile-") ? openDropdownId : null;
   const activeRow = paginatedData.find((row) => `mobile-${row.id}` === activeKey);
+
+  const handleMessageMember = (row) => {
+    if (!row.memberId) {
+      return;
+    }
+
+    const params = new URLSearchParams({ memberId: row.memberId });
+    if (row.memberName) {
+      params.set("memberName", row.memberName);
+    }
+    navigate(`/concierge/message?${params.toString()}`);
+  };
 
   useEffect(() => {
     if (!openDropdownId) {
@@ -132,14 +146,27 @@ export default function TravelPreferencesMobileCards({
                   {row.status}
                 </span>
               </div>
-              <button
-                type="button"
-                onClick={(e) => handleToggleMenu(row, e)}
-                disabled={pendingActionId === row.id}
-                className="p-1 hover:bg-gray-100 rounded-full text-gray-500 transition-colors disabled:opacity-50"
-              >
-                <MoreVertical size={20} />
-              </button>
+              <div className="flex items-center gap-1">
+                {row.memberId && (
+                  <button
+                    type="button"
+                    disabled={pendingActionId === row.id}
+                    onClick={() => handleMessageMember(row)}
+                    className="inline-flex rounded-full p-1 text-[#257AFC] transition-colors hover:bg-[#E5EEFF] disabled:opacity-50"
+                    aria-label="Message member"
+                  >
+                    <MessageSquare size={18} />
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={(e) => handleToggleMenu(row, e)}
+                  disabled={pendingActionId === row.id}
+                  className="p-1 hover:bg-gray-100 rounded-full text-gray-500 transition-colors disabled:opacity-50"
+                >
+                  <MoreVertical size={20} />
+                </button>
+              </div>
             </div>
 
             <div className="grid grid-cols-2 gap-y-3 gap-x-4 text-base mt-5">

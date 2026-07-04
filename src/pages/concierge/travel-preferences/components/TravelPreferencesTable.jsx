@@ -1,6 +1,7 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { MoreVertical } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { MessageSquare, MoreVertical } from "lucide-react";
 
 const MENU_WIDTH = 144;
 const MENU_ESTIMATED_HEIGHT = 160;
@@ -86,8 +87,21 @@ export default function TravelPreferencesTable({
   onCancel,
   pendingActionId,
 }) {
+  const navigate = useNavigate();
   const [menuAnchor, setMenuAnchor] = useState(null);
   const activeRow = paginatedData.find((row) => row.id === openDropdownId);
+
+  const handleMessageMember = (row) => {
+    if (!row.memberId) {
+      return;
+    }
+
+    const params = new URLSearchParams({ memberId: row.memberId });
+    if (row.memberName) {
+      params.set("memberName", row.memberName);
+    }
+    navigate(`/concierge/message?${params.toString()}`);
+  };
 
   useEffect(() => {
     if (!openDropdownId) {
@@ -122,7 +136,7 @@ export default function TravelPreferencesTable({
                 <th className="py-4 px-6 text-sm font-semibold text-gray-900">Date</th>
                 <th className="py-4 px-6 text-sm font-semibold text-gray-900">Preffered Time</th>
                 <th className="py-4 px-6 text-sm font-semibold text-gray-900">Status</th>
-                <th className="py-4 px-6 text-sm font-semibold text-gray-900 text-center w-24">Action</th>
+                <th className="py-4 px-6 text-sm font-semibold text-gray-900 text-center w-32">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -147,15 +161,28 @@ export default function TravelPreferencesTable({
                       {row.status}
                     </span>
                   </td>
-                  <td className="py-4 px-6 relative text-center w-24">
-                    <button
-                      type="button"
-                      onClick={(e) => handleToggleMenu(row, e)}
-                      disabled={pendingActionId === row.id}
-                      className="p-2 hover:bg-gray-100 rounded-full text-gray-500 transition-colors inline-flex disabled:opacity-50"
-                    >
-                      <MoreVertical size={20} />
-                    </button>
+                  <td className="py-4 px-6 relative text-center w-32">
+                    <div className="inline-flex items-center justify-center gap-1">
+                      {row.memberId && (
+                        <button
+                          type="button"
+                          disabled={pendingActionId === row.id}
+                          onClick={() => handleMessageMember(row)}
+                          className="inline-flex rounded-full p-2 text-[#257AFC] transition-colors hover:bg-[#E5EEFF] disabled:opacity-50"
+                          aria-label="Message member"
+                        >
+                          <MessageSquare size={18} />
+                        </button>
+                      )}
+                      <button
+                        type="button"
+                        onClick={(e) => handleToggleMenu(row, e)}
+                        disabled={pendingActionId === row.id}
+                        className="p-2 hover:bg-gray-100 rounded-full text-gray-500 transition-colors inline-flex disabled:opacity-50"
+                      >
+                        <MoreVertical size={20} />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
