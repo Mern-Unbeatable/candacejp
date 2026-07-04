@@ -159,14 +159,14 @@ export function TravelPreferencesContentSkeleton({ rows = 7 } = {}) {
   )
 }
 
-export function OpportunitiesContentSkeleton() {
+export function OpportunitiesContentSkeleton({ rows = 7 } = {}) {
   const columns = 8
 
   return (
     <>
       <div className="hidden md:block overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm">
         <table className="w-full text-left text-sm">
-          <thead className="bg-[#F8FAFC]">
+          <thead className="border-b border-gray-100 bg-white">
             <tr>
               {Array.from({ length: columns }).map((_, index) => (
                 <th key={index} className="px-6 py-4">
@@ -176,14 +176,17 @@ export function OpportunitiesContentSkeleton() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
-            {Array.from({ length: 7 }).map((_, index) => (
+            {Array.from({ length: rows }).map((_, index) => (
               <tr key={index}>
-                {Array.from({ length: columns - 1 }).map((__, cellIndex) => (
-                  <td key={cellIndex} className="px-6 py-5">
+                <td className="px-6 py-4">
+                  <SkeletonBlock className="h-7 w-24 rounded-full" />
+                </td>
+                {Array.from({ length: columns - 2 }).map((__, cellIndex) => (
+                  <td key={cellIndex} className="px-6 py-4">
                     <SkeletonBlock className="h-4 w-20" />
                   </td>
                 ))}
-                <td className="px-6 py-5 text-center">
+                <td className="px-6 py-4 text-center">
                   <SkeletonBlock className="mx-auto h-8 w-8 rounded-lg" />
                 </td>
               </tr>
@@ -194,7 +197,18 @@ export function OpportunitiesContentSkeleton() {
 
       <div className="md:hidden flex flex-col gap-4">
         {Array.from({ length: 4 }).map((_, index) => (
-          <MobileCardSkeleton key={index} />
+          <div key={index} className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm">
+            <div className="mb-4 flex items-start justify-between">
+              <SkeletonBlock className="h-7 w-28 rounded-full" />
+              <SkeletonBlock className="h-8 w-8 rounded-lg" />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <SkeletonBlock className="h-4 w-24" />
+              <SkeletonBlock className="h-4 w-24" />
+              <SkeletonBlock className="h-4 w-20" />
+              <SkeletonBlock className="h-4 w-20" />
+            </div>
+          </div>
         ))}
       </div>
 

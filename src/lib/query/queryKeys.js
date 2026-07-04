@@ -47,10 +47,10 @@ export const queryKeys = {
       'member-interests',
       { page, limit, direction, status },
     ],
-    opportunities: (page, limit, direction, status) => [
+    opportunities: (page, limit, direction, status, date) => [
       ...queryKeys.staff.all,
       'opportunities',
-      { page, limit, direction, status },
+      { page, limit, direction, status, date },
     ],
     opportunity: (id) => [...queryKeys.staff.all, 'opportunity', id],
     travelPreferences: (page, limit, type, direction, status, search) => [

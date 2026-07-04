@@ -73,12 +73,12 @@ export function useDeleteMemberInterestMutation() {
 }
 
 export function useStaffOpportunitiesQuery(
-  { page = 1, limit = 10, direction = 'all', status = 'all' } = {},
+  { page = 1, limit = 10, direction = 'all', status = 'all', date = '' } = {},
   options = {},
 ) {
   return useQuery({
-    queryKey: queryKeys.staff.opportunities(page, limit, direction, status),
-    queryFn: () => staffApi.getOpportunities({ page, limit, direction, status }),
+    queryKey: queryKeys.staff.opportunities(page, limit, direction, status, date),
+    queryFn: () => staffApi.getOpportunities({ page, limit, direction, status, date }),
     ...staffLiveQueryOptions,
     ...options,
   })

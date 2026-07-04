@@ -45,6 +45,7 @@ export default function ConciergeOpportunities() {
   const [currentPage, setCurrentPage] = useState(1);
   const [openDropdownId, setOpenDropdownId] = useState(null);
   const [pendingActionId, setPendingActionId] = useState(null);
+  const [departureDateFilter, setDepartureDateFilter] = useState("");
   const itemsPerPage = 7;
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
@@ -56,6 +57,7 @@ export default function ConciergeOpportunities() {
     limit: itemsPerPage,
     direction: "all",
     status: TAB_TO_API_STATUS[activeTab] ?? "all",
+    date: departureDateFilter,
   });
 
   const { mutateAsync: updateStatus } = useUpdateOpportunityStatusMutation();
@@ -104,6 +106,11 @@ export default function ConciergeOpportunities() {
       return;
     }
     setSearchParams({ status }, { replace: true });
+  };
+
+  const handleDepartureDateFilterChange = (value) => {
+    setDepartureDateFilter(value);
+    setCurrentPage(1);
   };
 
   const handleViewDetails = (row) => {
@@ -249,13 +256,37 @@ export default function ConciergeOpportunities() {
             </button>
           ))}
         </div>
+
+        <div className="flex w-full md:w-auto items-center gap-3">
+          <label htmlFor="departure-date-filter" className="text-sm font-medium text-gray-700 whitespace-nowrap">
+            Departure Date
+          </label>
+          <input
+            id="departure-date-filter"
+            type="date"
+            value={departureDateFilter}
+            onChange={(e) => handleDepartureDateFilterChange(e.target.value)}
+            className="w-full md:w-auto rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm focus:border-[#257AFC] focus:outline-none focus:ring-1 focus:ring-[#257AFC]"
+          />
+          {departureDateFilter && (
+            <button
+              type="button"
+              onClick={() => handleDepartureDateFilterChange("")}
+              className="text-sm font-medium text-gray-500 hover:text-gray-900 whitespace-nowrap"
+            >
+              Clear
+            </button>
+          )}
+        </div>
       </div>
 
       {isLoading ? (
-        <OpportunitiesContentSkeleton />
+        <OpportunitiesContentSkeleton rows={itemsPerPage} />
       ) : opportunities.length === 0 ? (
         <div className="rounded-xl border border-gray-100 bg-white p-12 text-center text-gray-500 shadow-sm">
-          No opportunities found.
+          {departureDateFilter
+            ? "No opportunities found for the selected departure date."
+            : "No opportunities found."}
         </div>
       ) : (
         <>

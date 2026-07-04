@@ -29,9 +29,9 @@ export const staffApi = {
     return http.delete(`/staff/member-interests/${id}`)
   },
 
-  getOpportunities({ page = 1, limit = 10, direction = 'all', status = 'all' } = {}) {
+  getOpportunities({ page = 1, limit = 10, direction = 'all', status = 'all', date = '' } = {}) {
     return http.get('/staff/opportunities', {
-      params: { page, limit, direction, status },
+      params: { page, limit, direction, status, date },
     })
   },
 
