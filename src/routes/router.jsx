@@ -44,9 +44,9 @@ const FAQ = Loadable(lazy(() => import("../pages/public/FAQ/FAQ")));
 const Contact = Loadable(lazy(() => import("../pages/public/Contact/Contact")));
 const Login = Loadable(lazy(() => import("../pages/public/login/Login")), <AuthPageSkeleton variant="login" />);
 const Register = Loadable(lazy(() => import("../pages/public/register/Register")), <AuthPageSkeleton variant="register" />);
-const ForgotPassword = Loadable(lazy(() => import("../pages/public/forgot-password/ForgotPassword")));
-const VerifyOTP = Loadable(lazy(() => import("../pages/public/varify-otp/VerifyOTP")));
-const ResetPassword = Loadable(lazy(() => import("../pages/public/reset-password/ResetPassword")));
+const ForgotPassword = Loadable(lazy(() => import("../pages/public/forgot-password/ForgotPassword")), <AuthPageSkeleton variant="forgot-password" />);
+const VerifyOTP = Loadable(lazy(() => import("../pages/public/varify-otp/VerifyOTP")), <AuthPageSkeleton variant="verify-otp" />);
+const ResetPassword = Loadable(lazy(() => import("../pages/public/reset-password/ResetPassword")), <AuthPageSkeleton variant="reset-password" />);
 const PaymentSuccess = Loadable(lazy(() => import("../pages/public/payment-success/PaymentSuccess")));
 
 const Overview = Loadable(
