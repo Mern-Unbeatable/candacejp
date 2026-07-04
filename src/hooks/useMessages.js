@@ -185,7 +185,30 @@ export default function useMessages() {
     }
   }, [chats, activePartnerId, conversationsData?.conversations, partnerHint, threadData])
 
-  const partner = activeChat?.partner ?? threadData?.partner ?? null
+  const displayActiveChat = useMemo(() => {
+    if (!activeChat) {
+      return null
+    }
+
+    const threadPartner = threadData?.partner?.id === activeChat.id
+      ? threadData.partner
+      : null
+
+    if (!threadPartner) {
+      return activeChat
+    }
+
+    const mergedPartner = { ...activeChat.partner, ...threadPartner }
+
+    return {
+      ...activeChat,
+      partner: mergedPartner,
+      name: formatPartnerName(mergedPartner),
+      online: Boolean(mergedPartner.isOnline),
+    }
+  }, [activeChat, threadData?.partner])
+
+  const partner = displayActiveChat?.partner ?? threadData?.partner ?? null
 
   useEffect(() => {
     if (activePartnerId && threadData && !Array.isArray(threadData.messages)) {
@@ -332,7 +355,7 @@ export default function useMessages() {
     chats,
     messages,
     activePartnerId,
-    activeChat,
+    activeChat: displayActiveChat,
     search: searchInput,
     setSearch: setSearchInput,
     selectChat,
@@ -346,6 +369,6 @@ export default function useMessages() {
     actionMessageId,
     isLoading: isConversationsLoading || isThreadLoading,
     isFetching: isConversationsFetching || isThreadFetching,
-    sharedInbox: threadData?.sharedInbox ?? activeChat?.sharedInbox ?? false,
+    sharedInbox: threadData?.sharedInbox ?? displayActiveChat?.sharedInbox ?? false,
   }
 }

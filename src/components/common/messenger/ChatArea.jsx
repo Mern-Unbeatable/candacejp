@@ -127,7 +127,12 @@ export default function ChatArea({
         </div>
         <div>
           <h2 className="text-sm md:text-base font-bold text-[#257AFC]">{activeChat.name}</h2>
-          {sharedInbox && (
+          {sharedInbox && activeChat.partner?.email && (
+            <p className="text-[10px] md:text-xs font-medium text-gray-500 mt-0.5">
+              {activeChat.partner.email}
+            </p>
+          )}
+          {sharedInbox && !activeChat.partner?.email && (
             <p className="text-[10px] md:text-xs font-semibold text-gray-400 uppercase tracking-wider mt-0.5">
               Shared inbox
             </p>
