@@ -120,10 +120,13 @@ export default function Register() {
 
 
   const handleChange = (e) => {
+    const { name, value } = e.target
 
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-
-  };
+    setForm((prev) => ({
+      ...prev,
+      [name]: name === 'phoneNumber' ? value.replace(/\D/g, '') : value,
+    }))
+  }
 
 
 
@@ -141,7 +144,10 @@ export default function Register() {
 
     }
 
-
+    if (!/^\d{10,15}$/.test(form.phoneNumber.trim())) {
+      toast.error('Please enter a valid phone number (10-15 digits).')
+      return
+    }
 
     setIsLoading(true);
 
@@ -361,7 +367,7 @@ export default function Register() {
 
                 <label className="mb-2 block text-sm lg:text-base font-medium text-gray-700">Phone Number</label>
 
-                <input required type="tel" name="phoneNumber" value={form.phoneNumber} onChange={handleChange} className="w-full rounded-md border border-gray-300 px-4 py-3 text-sm text-gray-900 placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500" placeholder="Enter your phone number" />
+                <input required type="tel" inputMode="numeric" name="phoneNumber" value={form.phoneNumber} onChange={handleChange} maxLength={15} pattern="\d{10,15}" className="w-full rounded-md border border-gray-300 px-4 py-3 text-sm text-gray-900 placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500" placeholder="Enter your phone number" />
 
               </div>
 
