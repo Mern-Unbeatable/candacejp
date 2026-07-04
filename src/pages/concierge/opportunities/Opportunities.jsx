@@ -266,7 +266,7 @@ export default function ConciergeOpportunities() {
             type="date"
             value={departureDateFilter}
             onChange={(e) => handleDepartureDateFilterChange(e.target.value)}
-            className="w-full md:w-auto rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm focus:border-[#257AFC] focus:outline-none focus:ring-1 focus:ring-[#257AFC]"
+            className="w-full md:w-auto rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm cursor-pointer focus:border-[#257AFC] focus:outline-none focus:ring-1 focus:ring-[#257AFC]"
           />
           {departureDateFilter && (
             <button
