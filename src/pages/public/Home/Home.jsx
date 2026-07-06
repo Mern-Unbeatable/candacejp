@@ -7,6 +7,7 @@ import PrivateAviationDifference from "./components/PrivateAviationDifference";
 import SafetyStandards from "./components/SafetyStandards";
 import FAQ from "./components/FAQ";
 import HeroSection from "./components/HeroSection";
+import ExperienceBanner from "../../../components/layout/public/ExperienceBanner";
 
 export default function Home() {
   useEffect(() => {
@@ -32,6 +33,9 @@ export default function Home() {
       <PrivateAviationDifference />
       <SafetyStandards />
       <FAQ />
+      <ExperienceBanner
+      buttonText="Become a Member"
+      />
     </section>
   );
 }

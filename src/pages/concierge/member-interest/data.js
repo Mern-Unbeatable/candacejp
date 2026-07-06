@@ -17,7 +17,7 @@ export const INTEREST_DATA = [
     direction: "NYC → Tampa",
     type: "Round Trip",
     passengers: 6,
-    status: "Interested",
+    status: "Confirm",
   },
   {
     id: 3,

@@ -1,67 +1,74 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Filter, ChevronDown } from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
+import { Filter, Search } from "lucide-react";
+import toast from "react-hot-toast";
 import Pagination from "../../../components/common/Pagination";
 import TravelPreferencesTable from "./components/TravelPreferencesTable";
 import TravelPreferencesMobileCards from "./components/TravelPreferencesMobileCards";
 import TravelPreferencesModal from "./components/TravelPreferencesModal";
+import DirectionFilter from "../member-interest/components/DirectionFilter";
+import StatusFilter from "./components/StatusFilter";
+import { TravelPreferencesContentSkeleton } from "../../../components/common/skeletons/MembersPageSkeleton";
+import {
+  useStaffTravelPreferencesQuery,
+  useUpdateTravelPreferenceStatusMutation,
+} from "../../../hooks/api/useStaffQueries";
+import { getApiErrorMessage } from "../../../hooks/useApiError";
+import {
+  showConfirmAlert,
+  showSuccessAlert,
+} from "../../../utils/paymentAlerts";
 
-const MOCK_DATA = [
-  {
-    id: 1,
-    route: "TAMPA → NYC",
-    date: "16-05-2026",
-    time: "Morning",
-    status: "Interested",
-  },
-  {
-    id: 2,
-    route: "TAMPA → NYC",
-    date: "16-05-2026",
-    time: "Morning",
-    status: "Interested",
-  },
-  {
-    id: 3,
-    route: "NYC → Tampa",
-    date: "Friday",
-    time: "Evening",
-    status: "Confirmed",
-  },
-  {
-    id: 4,
-    route: "NYC → Tampa",
-    date: "Saturday",
-    time: "Afternoon",
-    status: "Interested",
-  },
-  {
-    id: 5,
-    route: "TAMPA → NYC",
-    date: "Monday",
-    time: "Morning",
-    status: "Interested",
-  },
-  {
-    id: 6,
-    route: "TAMPA → NYC",
-    date: "Sunday",
-    time: "Afternoon",
-    status: "Canceled",
-  },
-];
+const TABS = ["Recurring Travel", "One-Time Travel Requests"];
+
+const TAB_TO_TYPE = {
+  "Recurring Travel": "RECURRING",
+  "One-Time Travel Requests": "ONE_TIME",
+};
 
 export default function TravelPreferences() {
-  const [activeTab, setActiveTab] = useState("Recurring Travel");
+  const [activeTab, setActiveTab] = useState(TABS[0]);
+  const [directionFilter, setDirectionFilter] = useState("all");
+  const [statusFilter, setStatusFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 7;
   const [openDropdownId, setOpenDropdownId] = useState(null);
+  const [pendingActionId, setPendingActionId] = useState(null);
   const dropdownRef = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedDetails, setSelectedDetails] = useState(null);
+  const [selectedPreferenceId, setSelectedPreferenceId] = useState(null);
+  const [searchInput, setSearchInput] = useState("");
+  const [search, setSearch] = useState("");
+
+  const preferenceType = TAB_TO_TYPE[activeTab];
+
+  const { data, isLoading, isError } = useStaffTravelPreferencesQuery({
+    page: currentPage,
+    limit: itemsPerPage,
+    type: preferenceType,
+    direction: directionFilter,
+    status: statusFilter,
+    search,
+  });
+
+  const { mutateAsync: updateStatus } = useUpdateTravelPreferenceStatusMutation();
+
+  const preferences = data?.preferences ?? [];
+  const pagination = data?.pagination;
+  const totalItems = pagination?.total ?? 0;
+  const totalPages = pagination?.totalPages ?? 1;
 
   useEffect(() => {
     document.title = "Travel Preferences - Concierge | RAVEN";
   }, []);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setSearch(searchInput.trim());
+      setCurrentPage(1);
+    }, 300);
+
+    return () => window.clearTimeout(timer);
+  }, [searchInput]);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -73,8 +80,14 @@ export default function TravelPreferences() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    if (isError) {
+      toast.error("Unable to load travel preferences.");
+    }
+  }, [isError]);
+
   const toggleDropdown = (id) => {
-    setOpenDropdownId(openDropdownId === id ? null : id);
+    setOpenDropdownId(id);
   };
 
   const getStatusStyle = (status) => {
@@ -90,15 +103,79 @@ export default function TravelPreferences() {
     }
   };
 
-  const totalPages = Math.ceil(MOCK_DATA.length / itemsPerPage);
-  const paginatedData = MOCK_DATA.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage,
-  );
+  const handleDirectionFilterChange = (value) => {
+    setDirectionFilter(value);
+    setCurrentPage(1);
+  };
+
+  const handleStatusFilterChange = (value) => {
+    setStatusFilter(value);
+    setCurrentPage(1);
+  };
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    setCurrentPage(1);
+  };
+
+  const handleViewDetails = (row) => {
+    setOpenDropdownId(null);
+    setSelectedPreferenceId(row.id);
+    setIsModalOpen(true);
+  };
+
+  const handleConfirm = async (row) => {
+    const confirmed = await showConfirmAlert({
+      title: "Confirm preference?",
+      text: `Mark this travel preference as confirmed?`,
+      confirmButtonText: "Confirm",
+      cancelButtonText: "Cancel",
+    });
+
+    if (!confirmed) return;
+
+    setPendingActionId(row.id);
+    setOpenDropdownId(null);
+    try {
+      await updateStatus({ id: row.id, status: "Confirmed" });
+      await showSuccessAlert({
+        title: "Preference confirmed",
+        text: "The travel preference was confirmed successfully.",
+      });
+    } catch (error) {
+      toast.error(getApiErrorMessage(error, "Failed to confirm preference"));
+    } finally {
+      setPendingActionId(null);
+    }
+  };
+
+  const handleCancel = async (row) => {
+    const confirmed = await showConfirmAlert({
+      title: "Cancel preference?",
+      text: `Mark this travel preference as canceled?`,
+      confirmButtonText: "Cancel preference",
+      cancelButtonText: "Keep",
+    });
+
+    if (!confirmed) return;
+
+    setPendingActionId(row.id);
+    setOpenDropdownId(null);
+    try {
+      await updateStatus({ id: row.id, status: "Canceled" });
+      await showSuccessAlert({
+        title: "Preference canceled",
+        text: "The travel preference was canceled successfully.",
+      });
+    } catch (error) {
+      toast.error(getApiErrorMessage(error, "Failed to cancel preference"));
+    } finally {
+      setPendingActionId(null);
+    }
+  };
 
   return (
     <div className="mx-auto">
-      {/* Header */}
       <div className="flex flex-col md:flex-row md:items-start justify-between mb-8 gap-4 mt-4">
         <div>
           <h1 className="font-serif text-2xl md:text-4xl font-bold text-gray-900 tracking-tight">
@@ -111,14 +188,13 @@ export default function TravelPreferences() {
         </div>
       </div>
 
-      {/* Controls: Tabs & Filters */}
       <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
-        {/* Tabs */}
         <div className="flex bg-[#E9F2FF] p-2 rounded-full w-full md:w-auto overflow-x-auto hide-scrollbar">
-          {["Recurring Travel", "One-Time Travel Requests"].map((tab) => (
+          {TABS.map((tab) => (
             <button
               key={tab}
-              onClick={() => setActiveTab(tab)}
+              type="button"
+              onClick={() => handleTabChange(tab)}
               className={`px-6 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-all ${
                 activeTab === tab
                   ? "bg-[#257AFC] text-white shadow-sm"
@@ -130,61 +206,80 @@ export default function TravelPreferences() {
           ))}
         </div>
 
-        {/* Filters */}
-        <div className="flex items-center gap-3 w-full md:w-auto">
+        <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
           <span className="flex items-center gap-2 text-sm font-medium text-gray-700">
             <Filter size={16} /> Filter:
           </span>
 
-          <div className="relative">
-            <select className="appearance-none bg-white border border-gray-200 text-gray-700 text-xs py-2 pl-4 pr-8 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer shadow-sm">
-              <option>All Status</option>
-              <option>Interested</option>
-              <option>Confirmed</option>
-              <option>Canceled</option>
-            </select>
-            <ChevronDown
-              size={14}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none"
-            />
-          </div>
+          <DirectionFilter
+            value={directionFilter}
+            onChange={handleDirectionFilterChange}
+            hideLabel
+          />
+
+          <StatusFilter value={statusFilter} onChange={handleStatusFilterChange} />
         </div>
       </div>
 
-      <TravelPreferencesTable
-        paginatedData={paginatedData}
-        getStatusStyle={getStatusStyle}
-        toggleDropdown={toggleDropdown}
-        openDropdownId={openDropdownId}
-        dropdownRef={dropdownRef}
-        setSelectedDetails={setSelectedDetails}
-        setIsModalOpen={setIsModalOpen}
-        setOpenDropdownId={setOpenDropdownId}
-      />
+      <div className="relative mb-6">
+        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+          <Search size={18} className="text-gray-400" />
+        </div>
+        <input
+          type="search"
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
+          placeholder="Search by member name or email..."
+          className="w-full rounded-xl border border-gray-200 bg-white py-3 pl-11 pr-4 text-sm text-gray-900 shadow-sm placeholder:text-gray-400 focus:border-[#257AFC] focus:outline-none focus:ring-1 focus:ring-[#257AFC]"
+        />
+      </div>
 
-      <TravelPreferencesMobileCards
-        paginatedData={paginatedData}
-        getStatusStyle={getStatusStyle}
-        toggleDropdown={toggleDropdown}
-        openDropdownId={openDropdownId}
-        dropdownRef={dropdownRef}
-        setSelectedDetails={setSelectedDetails}
-        setIsModalOpen={setIsModalOpen}
-        setOpenDropdownId={setOpenDropdownId}
-      />
+      {isLoading ? (
+        <TravelPreferencesContentSkeleton rows={itemsPerPage} />
+      ) : preferences.length === 0 ? (
+        <div className="rounded-xl border border-gray-100 bg-white p-12 text-center text-gray-500 shadow-sm">
+          No travel preferences found.
+        </div>
+      ) : (
+        <>
+          <TravelPreferencesTable
+            paginatedData={preferences}
+            getStatusStyle={getStatusStyle}
+            toggleDropdown={toggleDropdown}
+            openDropdownId={openDropdownId}
+            dropdownRef={dropdownRef}
+            onViewDetails={handleViewDetails}
+            onConfirm={handleConfirm}
+            onCancel={handleCancel}
+            pendingActionId={pendingActionId}
+          />
 
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        totalItems={MOCK_DATA.length}
-        itemsPerPage={itemsPerPage}
-        onPageChange={setCurrentPage}
-      />
+          <TravelPreferencesMobileCards
+            paginatedData={preferences}
+            getStatusStyle={getStatusStyle}
+            toggleDropdown={toggleDropdown}
+            openDropdownId={openDropdownId}
+            dropdownRef={dropdownRef}
+            onViewDetails={handleViewDetails}
+            onConfirm={handleConfirm}
+            onCancel={handleCancel}
+            pendingActionId={pendingActionId}
+          />
+
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalItems={totalItems}
+            itemsPerPage={itemsPerPage}
+            onPageChange={setCurrentPage}
+          />
+        </>
+      )}
 
       <TravelPreferencesModal
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
-        selectedDetails={selectedDetails}
+        preferenceId={selectedPreferenceId}
         activeTab={activeTab}
         getStatusStyle={getStatusStyle}
       />

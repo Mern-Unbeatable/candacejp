@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
+import toast from 'react-hot-toast'
+import { authApi } from '../../../api/auth.api'
+import { getApiErrorMessage } from '../../../hooks/useApiError'
 
 export default function ForgotPassword() {
   useEffect(() => {
@@ -23,12 +26,16 @@ export default function ForgotPassword() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsLoading(true)
-    // Simulate API call to send OTP
-    setTimeout(() => {
+
+    try {
+      await authApi.forgotPassword(email.trim())
+      toast.success('If that email is registered, you will receive a verification code.')
+      navigate('/verify-otp', { state: { email: email.trim() } })
+    } catch (error) {
+      toast.error(getApiErrorMessage(error, 'Unable to send verification code.'))
+    } finally {
       setIsLoading(false)
-      // Navigate to OTP verification page, optionally passing the email in state
-      navigate('/verify-otp', { state: { email } })
-    }, 1000)
+    }
   }
 
   return (

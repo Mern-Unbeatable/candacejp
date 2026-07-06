@@ -18,7 +18,6 @@ export default function PublicLayout() {
           <p>&copy; {new Date().getFullYear()} CandaceJP. All rights reserved.</p>
         </div>
       </footer> */}
-      <ExperienceBanner />
       <Footer />
     </div>
   );

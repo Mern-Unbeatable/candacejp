@@ -11,23 +11,47 @@ const FAQ = () => {
   const faqData = [
     {
       question: "What is Raven?",
-      answer: "Raven is a premium shared charter service designed to offer convenient and efficient flight solutions without the traditional airline hassle."
+      answer: (
+        <>
+          Raven is a private travel membership platform that provides access to curated shared charter opportunities between high-demand destinations such as New York and Tampa. Members enjoy a streamlined private aviation experience without the friction of commercial air travel.
+        </>
+      )
     },
     {
       question: "How does Raven work?",
-      answer: "You can book a seat on our pre-scheduled routes through our platform. Once booked, you arrive at the private terminal shortly before departure, bypass long security lines, and enjoy your flight."
+      answer: (
+        <>
+          Members submit travel requests for preferred routes and travel windows. Raven coordinates shared private charter opportunities with properly licensed FAA-certificated air carriers based on member demand and operator availability.
+        </>
+      )
     },
     {
       question: "Is Raven an airline?",
-      answer: "No, Raven is not a direct air carrier. We arrange public and shared charters operated by licensed, FAA-certified air carriers to ensure top-notch safety and compliance."
+      answer: (
+        <>
+          <p>No. Raven is not a direct air carrier and does not operate aircraft.</p>
+          <p className="mt-2">All flights are operated by properly licensed Federal Aviation Administration-certificated Part 135 air carriers that maintain full operational control of each flight.</p>
+        </>
+      )
     },
     {
       question: "What does \"shared charter\" mean?",
-      answer: "A shared charter allows individual travelers to book single seats on a private aircraft, splitting the cost of the flight with other passengers while still enjoying private terminal benefits."
+      answer: (
+        <>
+          A shared charter allows multiple approved travelers to participate in the same private charter flight, helping reduce the overall cost compared to chartering an entire aircraft privately.
+        </>
+      )
     },
     {
       question: "What routes does Raven support?",
-      answer: "We support a curated selection of regional and high-demand business corridors. Please check our dynamic route map on the homepage for current and upcoming flights."
+      answer: (
+        <>
+          <p>Raven initially focuses on the high-demand travel corridor including of New York ⇄ Tampa</p>
+          <ul className="list-disc ml-5 mt-2 space-y-1">
+            <li>Additional routes may be introduced based on member demand.</li>
+          </ul>
+        </>
+      )
     }
   ];
 
@@ -67,12 +91,12 @@ const FAQ = () => {
                 
                 <div
                   className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                    isOpen ? 'max-h-30 opacity-100 pb-6' : 'max-h-0 opacity-0'
+                    isOpen ? 'max-h-[1000px] opacity-100 pb-6' : 'max-h-0 opacity-0'
                   }`}
                 >
-                  <p className="text-gray-600 text-base leading-relaxed max-w-2xl">
+                  <div className="text-gray-600 text-base leading-relaxed max-w-2xl">
                     {item.answer}
-                  </p>
+                  </div>
                 </div>
               </div>
             );

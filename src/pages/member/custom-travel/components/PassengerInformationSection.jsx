@@ -6,7 +6,8 @@ export default function PassengerInformationSection({
   handlePassengerChange,
   specialRequests,
   setSpecialRequests,
-  onSubmit 
+  onSubmit,
+  isSubmitting = false,
 }) {
   return (
     <div>
@@ -75,7 +76,10 @@ export default function PassengerInformationSection({
               <label className="block text-xs md:text-sm font-bold text-gray-900 mb-1.5 whitespace-nowrap">Phone</label>
               <input
                 type="tel"
-                placeholder="+1 (555) 123-4567"
+                inputMode="numeric"
+                maxLength={15}
+                pattern="\d{10,15}"
+                placeholder="15551234567"
                 value={passenger.phone}
                 onChange={(e) => handlePassengerChange(index, 'phone', e.target.value)}
                 className="w-full rounded-lg border border-gray-200 bg-[#F4F5F6] px-2 py-2 text-xs text-gray-900 outline-none focus:border-[#257AFC] focus:ring-1 focus:ring-[#257AFC] transition-all"
@@ -103,12 +107,14 @@ export default function PassengerInformationSection({
       </p>
 
       {/* Submit Button */}
-      <button 
+      <button
+        type="button"
         onClick={onSubmit}
-        className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#257AFC] py-3.5 text-sm md:text-base font-semibold text-white shadow-sm hover:bg-blue-700 transition-colors"
+        disabled={isSubmitting}
+        className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#257AFC] py-3.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60 md:text-base"
       >
         <Send size={16} />
-        Submit Request
+        {isSubmitting ? 'Submitting...' : 'Submit Request'}
       </button>
     </div>
   );

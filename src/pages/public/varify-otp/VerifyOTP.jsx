@@ -1,6 +1,9 @@
 import { useState, useRef, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
+import toast from 'react-hot-toast'
+import { authApi } from '../../../api/auth.api'
+import { getApiErrorMessage } from '../../../hooks/useApiError'
 
 export default function VerifyOTP() {
   useEffect(() => {
@@ -18,7 +21,13 @@ export default function VerifyOTP() {
 
   const navigate = useNavigate()
   const location = useLocation()
-  const email = location.state?.email || 'your email'
+  const email = location.state?.email
+
+  useEffect(() => {
+    if (!email) {
+      navigate('/forgot-password', { replace: true })
+    }
+  }, [email, navigate])
   
   const [otp, setOtp] = useState(['', '', '', '', ''])
   const [isLoading, setIsLoading] = useState(false)
@@ -48,14 +57,22 @@ export default function VerifyOTP() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     const otpCode = otp.join('')
-    if (otpCode.length < 5) return
+    if (otpCode.length < 5 || !email) return
     
     setIsLoading(true)
-    // Simulate API call to verify OTP
-    setTimeout(() => {
+
+    try {
+      const result = await authApi.verifyOtp({ email, otp: otpCode })
+      navigate('/reset-password', { state: { resetToken: result.resetToken } })
+    } catch (error) {
+      toast.error(getApiErrorMessage(error, 'Unable to verify code.'))
+    } finally {
       setIsLoading(false)
-      navigate('/reset-password')
-    }, 1000)
+    }
+  }
+
+  if (!email) {
+    return null
   }
 
   return (

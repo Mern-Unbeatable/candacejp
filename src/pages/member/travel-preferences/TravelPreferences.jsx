@@ -1,29 +1,76 @@
-import React, { useState, useEffect } from 'react';
-import { Info } from "lucide-react";
+import React, { useEffect, useMemo, useState } from 'react';
+import toast from 'react-hot-toast';
+import { Info } from 'lucide-react';
 import TravelPreferencesHeader from './components/TravelPreferencesHeader';
 import SavedPreferences from './components/SavedPreferences';
 import RecurringTravelForm from './components/RecurringTravelForm';
 import OneTimeTravelForm from './components/OneTimeTravelForm';
+import TravelPreferencesPageSkeleton from '../../../components/common/skeletons/TravelPreferencesPageSkeleton';
+import { applyOppositeRoute } from './routeOptions';
+import {
+  useCreateMemberTravelPreferenceMutation,
+  useDeleteMemberTravelPreferenceMutation,
+  useMemberTravelPreferencesQuery,
+} from '../../../hooks/api/useMemberQueries';
+import { getApiErrorMessage } from '../../../hooks/useApiError';
 
-const INITIAL_RECURRING = [
-  { id: '1', from: 'Tampa', to: 'New York', day: 'Mondays', time: 'Morning' },
-  { id: '2', from: 'New York', to: 'Tampa', day: 'Fridays', time: 'Evening' }
-];
+const EMPTY_RECURRING_FORM = {
+  from: '',
+  to: '',
+  day: '',
+  time: '',
+};
 
-const INITIAL_ONE_TIME = [
-  { id: '1', from: 'Miami', to: 'Los Angeles', date: 'July 15th, 2026', time: 'Afternoon' }
-];
+const EMPTY_ONE_TIME_FORM = {
+  from: '',
+  to: '',
+  date: '',
+  time: '',
+};
+
+function mapRecurringPreference(item) {
+  return {
+    id: item.id,
+    from: item.from,
+    to: item.to,
+    day: item.day || item.dayOfWeek,
+    time: item.time || item.preferredTime,
+    status: item.status,
+  };
+}
+
+function mapOneTimePreference(item) {
+  return {
+    id: item.id,
+    from: item.from,
+    to: item.to,
+    date: item.date,
+    time: item.time || item.preferredTime,
+    status: item.status,
+  };
+}
 
 export default function TravelPreferences() {
-  const [savedRecurring, setSavedRecurring] = useState(INITIAL_RECURRING);
-  const [savedOneTime, setSavedOneTime] = useState(INITIAL_ONE_TIME);
-  
-  // Start with one empty form each
-  const [recurringForms, setRecurringForms] = useState([{ id: Date.now().toString(), from: '', to: '', day: '', time: '' }]);
-  const [oneTimeForms, setOneTimeForms] = useState([{ id: Date.now().toString() + 'ot', from: '', to: '', date: '', time: '' }]);
+  const [recurringForm, setRecurringForm] = useState(EMPTY_RECURRING_FORM);
+  const [oneTimeForm, setOneTimeForm] = useState(EMPTY_ONE_TIME_FORM);
+  const [deletingId, setDeletingId] = useState(null);
+  const [addingType, setAddingType] = useState(null);
+
+  const { data, isLoading, isError } = useMemberTravelPreferencesQuery();
+  const { mutateAsync: createPreference } = useCreateMemberTravelPreferenceMutation();
+  const { mutateAsync: deletePreference } = useDeleteMemberTravelPreferenceMutation();
+
+  const savedRecurring = useMemo(
+    () => (data?.recurring ?? []).map(mapRecurringPreference),
+    [data?.recurring],
+  );
+  const savedOneTime = useMemo(
+    () => (data?.oneTime ?? []).map(mapOneTimePreference),
+    [data?.oneTime],
+  );
 
   useEffect(() => {
-    document.title = "Travel Preferences - Member | RAVEN";
+    document.title = 'Travel Preferences - Member | RAVEN';
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute('content', 'Configure your travel preferences with Raven.');
@@ -35,90 +82,132 @@ export default function TravelPreferences() {
     }
   }, []);
 
-  // Handlers for Saved Preferences
-  const handleRemoveSavedRecurring = (id) => {
-    setSavedRecurring(prev => prev.filter(item => item.id !== id));
+  useEffect(() => {
+    if (isError) {
+      toast.error('Unable to load travel preferences.');
+    }
+  }, [isError]);
+
+  const handleRemoveSaved = async (id) => {
+    setDeletingId(id);
+    try {
+      await deletePreference(id);
+      toast.success('Travel preference removed.');
+    } catch (error) {
+      toast.error(getApiErrorMessage(error, 'Failed to remove travel preference.'));
+    } finally {
+      setDeletingId(null);
+    }
   };
 
-  const handleRemoveSavedOneTime = (id) => {
-    setSavedOneTime(prev => prev.filter(item => item.id !== id));
+  const handleChangeRecurringForm = (field, value) => {
+    setRecurringForm((prev) => applyOppositeRoute(field, value, prev));
   };
 
-  // Handlers for Recurring Form
-  const handleAddRecurringForm = () => {
-    setRecurringForms(prev => [...prev, { id: Date.now().toString(), from: '', to: '', day: '', time: '' }]);
+  const handleChangeOneTimeForm = (field, value) => {
+    setOneTimeForm((prev) => applyOppositeRoute(field, value, prev));
   };
 
-  const handleRemoveRecurringForm = (id) => {
-    setRecurringForms(prev => prev.filter(f => f.id !== id));
+  const handleAddRecurring = async () => {
+    const { from, to, day, time } = recurringForm;
+
+    if (!from || !to || !day || !time) {
+      toast.error('Complete all fields before adding recurring travel.');
+      return;
+    }
+
+    if (from === to) {
+      toast.error('Origin and destination must be different.');
+      return;
+    }
+
+    setAddingType('RECURRING');
+    try {
+      await createPreference({
+        type: 'RECURRING',
+        from,
+        to,
+        dayOfWeek: day,
+        preferredTime: time,
+      });
+      setRecurringForm(EMPTY_RECURRING_FORM);
+      toast.success('Recurring travel added.');
+    } catch (error) {
+      toast.error(getApiErrorMessage(error, 'Failed to add recurring travel.'));
+    } finally {
+      setAddingType(null);
+    }
   };
 
-  const handleChangeRecurringForm = (id, field, value) => {
-    setRecurringForms(prev => prev.map(f => f.id === id ? { ...f, [field]: value } : f));
+  const handleAddOneTime = async () => {
+    const { from, to, date, time } = oneTimeForm;
+
+    if (!from || !to || !date || !time) {
+      toast.error('Complete all fields before adding one-time travel.');
+      return;
+    }
+
+    if (from === to) {
+      toast.error('Origin and destination must be different.');
+      return;
+    }
+
+    setAddingType('ONE_TIME');
+    try {
+      await createPreference({
+        type: 'ONE_TIME',
+        from,
+        to,
+        preferredDate: date,
+        preferredTime: time,
+      });
+      setOneTimeForm(EMPTY_ONE_TIME_FORM);
+      toast.success('One-time travel added.');
+    } catch (error) {
+      toast.error(getApiErrorMessage(error, 'Failed to add one-time travel.'));
+    } finally {
+      setAddingType(null);
+    }
   };
 
-  // Handlers for One-Time Form
-  const handleAddOneTimeForm = () => {
-    setOneTimeForms(prev => [...prev, { id: Date.now().toString() + 'ot', from: '', to: '', date: '', time: '' }]);
-  };
-
-  const handleRemoveOneTimeForm = (id) => {
-    setOneTimeForms(prev => prev.filter(f => f.id !== id));
-  };
-
-  const handleChangeOneTimeForm = (id, field, value) => {
-    setOneTimeForms(prev => prev.map(f => f.id === id ? { ...f, [field]: value } : f));
-  };
-
-  const handleSave = () => {
-    alert("Travel preferences successfully saved!");
-  };
+  if (isLoading) {
+    return <TravelPreferencesPageSkeleton />;
+  }
 
   return (
     <div className="mx-auto space-y-12 pb-12">
       <TravelPreferencesHeader />
-      
-      <SavedPreferences 
+
+      <SavedPreferences
         recurring={savedRecurring}
         oneTime={savedOneTime}
-        onRemoveRecurring={handleRemoveSavedRecurring}
-        onRemoveOneTime={handleRemoveSavedOneTime}
+        onRemoveRecurring={handleRemoveSaved}
+        onRemoveOneTime={handleRemoveSaved}
+        deletingId={deletingId}
       />
 
       <div className="space-y-10">
-        <RecurringTravelForm 
-          forms={recurringForms}
-          onAddForm={handleAddRecurringForm}
-          onRemoveForm={handleRemoveRecurringForm}
+        <RecurringTravelForm
+          form={recurringForm}
           onChange={handleChangeRecurringForm}
+          onAdd={handleAddRecurring}
+          isAdding={addingType === 'RECURRING'}
         />
 
-        <OneTimeTravelForm 
-          forms={oneTimeForms}
-          onAddForm={handleAddOneTimeForm}
-          onRemoveForm={handleRemoveOneTimeForm}
+        <OneTimeTravelForm
+          form={oneTimeForm}
           onChange={handleChangeOneTimeForm}
+          onAdd={handleAddOneTime}
+          isAdding={addingType === 'ONE_TIME'}
         />
       </div>
 
-      {/* Footer Section */}
-      <div className="space-y-6 pt-4">
-        {/* Info Banner */}
-        <div className="flex items-center gap-3 rounded-xl border border-gray-100 bg-[#F8FAFC] p-4 text-sm text-gray-600 shadow-sm">
-          <Info size={18} className="text-gray-500" />
-          <p>Your preferences help us match you with other members and create curated flight opportunities.</p>
-        </div>
-
-        {/* Action Button */}
-        <div className="text-center">
-          <button 
-            onClick={handleSave}
-            className="w-full rounded-xl bg-[#257AFC] py-3.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 transition-colors"
-          >
-            Save Preferences
-          </button>
-          <p className="text-xs text-gray-500 mt-3">You can update your preferences anytime</p>
-        </div>
+      <div className="flex items-center gap-3 rounded-xl border border-gray-100 bg-[#F8FAFC] p-4 text-sm text-gray-600 shadow-sm">
+        <Info size={18} className="text-gray-500" />
+        <p>
+          Your preferences help us match you with other members and create curated flight
+          opportunities.
+        </p>
       </div>
     </div>
   );

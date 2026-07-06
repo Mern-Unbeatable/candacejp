@@ -1,4 +1,4 @@
-import { Link, Outlet, useLocation, ScrollRestoration } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import {
   LayoutDashboard,
   Plane,
@@ -12,7 +12,7 @@ import {
   Calendar,
   Users,
   UserCog,
-  UserPlus,
+  Headphones,
   Settings,
   Menu,
   X,
@@ -21,6 +21,9 @@ import {
 import { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
 import useAuth from "../../hooks/useAuth";
+import { useNotificationUnreadCountQuery } from "../../hooks/api/useNotificationQueries";
+
+const NOTIFICATION_PATH = "/member/notification";
 
 const MEMBER_LINKS = [
   { to: "/member/overview", label: "Overview", icon: LayoutDashboard },
@@ -72,14 +75,29 @@ const ADMIN_LINKS = [
   },
   { to: "/admin/members", label: "Members", icon: Users },
   { to: "/admin/concierge-staff", label: "Concierge Staff", icon: UserCog },
-  { to: "/admin/add-concierge", label: "Add Concierge", icon: UserPlus },
+  { to: "/admin/support", label: "Support", icon: Headphones },
   { to: "/admin/setting", label: "Setting", icon: Settings },
 ];
 
 export default function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
-  const { user, logout } = useAuth();
+  const { user, logout, role } = useAuth();
+  const { data: unreadNotificationCount = 0 } = useNotificationUnreadCountQuery({
+    enabled: role === "member",
+  });
+
+  const displayName =
+    [user?.firstName, user?.lastName].filter(Boolean).join(" ") ||
+    user?.email ||
+    "User Name";
+  const initials =
+    displayName
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .substring(0, 2) || "U";
 
   const overlayRef = useRef(null);
   const sidebarRef = useRef(null);
@@ -97,16 +115,26 @@ export default function DashboardLayout() {
     }
   }, [sidebarOpen]);
 
+  useEffect(() => {
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+  }, []);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }, [location.pathname]);
+
   let sidebarLinks = [];
   let headerLabel = "Dashboard";
 
-  if (user?.role === "member") {
+  if (role === "member") {
     sidebarLinks = MEMBER_LINKS;
     headerLabel = "Member Portal";
-  } else if (user?.role === "concierge") {
+  } else if (role === "concierge") {
     sidebarLinks = STAFF_LINKS;
     headerLabel = "Concierge Panel";
-  } else if (user?.role === "admin") {
+  } else if (role === "admin") {
     sidebarLinks = ADMIN_LINKS;
     headerLabel = "Admin Dashboard";
   }
@@ -126,9 +154,11 @@ export default function DashboardLayout() {
       <nav className="flex-1 space-y-1 px-3 py-4 overflow-y-auto">
         {sidebarLinks.map((link) => {
           const Icon = link.icon;
-          const isActive = 
-            location.pathname === link.to || 
-            (link.to === "/concierge/calendar-demand" && location.pathname === "/concierge/demand-details");
+          const isActive =
+            location.pathname === link.to ||
+            location.pathname.startsWith(`${link.to}/`) ||
+            (link.to === "/concierge/calendar-demand" &&
+              location.pathname === "/concierge/demand-details");
             
           return (
             <Link
@@ -142,7 +172,18 @@ export default function DashboardLayout() {
               }`}
             >
               <Icon size={18} />
-              {link.label}
+              <span className="flex-1">{link.label}</span>
+              {link.to === NOTIFICATION_PATH && unreadNotificationCount > 0 && (
+                <span
+                  className={`min-w-[1.25rem] rounded-full px-1.5 py-0.5 text-center text-[12px] font-bold leading-none ${
+                    isActive
+                      ? "bg-white text-[#257AFC]"
+                      : "bg-[#257AFC] text-white"
+                  }`}
+                >
+                  {unreadNotificationCount > 99 ? "99+" : unreadNotificationCount}
+                </span>
+              )}
             </Link>
           );
         })}
@@ -152,16 +193,11 @@ export default function DashboardLayout() {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#f1f5f9] text-sm font-medium text-gray-700">
-              {user?.name
-                ?.split(" ")
-                .map((n) => n[0])
-                .join("")
-                .toUpperCase()
-                .substring(0, 2) || "U"}
+              {initials}
             </div>
             <div>
               <p className="text-[15px] font-medium text-gray-900">
-                {user?.name || "User Name"}
+                {displayName}
               </p>
             </div>
           </div>
@@ -179,7 +215,6 @@ export default function DashboardLayout() {
 
   return (
     <div className="flex min-h-screen bg-[#F9FAFB]">
-      <ScrollRestoration />
       <aside className="hidden w-64 flex-col border-r border-ink-50 bg-white lg:flex sticky top-0 h-screen">
         <SidebarContent />
       </aside>

@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
 import toast from 'react-hot-toast'
+import PasswordInput from '../../../components/common/PasswordInput'
+import { authApi } from '../../../api/auth.api'
+import { getApiErrorMessage } from '../../../hooks/useApiError'
 
 export default function ResetPassword() {
   useEffect(() => {
@@ -18,6 +21,15 @@ export default function ResetPassword() {
   }, []);
 
   const navigate = useNavigate()
+  const location = useLocation()
+  const resetToken = location.state?.resetToken
+
+  useEffect(() => {
+    if (!resetToken) {
+      navigate('/forgot-password', { replace: true })
+    }
+  }, [resetToken, navigate])
+
   const [passwords, setPasswords] = useState({ newPassword: '', confirmPassword: '' })
   const [isLoading, setIsLoading] = useState(false)
 
@@ -27,19 +39,37 @@ export default function ResetPassword() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    if (!resetToken) return
     
     if (passwords.newPassword !== passwords.confirmPassword) {
       toast.error('Passwords do not match')
       return
     }
 
+    if (passwords.newPassword.length < 8) {
+      toast.error('Password must be at least 8 characters long')
+      return
+    }
+
     setIsLoading(true)
-    // Simulate API call to reset password
-    setTimeout(() => {
-      setIsLoading(false)
+
+    try {
+      await authApi.resetPassword({
+        resetToken,
+        password: passwords.newPassword,
+      })
       toast.success('Password reset successfully!')
       navigate('/login')
-    }, 1000)
+    } catch (error) {
+      toast.error(getApiErrorMessage(error, 'Unable to reset password.'))
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  if (!resetToken) {
+    return null
   }
 
   return (
@@ -82,14 +112,13 @@ export default function ResetPassword() {
               <label htmlFor="newPassword" className="mb-2 block text-sm lg:text-base font-medium text-gray-700">
                 New Password
               </label>
-              <input
+              <PasswordInput
                 id="newPassword"
                 name="newPassword"
-                type="password"
                 required
+                minLength={8}
                 value={passwords.newPassword}
                 onChange={handleChange}
-                className="w-full rounded-md border border-gray-300 px-4 py-3 text-sm text-gray-900 placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 placeholder="Enter new password"
               />
             </div>
@@ -98,14 +127,13 @@ export default function ResetPassword() {
               <label htmlFor="confirmPassword" className="mb-2 block text-sm lg:text-base font-medium text-gray-700">
                 Confirm Password
               </label>
-              <input
+              <PasswordInput
                 id="confirmPassword"
                 name="confirmPassword"
-                type="password"
                 required
+                minLength={8}
                 value={passwords.confirmPassword}
                 onChange={handleChange}
-                className="w-full rounded-md border border-gray-300 px-4 py-3 text-sm text-gray-900 placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 placeholder="Confirm new password"
               />
             </div>

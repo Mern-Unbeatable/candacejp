@@ -1,9 +1,13 @@
 import React from 'react';
 import { TrendingUp, MapPin, CalendarDays } from "lucide-react";
+import { DemandInsightsSkeleton } from "../../../../components/common/skeletons/MemberOverviewSkeleton";
 
-export default function DemandInsights({ highDemandRoutes, popularTravelDates }) {
-  return (
-    <div className="rounded-2xl border border-gray-100 bg-[#FFFFFF] p-6 shadow-sm">
+export default function DemandInsights({ highDemandRoutes, popularTravelDates, isLoading }) {
+  if (isLoading) {
+    return <DemandInsightsSkeleton />;
+  }
+
+  return (    <div className="rounded-2xl border border-gray-100 bg-[#FFFFFF] p-6 shadow-sm">
       <div className="flex items-start gap-3 mb-6">
         <TrendingUp
           className="text-[#257AFC] mt-1"
@@ -31,7 +35,10 @@ export default function DemandInsights({ highDemandRoutes, popularTravelDates })
             </h3>
           </div>
           <div className="space-y-2">
-            {highDemandRoutes.map((item, i) => (
+            {highDemandRoutes.length === 0 ? (
+              <p className="text-sm text-gray-500">No high-demand routes yet.</p>
+            ) : (
+              highDemandRoutes.map((item, i) => (
               <div
                 key={i}
                 className="flex items-center justify-between rounded-lg bg-[#F1F5F980] p-4 border border-transparent hover:border-gray-200 transition-colors cursor-pointer"
@@ -48,7 +55,8 @@ export default function DemandInsights({ highDemandRoutes, popularTravelDates })
                   {item.stat}
                 </span>
               </div>
-            ))}
+            ))
+            )}
           </div>
         </div>
 
@@ -65,7 +73,10 @@ export default function DemandInsights({ highDemandRoutes, popularTravelDates })
             </h3>
           </div>
           <div className="space-y-2">
-            {popularTravelDates.map((item, i) => (
+            {popularTravelDates.length === 0 ? (
+              <p className="text-sm text-gray-500">No popular travel dates yet.</p>
+            ) : (
+              popularTravelDates.map((item, i) => (
               <div
                 key={i}
                 className="flex flex-col justify-center rounded-lg bg-[#F1F5F980] p-4 border border-transparent hover:border-gray-200 transition-colors cursor-pointer"
@@ -77,7 +88,8 @@ export default function DemandInsights({ highDemandRoutes, popularTravelDates })
                   {item.details}
                 </p>
               </div>
-            ))}
+            ))
+            )}
           </div>
         </div>
       </div>

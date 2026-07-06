@@ -1,9 +1,13 @@
 import React from 'react';
 import { Calendar, Plane, MapPin } from "lucide-react";
+import { StatsRowSkeleton } from "../../../../components/common/skeletons/MemberOverviewSkeleton";
 
-export default function StatsRow({ stats }) {
-  return (
-    <div className="grid grid-cols-1 gap-3 md:gap-5 md:grid-cols-3">
+export default function StatsRow({ stats, isLoading }) {
+  if (isLoading) {
+    return <StatsRowSkeleton />;
+  }
+
+  return (    <div className="grid grid-cols-1 gap-3 md:gap-5 md:grid-cols-3">
       {/* Card 1 */}
       <div className="flex items-center gap-4 rounded-2xl bg-[#FFFFFF] p-8 border border-gray-100 shadow-sm">
         <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-[#ECEEF2] text-gray-700">

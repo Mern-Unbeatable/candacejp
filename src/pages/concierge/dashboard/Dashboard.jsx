@@ -3,8 +3,15 @@ import DashboardHeader from './components/DashboardHeader';
 import StatsRow from './components/StatsRow';
 import DemandTrendsRow from './components/DemandTrendsRow';
 import FlightDemandCalendar from '../../../components/flight-demand-calendar/FlightDemandCalendar';
+import {
+  ConciergeStatsSkeleton,
+  ConciergeTrendsSkeleton,
+} from '../../../components/common/skeletons/ConciergeDashboardSkeleton';
+import { useStaffDashboardSummaryQuery } from '../../../hooks/api/useStaffQueries';
 
 export default function Dashboard() {
+  const { data: summary, isLoading } = useStaffDashboardSummaryQuery();
+
   useEffect(() => {
     document.title = "Dashboard - Concierge | RAVEN";
     const metaDescription = document.querySelector('meta[name="description"]');
@@ -21,8 +28,17 @@ export default function Dashboard() {
   return (
     <div className="mx-auto">
       <DashboardHeader />
-      <StatsRow />
-      <DemandTrendsRow />
+      {isLoading ? (
+        <>
+          <ConciergeStatsSkeleton />
+          <ConciergeTrendsSkeleton />
+        </>
+      ) : (
+        <>
+          <StatsRow summary={summary} />
+          <DemandTrendsRow summary={summary} />
+        </>
+      )}
       <FlightDemandCalendar />
     </div>
   );

@@ -1,8 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useMutation } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 // Phone icon imported from lucide-react
 import { Phone } from 'lucide-react';
+import { http } from '../../../../lib/api/http';
+import { getApiErrorMessage } from '../../../../hooks/useApiError';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -43,15 +47,47 @@ const ContactForm = () => {
     message: ''
   });
 
-  const handleSubmit = (e) => {
+  const { mutateAsync: submitSupportRequest, isPending } = useMutation({
+    mutationFn: (payload) => http.post('/support', payload),
+  });
+
+  const handlePhoneChange = (e) => {
+    const phone = e.target.value.replace(/\D/g, '');
+    setFormData((prev) => ({ ...prev, phone }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Form submit handling logic can be added here
-    console.log('Submitted Data:', formData);
+
+    const payload = {
+      name: formData.name.trim(),
+      phone: formData.phone.trim(),
+      email: formData.email.trim(),
+      message: formData.message.trim(),
+    };
+
+    if (!/^\d{10,15}$/.test(payload.phone)) {
+      toast.error('Please enter a valid phone number (10-15 digits).');
+      return;
+    }
+
+    try {
+      const response = await submitSupportRequest(payload);
+      toast.success(response?.message || 'Your message has been sent successfully.');
+      setFormData({
+        name: '',
+        phone: '',
+        email: '',
+        message: '',
+      });
+    } catch (error) {
+      toast.error(getApiErrorMessage(error, 'Failed to send your message.'));
+    }
   };
 
   return (
     <section ref={sectionRef} className="w-full bg-[#FFFFFF] font-sans selection:bg-blue-100">
-      <div className="container mx-auto px-4 md:px-6 lg:px-6 pb-8 md:pb-16 lg:pb-24 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+      <div className="container mx-auto px-4 md:px-6 lg:px-6 py-8 md:py-16 lg:py-24 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
         
         {/* Left Column: Text & Phone Contact Info (5 Columns) */}
         <div className="contact-form-left lg:col-span-5 flex flex-col items-start space-y-6 max-w-lg">
@@ -117,11 +153,15 @@ const ContactForm = () => {
                 Phone Number
               </label>
               <input 
-                type="tel" 
+                type="tel"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                maxLength={15}
                 placeholder="Enter your phone number"
                 value={formData.phone}
-                onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                onChange={handlePhoneChange}
                 className="w-full bg-white border border-[#E2E8F0] rounded-lg px-4 py-3 text-[14px] text-[#0F172A] placeholder-[#94A3B8] focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 transition-all font-serif"
+                required
               />
             </div>
 
@@ -159,9 +199,10 @@ const ContactForm = () => {
             <div className="pt-2">
               <button 
                 type="submit"
-                className="w-full bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-medium text-[14px] py-3.5 rounded-lg transition-colors duration-200 shadow-sm"
+                disabled={isPending}
+                className="w-full bg-[#2563EB] hover:bg-[#1D4ED8] disabled:cursor-not-allowed disabled:opacity-70 text-white font-medium text-[14px] py-3.5 rounded-lg transition-colors duration-200 shadow-sm"
               >
-                Send Message
+                {isPending ? 'Sending...' : 'Send Message'}
               </button>
             </div>
 

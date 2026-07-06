@@ -2,6 +2,8 @@ import { useCallback, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
+import { authApi } from '../api/auth.api'
+import { ApiError } from '../lib/api/ApiError'
 import {
   setCredentials,
   logout,
@@ -9,7 +11,7 @@ import {
   selectIsAuthenticated,
   selectUserRole,
 } from '../features/auth/authSlice'
-import { dummyLogin } from '../features/auth/dummyAuth'
+import { getApiErrorMessage } from './useApiError'
 
 const roleRedirects = {
   member: '/member/overview',
@@ -27,31 +29,60 @@ export default function useAuth() {
 
   const redirectByRole = useCallback(
     (userRole) => {
-      const path = roleRedirects[userRole] || '/'
+      const normalizedRole = String(userRole || '').toLowerCase()
+      const path = roleRedirects[normalizedRole] || '/'
       navigate(path, { replace: true })
     },
     [navigate],
+  )
+
+  const persistSession = useCallback(
+    (data) => {
+      dispatch(setCredentials({
+        user: data.user,
+        token: data.accessToken,
+        refreshToken: data.refreshToken,
+        accessTokenExpiresAt: data.accessTokenExpiresAt,
+        refreshTokenExpiresAt: data.refreshTokenExpiresAt,
+      }))
+    },
+    [dispatch],
   )
 
   const login = useCallback(
     async (credentials) => {
       setIsLoginLoading(true)
       try {
-        await new Promise((resolve) => setTimeout(resolve, 400))
-        const result = dummyLogin(credentials)
-        dispatch(setCredentials({ user: result.user, token: result.token }))
-        toast.success(`Welcome, ${result.user.name}`)
-        redirectByRole(result.user.role)
-        return result
+        const data = await authApi.login(credentials)
+        persistSession(data)
+        const displayName = data.user?.firstName || data.user?.email || 'back'
+        toast.success(`Welcome, ${displayName}`)
+        redirectByRole(data.user?.role)
+        return data
       } catch (error) {
-        toast.error(error?.data?.message || 'Login failed')
+        if (error instanceof ApiError && error.isPaymentRequired) {
+          throw error
+        }
+        toast.error(getApiErrorMessage(error, 'Login failed'))
         throw error
       } finally {
         setIsLoginLoading(false)
       }
     },
-    [dispatch, redirectByRole],
+    [persistSession, redirectByRole],
   )
+
+  const resumePayment = useCallback(async (credentials) => {
+    return authApi.resumePayment(credentials)
+  }, [])
+
+  const register = useCallback(async (payload) => {
+    return authApi.register(payload)
+  }, [])
+
+  const verifyPayment = useCallback(async (sessionId) => {
+    return authApi.verifyPayment(sessionId)
+  }, [])
 
   const handleLogout = useCallback(() => {
     dispatch(logout())
@@ -67,5 +98,8 @@ export default function useAuth() {
     login,
     logout: handleLogout,
     redirectByRole,
+    resumePayment,
+    register,
+    verifyPayment,
   }
 }

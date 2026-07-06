@@ -1,41 +1,59 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, Square, CheckSquare, X, Plane, ArrowRight } from 'lucide-react';
-
-// Dummy events (Only show in June 2026 for demonstration)
-const EVENTS = {
-  8: { type: 'high', interested: 5, route: 'Mixed Demand' },
-  12: { type: 'medium', interested: 3, route: 'Mixed Demand' },
-  15: { type: 'high', interested: 8, route: 'Mixed Demand' },
-  18: { type: 'low', interested: 1, route: 'NYC → Tamp' },
-};
+import { useQueryClient } from '@tanstack/react-query';
+import {
+  ChevronLeft,
+  ChevronRight,
+  Calendar as CalendarIcon,
+  X,
+  Plane,
+  ArrowRight,
+} from 'lucide-react';
+import { useStaffDashboardCalendarQuery } from '../../hooks/api/useStaffQueries';
+import { staffApi } from '../../api/staff.api';
+import { queryKeys } from '../../lib/query/queryKeys';
+import {
+  formatDateKey,
+  getDemandStyles,
+  isTodayDate,
+} from './calendarUtils';
+import { ConciergeCalendarGridSkeleton } from '../common/skeletons/ConciergeDashboardSkeleton';
 
 export default function FlightDemandCalendar() {
-  useEffect(() => {
-    document.title = "Calendar Demand - Concierge | RAVEN";
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute('content', 'View your Raven Concierge calendar demand, tracking bookings and member interest.');
-    } else {
-      const newMeta = document.createElement('meta');
-      newMeta.name = 'description';
-      newMeta.content = 'View your Raven Concierge calendar demand, tracking bookings and member interest.';
-      document.head.appendChild(newMeta);
-    }
-  }, []);
-
   const navigate = useNavigate();
-
-  // Start with June 2026 to match the design, but make it dynamic
-  const [currentDate, setCurrentDate] = useState(new Date(2026, 5, 1)); // Month is 0-indexed (5 = June)
-
-  // Date range picker state
+  const queryClient = useQueryClient();
+  const now = new Date();
+  const [currentDate, setCurrentDate] = useState(
+    new Date(now.getFullYear(), now.getMonth(), 1),
+  );
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [startDate, setStartDate] = useState('2026-06-05');
-  const [endDate, setEndDate] = useState('2026-07-04');
-  
-  // Date picker dropdown ref for click-outside functionality
+  const [startDate, setStartDate] = useState(formatDateKey(now.getFullYear(), now.getMonth() + 1, 1));
+  const [endDate, setEndDate] = useState(
+    formatDateKey(now.getFullYear(), now.getMonth() + 2, 0),
+  );
+  const [appliedRange, setAppliedRange] = useState(null);
   const datePickerRef = useRef(null);
+
+  const calendarParams = useMemo(() => {
+    if (appliedRange) {
+      return { from: appliedRange.start, to: appliedRange.end };
+    }
+
+    return {
+      month: currentDate.getMonth() + 1,
+      year: currentDate.getFullYear(),
+    };
+  }, [appliedRange, currentDate]);
+
+  const { data: calendarData, isLoading } = useStaffDashboardCalendarQuery(calendarParams);
+
+  const eventsByDate = useMemo(() => {
+    const map = {};
+    (calendarData?.days ?? []).forEach((day) => {
+      map[day.date] = day;
+    });
+    return map;
+  }, [calendarData?.days]);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -43,29 +61,28 @@ export default function FlightDemandCalendar() {
         setShowDatePicker(false);
       }
     }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-  
-  // Actually applied range for rendering the grid
-  const [appliedRange, setAppliedRange] = useState(null);
 
   const formatShortDate = (dateString) => {
     if (!dateString) return '';
-    const d = new Date(dateString);
-    // Add timezone offset fix so dates don't shift backward
-    const userTimezoneOffset = d.getTimezoneOffset() * 60000;
-    const adjustedDate = new Date(d.getTime() + userTimezoneOffset);
-    return adjustedDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    const [year, month, day] = dateString.split('-').map(Number);
+    const adjustedDate = new Date(year, month - 1, day);
+    return adjustedDate.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    });
   };
 
   const handlePrevMonth = () => {
-    setAppliedRange(null); // Clear custom range
+    setAppliedRange(null);
     setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
   };
 
   const handleNextMonth = () => {
-    setAppliedRange(null); // Clear custom range
+    setAppliedRange(null);
     setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
   };
 
@@ -76,249 +93,210 @@ export default function FlightDemandCalendar() {
     setShowDatePicker(false);
   };
 
-  const monthYearString = currentDate.toLocaleString('default', { month: 'long', year: 'numeric' });
-  
-  const cells = [];
-  
-  if (appliedRange) {
-    // ------------------------------------------
-    // RENDER CUSTOM RANGE GRID
-    // ------------------------------------------
-    const start = new Date(appliedRange.start);
-    const userTimezoneOffsetStart = start.getTimezoneOffset() * 60000;
-    const localStart = new Date(start.getTime() + userTimezoneOffsetStart);
+  const handleDayClick = (dateKey) => {
+    const dateParams = { date: dateKey };
 
-    const end = new Date(appliedRange.end);
-    const userTimezoneOffsetEnd = end.getTimezoneOffset() * 60000;
-    const localEnd = new Date(end.getTime() + userTimezoneOffsetEnd);
+    queryClient.prefetchQuery({
+      queryKey: queryKeys.staff.dashboardCalendar(dateParams),
+      queryFn: () => staffApi.getDashboardCalendar(dateParams),
+    });
 
-    const startDayOfWeek = localStart.getDay();
-    
-    // Empty cells for the start of the first week
-    for (let i = 0; i < startDayOfWeek; i++) {
-      cells.push(<div key={`empty-start-${i}`} className="hidden md:block"></div>);
+    navigate(`/concierge/demand-details?date=${dateKey}`);
+  };
+
+  const renderDayCell = ({ year, month, day, displayDate }) => {
+    const dateKey = formatDateKey(year, month, day);
+    const event = eventsByDate[dateKey];
+    const styles = event ? getDemandStyles(event.demandLevel) : getDemandStyles();
+    let borderClass = event ? styles.borderClass : 'border-gray-100 hover:border-gray-200';
+    const bgClass = event ? styles.bgClass : 'bg-white';
+    const dotClass = styles.dotClass;
+
+    if (isTodayDate(year, month, day)) {
+      borderClass = 'border-gray-900 border-[1.5px] shadow-sm';
     }
-    
-    // Loop through dates
+
+    return (
+      <div
+        key={dateKey}
+        onClick={() => handleDayClick(dateKey)}
+        className={`flex min-h-[100px] cursor-pointer flex-col rounded-xl border p-3 transition-colors md:min-h-[120px] ${bgClass} ${borderClass}`}
+      >
+        <div className="flex items-start justify-between">
+          <span className="text-sm font-bold text-gray-900 md:text-base">{displayDate}</span>
+          {dotClass && <span className={`h-1.5 w-1.5 rounded-full md:h-2 md:w-2 ${dotClass}`} />}
+        </div>
+
+        {event && (
+          <div className="mt-auto pb-1">
+            <p className="flex items-center gap-1 text-xs font-bold text-gray-900 md:text-sm">
+              <Plane size={14} className="text-gray-700" fill="currentColor" />
+              {event.interestCount} Interested
+            </p>
+            <p className="mt-0.5 flex items-center gap-1 text-[11px] text-gray-900 md:text-xs">
+              <ArrowRight size={12} />
+              {event.routeLabel}
+            </p>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const cells = [];
+
+  if (appliedRange) {
+    const [startYear, startMonth, startDay] = appliedRange.start.split('-').map(Number);
+    const [endYear, endMonth, endDay] = appliedRange.end.split('-').map(Number);
+    const localStart = new Date(startYear, startMonth - 1, startDay);
+    const localEnd = new Date(endYear, endMonth - 1, endDay);
+    const startDayOfWeek = localStart.getDay();
+
+    for (let i = 0; i < startDayOfWeek; i += 1) {
+      cells.push(<div key={`empty-start-${i}`} className="hidden md:block" />);
+    }
+
     const currentDateLoop = new Date(localStart);
     while (currentDateLoop <= localEnd) {
       const d = currentDateLoop.getDate();
-      const m = currentDateLoop.getMonth();
+      const m = currentDateLoop.getMonth() + 1;
       const y = currentDateLoop.getFullYear();
-      
-      const isJune2026 = y === 2026 && m === 5;
-      const event = isJune2026 ? EVENTS[d] : null;
+      const displayDate =
+        d === 1
+          ? currentDateLoop.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+          : d;
 
-      let borderClass = 'border-gray-100 hover:border-gray-200';
-      let dotClass = '';
-      let bgClass = 'bg-white';
-
-      if (event) {
-        if (event.type === 'high') {
-          borderClass = 'border-green-400';
-          bgClass = 'bg-green-50/30';
-          dotClass = 'bg-green-500';
-        } else if (event.type === 'medium') {
-          borderClass = 'border-yellow-400';
-          bgClass = 'bg-yellow-50/30';
-        } else if (event.type === 'low') {
-          borderClass = 'border-gray-200';
-        }
-      }
-
-      if (isJune2026 && d === 6) {
-        borderClass = 'border-gray-900 border-[1.5px] shadow-sm';
-      }
-
-      // Show month name on the 1st of the month for clarity in a multi-month grid
-      const displayDate = d === 1 ? currentDateLoop.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : d;
-
-      cells.push(
-        <div 
-          key={`date-${y}-${m}-${d}`} 
-          onClick={() => navigate(`/concierge/demand-details?date=${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`)}
-          className={`min-h-[100px] md:min-h-[120px] rounded-xl border p-3 flex flex-col transition-colors cursor-pointer ${bgClass} ${borderClass}`}
-        >
-          <div className="flex justify-between items-start">
-            <span className="text-sm md:text-base font-bold text-gray-900">{displayDate}</span>
-            {dotClass && <span className={`w-1.5 h-1.5 md:w-2 md:h-2 rounded-full ${dotClass}`}></span>}
-          </div>
-          
-          {event && (
-            <div className="mt-auto pb-1">
-              <p className="text-xs md:text-sm font-bold text-gray-900 flex items-center gap-1">
-                <Plane size={14} className="text-gray-700" fill="currentColor" /> {event.interested} Interested
-              </p>
-              <p className="text-[11px] md:text-xs text-gray-900 mt-0.5 flex items-center gap-1">
-                <ArrowRight size={12} /> {event.route}
-              </p>
-            </div>
-          )}
-        </div>
-      );
-
-      // Increment day by 1
+      cells.push(renderDayCell({ year: y, month: m, day: d, displayDate }));
       currentDateLoop.setDate(currentDateLoop.getDate() + 1);
     }
-
   } else {
-    // ------------------------------------------
-    // RENDER STANDARD MONTH GRID
-    // ------------------------------------------
-    const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
+    const daysInMonth = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() + 1,
+      0,
+    ).getDate();
     const startDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay();
-    const isJune2026 = currentDate.getFullYear() === 2026 && currentDate.getMonth() === 5;
 
-    // Empty cells for days before the 1st
-    for (let i = 0; i < startDay; i++) {
-      cells.push(<div key={`empty-${i}`} className="hidden md:block"></div>);
+    for (let i = 0; i < startDay; i += 1) {
+      cells.push(<div key={`empty-${i}`} className="hidden md:block" />);
     }
 
-    // Days of the month
-    for (let d = 1; d <= daysInMonth; d++) {
-      const event = isJune2026 ? EVENTS[d] : null;
-      
-      let borderClass = 'border-gray-100 hover:border-gray-200';
-      let dotClass = '';
-      let bgClass = 'bg-white';
-
-      if (event) {
-        if (event.type === 'high') {
-          borderClass = 'border-green-400';
-          bgClass = 'bg-green-50/30';
-          dotClass = 'bg-green-500';
-        } else if (event.type === 'medium') {
-          borderClass = 'border-yellow-400';
-          bgClass = 'bg-yellow-50/30';
-        } else if (event.type === 'low') {
-          borderClass = 'border-gray-200';
-        }
-      }
-
-      if (isJune2026 && d === 6) {
-        borderClass = 'border-gray-900 border-[1.5px] shadow-sm';
-      }
-
+    for (let d = 1; d <= daysInMonth; d += 1) {
       cells.push(
-        <div 
-          key={d} 
-          onClick={() => navigate(`/concierge/demand-details?date=${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`)}
-          className={`min-h-[100px] md:min-h-[120px] rounded-xl border p-3 flex flex-col transition-colors cursor-pointer ${bgClass} ${borderClass}`}
-        >
-          <div className="flex justify-between items-start">
-            <span className="text-sm md:text-base font-bold text-gray-900">{d}</span>
-            {dotClass && <span className={`w-1.5 h-1.5 md:w-2 md:h-2 rounded-full ${dotClass}`}></span>}
-          </div>
-          
-          {event && (
-            <div className="mt-auto pb-1">
-              <p className="text-xs md:text-sm font-bold text-gray-900 flex items-center gap-1">
-                <Plane size={14} className="text-gray-700" fill="currentColor" /> {event.interested} Interested
-              </p>
-              <p className="text-[11px] md:text-xs text-gray-400 mt-0.5 flex items-center gap-1">
-                <ArrowRight size={12} /> {event.route}
-              </p>
-            </div>
-          )}
-        </div>
+        renderDayCell({
+          year: currentDate.getFullYear(),
+          month: currentDate.getMonth() + 1,
+          day: d,
+          displayDate: d,
+        }),
       );
     }
   }
 
-  // Header Title
-  const displayTitle = appliedRange 
-    ? `${formatShortDate(appliedRange.start)} - ${formatShortDate(appliedRange.end)}` 
+  const monthYearString = currentDate.toLocaleString('default', {
+    month: 'long',
+    year: 'numeric',
+  });
+
+  const displayTitle = appliedRange
+    ? `${formatShortDate(appliedRange.start)} - ${formatShortDate(appliedRange.end)}`
     : monthYearString;
 
   return (
-    <div className="">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 gap-4">
+    <div>
+      <div className="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-end">
         <div>
-          <h2 className="font-serif text-xl md:text-3xl font-bold text-gray-900 tracking-tight">
+          <h2 className="font-serif text-xl font-bold tracking-tight text-gray-900 md:text-3xl">
             {displayTitle}
           </h2>
-          <p className="text-xs md:text-base text-gray-500 mt-1">
-            Flight demand calendar
-          </p>
+          <p className="mt-1 text-xs text-gray-500 md:text-base">Flight demand calendar</p>
         </div>
-        
+
         <div className="flex items-center gap-2">
-          <button 
+          <button
+            type="button"
             onClick={handlePrevMonth}
-            className="p-2 border border-gray-200 rounded-lg text-gray-500 hover:bg-gray-50 transition-colors"
+            className="rounded-lg border border-gray-200 p-2 text-gray-500 transition-colors hover:bg-gray-50"
             title="Previous Month"
           >
-            <ChevronLeft size={16} className="md:w-5 md:h-5" />
+            <ChevronLeft size={16} className="md:h-5 md:w-5" />
           </button>
-          <button 
+          <button
+            type="button"
             onClick={handleNextMonth}
-            className="p-2 border border-gray-200 rounded-lg text-gray-500 hover:bg-gray-50 transition-colors"
+            className="rounded-lg border border-gray-200 p-2 text-gray-500 transition-colors hover:bg-gray-50"
             title="Next Month"
           >
-            <ChevronRight size={16} className="md:w-5 md:h-5" />
+            <ChevronRight size={16} className="md:h-5 md:w-5" />
           </button>
           <div className="relative" ref={datePickerRef}>
-            <button 
+            <button
+              type="button"
               onClick={() => setShowDatePicker(!showDatePicker)}
-              className="flex items-center gap-2 px-3 py-2 border border-gray-200 rounded-lg text-xs md:text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors ml-2"
+              className="ml-2 flex items-center gap-2 rounded-lg border border-gray-200 px-3 py-2 text-xs font-semibold text-gray-700 transition-colors hover:bg-gray-50 md:text-sm"
             >
               <CalendarIcon size={16} className="text-gray-500" />
-              {appliedRange ? `${formatShortDate(appliedRange.start)} - ${formatShortDate(appliedRange.end)}` : 'Select Date Range'}
-              
+              {appliedRange
+                ? `${formatShortDate(appliedRange.start)} - ${formatShortDate(appliedRange.end)}`
+                : 'Select Date Range'}
+
               {appliedRange ? (
-                <div 
-                  onClick={(e) => { 
-                    e.stopPropagation(); 
-                    setAppliedRange(null); 
+                <div
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setAppliedRange(null);
                     setShowDatePicker(false);
                   }}
-                  className="hover:bg-gray-200 rounded-full p-0.5 ml-1 transition-colors"
+                  className="ml-1 rounded-full p-0.5 transition-colors hover:bg-gray-200"
                   title="Clear Range"
                 >
                   <X size={14} className="text-gray-600" />
                 </div>
               ) : (
-                <ChevronRight size={16} className={`text-gray-400 ml-1 transition-transform ${showDatePicker ? '-rotate-90' : 'rotate-90'}`} />
+                <ChevronRight
+                  size={16}
+                  className={`ml-1 text-gray-400 transition-transform ${showDatePicker ? '-rotate-90' : 'rotate-90'}`}
+                />
               )}
             </button>
 
-            {/* Date Picker Dropdown */}
             {showDatePicker && (
-              <div className="absolute right-0 top-full mt-2 w-64 bg-white rounded-xl shadow-lg border border-gray-100 p-4 z-50">
+              <div className="absolute right-0 top-full z-50 mt-2 w-64 rounded-xl border border-gray-100 bg-white p-4 shadow-lg">
                 <div className="mb-3">
-                  <label className="block text-xs font-semibold text-gray-700 mb-1">Start Date</label>
-                  <input 
-                    type="date" 
+                  <label className="mb-1 block text-xs font-semibold text-gray-700">Start Date</label>
+                  <input
+                    type="date"
                     value={startDate}
                     onChange={(e) => setStartDate(e.target.value)}
-                    className="w-full text-sm border border-gray-200 rounded-md p-2 outline-none focus:border-[#257AFC]"
+                    className="w-full rounded-md border border-gray-200 p-2 text-sm outline-none focus:border-[#257AFC]"
                   />
                 </div>
                 <div className="mb-4">
-                  <label className="block text-xs font-semibold text-gray-700 mb-1">End Date</label>
-                  <input 
-                    type="date" 
+                  <label className="mb-1 block text-xs font-semibold text-gray-700">End Date</label>
+                  <input
+                    type="date"
                     value={endDate}
                     onChange={(e) => setEndDate(e.target.value)}
-                    className="w-full text-sm border border-gray-200 rounded-md p-2 outline-none focus:border-[#257AFC]"
+                    className="w-full rounded-md border border-gray-200 p-2 text-sm outline-none focus:border-[#257AFC]"
                   />
                 </div>
                 <div className="flex gap-2">
                   {appliedRange && (
-                    <button 
+                    <button
+                      type="button"
                       onClick={() => {
                         setAppliedRange(null);
                         setShowDatePicker(false);
                       }}
-                      className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold py-2 rounded-md transition-colors"
+                      className="w-full rounded-md bg-gray-100 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-200"
                     >
                       Clear
                     </button>
                   )}
-                  <button 
+                  <button
+                    type="button"
                     onClick={handleApplyRange}
-                    className="w-full bg-[#257AFC] hover:bg-blue-700 text-white text-sm font-semibold py-2 rounded-md transition-colors"
+                    className="w-full rounded-md bg-[#257AFC] py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
                   >
                     Apply Range
                   </button>
@@ -329,33 +307,37 @@ export default function FlightDemandCalendar() {
         </div>
       </div>
 
-      {/* Days Header */}
-      <div className="grid grid-cols-7 gap-2 md:gap-4 mb-2 text-center">
-        {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-          <div key={day} className="text-xs md:text-sm font-semibold text-gray-400 uppercase tracking-wider py-2">
+      <div className="mb-2 grid grid-cols-7 gap-2 text-center md:gap-4">
+        {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
+          <div
+            key={day}
+            className="py-2 text-xs font-semibold uppercase tracking-wider text-gray-400 md:text-sm"
+          >
             {day}
           </div>
         ))}
       </div>
 
-      {/* Calendar Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-7 gap-2 md:gap-4 mb-8">
-        {cells}
-      </div>
+      {isLoading ? (
+        <ConciergeCalendarGridSkeleton />
+      ) : (
+        <div className="mb-8 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-7 md:gap-4">
+          {cells}
+        </div>
+      )}
 
-      {/* Legend */}
-      <div className="flex flex-wrap items-center justify-center gap-6 pt-4 border-t border-gray-100">
+      <div className="flex flex-wrap items-center justify-center gap-6 border-t border-gray-100 pt-4">
         <div className="flex items-center gap-2">
-          <div className="w-3 h-3 md:w-4 md:h-4 rounded-[3px] border border-yellow-400 bg-yellow-50/30"></div>
-          <span className="text-xs md:text-sm font-medium text-gray-500">Medium Demand (2-4)</span>
+          <div className="h-3 w-3 rounded-[3px] border border-yellow-400 bg-yellow-50/30 md:h-4 md:w-4" />
+          <span className="text-xs font-medium text-gray-500 md:text-sm">Medium Demand (2-4)</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-3 h-3 md:w-4 md:h-4 rounded-[3px] border border-green-400 bg-green-50/30"></div>
-          <span className="text-xs md:text-sm font-medium text-gray-500">High Demand (5+)</span>
+          <div className="h-3 w-3 rounded-[3px] border border-green-400 bg-green-50/30 md:h-4 md:w-4" />
+          <span className="text-xs font-medium text-gray-500 md:text-sm">High Demand (5+)</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-3 h-3 md:w-4 md:h-4 rounded-[3px] border border-gray-200 bg-white"></div>
-          <span className="text-xs md:text-sm font-medium text-gray-500">Low Demand (1-2)</span>
+          <div className="h-3 w-3 rounded-[3px] border border-gray-200 bg-white md:h-4 md:w-4" />
+          <span className="text-xs font-medium text-gray-500 md:text-sm">Low Demand (1-2)</span>
         </div>
       </div>
     </div>
