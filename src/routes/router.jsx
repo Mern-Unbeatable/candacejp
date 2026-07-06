@@ -12,6 +12,7 @@ import HomePageSkeleton from "../components/common/skeletons/HomePageSkeleton";
 import MembershipPageSkeleton from "../components/common/skeletons/MembershipPageSkeleton";
 import FAQPageSkeleton from "../components/common/skeletons/FAQPageSkeleton";
 import ContactPageSkeleton from "../components/common/skeletons/ContactPageSkeleton";
+import TermsPageSkeleton from "../components/common/skeletons/TermsPageSkeleton";
 import AdminDashboardSkeleton from "../components/common/skeletons/AdminDashboardSkeleton";
 import MembersPageSkeleton from "../components/common/skeletons/MembersPageSkeleton";
 import SupportPageSkeleton from "../components/common/skeletons/SupportPageSkeleton";
@@ -43,7 +44,7 @@ const Loadable = (Component, fallback = <PageSpinner />) => (props) => (
 
 const Home = Loadable(lazy(() => import("../pages/public/Home/Home")), <HomePageSkeleton />);
 const Membership = Loadable(lazy(() => import("../pages/public/Membership/Membership")), <MembershipPageSkeleton />);
-const Terms = Loadable(lazy(() => import("../pages/public/Terms/Terms")));
+const Terms = Loadable(lazy(() => import("../pages/public/Terms/Terms")), <TermsPageSkeleton />);
 const FAQ = Loadable(lazy(() => import("../pages/public/FAQ/FAQ")), <FAQPageSkeleton />);
 const Contact = Loadable(lazy(() => import("../pages/public/Contact/Contact")), <ContactPageSkeleton />);
 const Login = Loadable(lazy(() => import("../pages/public/login/Login")), <AuthPageSkeleton variant="login" />);
