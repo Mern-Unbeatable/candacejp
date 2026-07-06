@@ -8,6 +8,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
 
 import AuthPageSkeleton from "../components/common/skeletons/AuthPageSkeleton";
+import HomePageSkeleton from "../components/common/skeletons/HomePageSkeleton";
 import AdminDashboardSkeleton from "../components/common/skeletons/AdminDashboardSkeleton";
 import MembersPageSkeleton from "../components/common/skeletons/MembersPageSkeleton";
 import SupportPageSkeleton from "../components/common/skeletons/SupportPageSkeleton";
@@ -37,7 +38,7 @@ const Loadable = (Component, fallback = <PageSpinner />) => (props) => (
   </Suspense>
 );
 
-const Home = Loadable(lazy(() => import("../pages/public/Home/Home")));
+const Home = Loadable(lazy(() => import("../pages/public/Home/Home")), <HomePageSkeleton />);
 const Membership = Loadable(lazy(() => import("../pages/public/Membership/Membership")));
 const Terms = Loadable(lazy(() => import("../pages/public/Terms/Terms")));
 const FAQ = Loadable(lazy(() => import("../pages/public/FAQ/FAQ")));
