@@ -11,6 +11,7 @@ import AuthPageSkeleton from "../components/common/skeletons/AuthPageSkeleton";
 import HomePageSkeleton from "../components/common/skeletons/HomePageSkeleton";
 import MembershipPageSkeleton from "../components/common/skeletons/MembershipPageSkeleton";
 import FAQPageSkeleton from "../components/common/skeletons/FAQPageSkeleton";
+import ContactPageSkeleton from "../components/common/skeletons/ContactPageSkeleton";
 import AdminDashboardSkeleton from "../components/common/skeletons/AdminDashboardSkeleton";
 import MembersPageSkeleton from "../components/common/skeletons/MembersPageSkeleton";
 import SupportPageSkeleton from "../components/common/skeletons/SupportPageSkeleton";
@@ -44,7 +45,7 @@ const Home = Loadable(lazy(() => import("../pages/public/Home/Home")), <HomePage
 const Membership = Loadable(lazy(() => import("../pages/public/Membership/Membership")), <MembershipPageSkeleton />);
 const Terms = Loadable(lazy(() => import("../pages/public/Terms/Terms")));
 const FAQ = Loadable(lazy(() => import("../pages/public/FAQ/FAQ")), <FAQPageSkeleton />);
-const Contact = Loadable(lazy(() => import("../pages/public/Contact/Contact")));
+const Contact = Loadable(lazy(() => import("../pages/public/Contact/Contact")), <ContactPageSkeleton />);
 const Login = Loadable(lazy(() => import("../pages/public/login/Login")), <AuthPageSkeleton variant="login" />);
 const Register = Loadable(lazy(() => import("../pages/public/register/Register")), <AuthPageSkeleton variant="register" />);
 const ForgotPassword = Loadable(lazy(() => import("../pages/public/forgot-password/ForgotPassword")), <AuthPageSkeleton variant="forgot-password" />);
