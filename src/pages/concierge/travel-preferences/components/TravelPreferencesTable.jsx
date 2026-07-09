@@ -127,16 +127,16 @@ export default function TravelPreferencesTable({
 
   return (
     <>
-      <div className="hidden md:block bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse min-w-[1100px]">
+      <div className="mb-6 hidden w-full max-w-full rounded-xl border border-gray-100 bg-white shadow-sm md:block">
+        <div className="overflow-x-auto overflow-y-hidden">
+          <table className="w-full min-w-[960px] border-collapse text-left">
             <thead>
               <tr className="border-b border-gray-100 bg-white">
                 <th className="py-4 px-6 text-sm font-semibold text-gray-900">Name</th>
                 <th className="py-4 px-6 text-sm font-semibold text-gray-900">Email</th>
                 <th className="py-4 px-6 text-sm font-semibold text-gray-900">Route</th>
                 <th className="py-4 px-6 text-sm font-semibold text-gray-900">Date</th>
-                <th className="py-4 px-6 text-sm font-semibold text-gray-900">Preffered Time</th>
+                <th className="px-6 py-4 text-sm font-semibold text-gray-900">Preferred Time</th>
                 <th className="py-4 px-6 text-sm font-semibold text-gray-900">Status</th>
                 <th className="py-4 px-6 text-sm font-semibold text-gray-900 text-center w-32">Action</th>
               </tr>

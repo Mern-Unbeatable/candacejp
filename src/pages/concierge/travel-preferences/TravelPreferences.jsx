@@ -175,21 +175,21 @@ export default function TravelPreferences() {
   };
 
   return (
-    <div className="mx-auto">
-      <div className="flex flex-col md:flex-row md:items-start justify-between mb-8 gap-4 mt-4">
-        <div>
-          <h1 className="font-serif text-2xl md:text-4xl font-bold text-gray-900 tracking-tight">
+    <div className="mx-auto w-full min-w-0 max-w-full">
+      <div className="mb-8 mt-4 flex flex-col justify-between gap-4 md:flex-row md:items-start">
+        <div className="min-w-0">
+          <h1 className="font-serif text-2xl font-bold tracking-tight text-gray-900 md:text-4xl">
             Recurring Travel Management
           </h1>
-          <p className="mt-1 text-sm md:text-base text-gray-500">
+          <p className="mt-1 text-sm text-gray-500 md:text-base">
             Monitor and coordinate recurring member travel preferences to
             identify demand patterns and optimize shared charter opportunities.
           </p>
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
-        <div className="flex bg-[#E9F2FF] p-2 rounded-full w-full md:w-auto overflow-x-auto hide-scrollbar">
+      <div className="mb-6 flex flex-col items-start justify-between gap-4 xl:flex-row xl:items-center">
+        <div className="hide-scrollbar inline-flex max-w-full shrink-0 overflow-x-auto rounded-full bg-[#E9F2FF] p-2">
           {TABS.map((tab) => (
             <button
               key={tab}
@@ -206,8 +206,8 @@ export default function TravelPreferences() {
           ))}
         </div>
 
-        <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
-          <span className="flex items-center gap-2 text-sm font-medium text-gray-700">
+        <div className="hide-scrollbar flex w-full flex-nowrap items-center gap-2 overflow-x-auto sm:flex-wrap sm:overflow-visible sm:gap-3 xl:w-auto xl:justify-end">
+          <span className="flex shrink-0 items-center gap-2 text-sm font-medium text-gray-700">
             <Filter size={16} /> Filter:
           </span>
 
@@ -221,7 +221,7 @@ export default function TravelPreferences() {
         </div>
       </div>
 
-      <div className="relative mb-6">
+      <div className="relative mb-6 w-full min-w-0">
         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
           <Search size={18} className="text-gray-400" />
         </div>
@@ -241,7 +241,7 @@ export default function TravelPreferences() {
           No travel preferences found.
         </div>
       ) : (
-        <>
+        <div className="w-full min-w-0">
           <TravelPreferencesTable
             paginatedData={preferences}
             getStatusStyle={getStatusStyle}
@@ -273,7 +273,7 @@ export default function TravelPreferences() {
             itemsPerPage={itemsPerPage}
             onPageChange={setCurrentPage}
           />
-        </>
+        </div>
       )}
 
       <TravelPreferencesModal

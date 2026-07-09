@@ -239,7 +239,7 @@ export default function DashboardLayout() {
         </aside>
       </div>
 
-      <div className="flex flex-1 flex-col">
+      <div className="flex min-w-0 flex-1 flex-col">
         <header className="flex h-14 items-center gap-4 border-b border-ink-50 bg-white px-4 lg:hidden">
           <button
             className="rounded-lg p-2"
@@ -253,7 +253,7 @@ export default function DashboardLayout() {
           </span>
         </header>
 
-        <main className="flex-1 p-4 lg:p-8">
+        <main className="min-w-0 flex-1 overflow-x-hidden p-4 lg:p-8">
           <Outlet />
         </main>
       </div>
