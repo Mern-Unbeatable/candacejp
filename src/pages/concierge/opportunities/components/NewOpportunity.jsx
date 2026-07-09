@@ -29,6 +29,7 @@ const OPPOSITE_AIRPORT = {
   "Tampa (TPA)": "New York (TEB)",
 };
 
+
 function toDateInputValue(value) {
   if (!value) return "";
   return new Date(value).toISOString().split("T")[0];
