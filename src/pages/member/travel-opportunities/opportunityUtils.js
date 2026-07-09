@@ -12,14 +12,14 @@ export function formatOpportunityCost(value) {
   }).format(amount);
 }
 
-export function formatOpportunityDeparture(departureDate) {
+export function formatOpportunityDeparture(departureDate, preferredTime) {
   if (!departureDate) {
     return { departureDate: '—', departureTime: '—' };
   }
 
   const date = new Date(departureDate);
   if (Number.isNaN(date.getTime())) {
-    return { departureDate: String(departureDate), departureTime: '—' };
+    return { departureDate: String(departureDate), departureTime: preferredTime || '—' };
   }
 
   return {
@@ -28,7 +28,7 @@ export function formatOpportunityDeparture(departureDate) {
       day: 'numeric',
       year: 'numeric',
     }),
-    departureTime: date.toLocaleTimeString('en-US', {
+    departureTime: preferredTime || date.toLocaleTimeString('en-US', {
       hour: 'numeric',
       minute: '2-digit',
     }),
@@ -38,6 +38,7 @@ export function formatOpportunityDeparture(departureDate) {
 export function mapMemberOpportunity(opportunity) {
   const { departureDate, departureTime } = formatOpportunityDeparture(
     opportunity.departureDate,
+    opportunity.preferredTime,
   );
 
   return {

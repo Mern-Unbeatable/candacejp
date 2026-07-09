@@ -22,6 +22,8 @@ const DESTINATION_OPTIONS = [
   { value: "New York (TEB)", label: "New York (TEB)" },
 ];
 
+const PREFERRED_TIME_OPTIONS = ['Morning', 'Afternoon', 'Evening'];
+
 const OPPOSITE_AIRPORT = {
   "New York (TEB)": "Tampa (TPA)",
   "Tampa (TPA)": "New York (TEB)",
@@ -60,6 +62,7 @@ export default function NewOpportunity() {
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
   const [departureDate, setDepartureDate] = useState("");
+  const [preferredTime, setPreferredTime] = useState("");
   const [estimatedPrice, setEstimatedPrice] = useState("");
   const [aircraftType, setAircraftType] = useState("");
   const [totalCapacity, setTotalCapacity] = useState("");
@@ -91,6 +94,7 @@ export default function NewOpportunity() {
     setOrigin(opportunity.origin ?? "");
     setDestination(opportunity.destination ?? "");
     setDepartureDate(toDateInputValue(opportunity.departureDate));
+    setPreferredTime(opportunity.preferredTime ?? "");
     setEstimatedPrice(String(opportunity.estimatedPrice ?? ""));
     setAircraftType(opportunity.aircraftType ?? "");
     setTotalCapacity(String(opportunity.totalCapacity ?? ""));
@@ -101,7 +105,8 @@ export default function NewOpportunity() {
     origin,
     destination,
     tripType: "ONE_WAY",
-    departureDate: `${departureDate}T10:00:00.000Z`,
+    departureDate,
+    preferredTime,
     estimatedPrice: Number(estimatedPrice),
     aircraftType: aircraftType.trim() || null,
     totalCapacity: Number(totalCapacity),
@@ -115,6 +120,10 @@ export default function NewOpportunity() {
     }
     if (!departureDate) {
       toast.error("Please select a departure date.");
+      return false;
+    }
+    if (!preferredTime) {
+      toast.error("Please select a preferred departure time.");
       return false;
     }
     if (departureDate < getMinDepartureDate()) {
@@ -317,7 +326,7 @@ export default function NewOpportunity() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
               <label className="flex items-center gap-2 text-xs font-medium text-gray-900 mb-2">
                 <Calendar size={16} className="text-gray-400" /> Preferred Departure
@@ -336,6 +345,31 @@ export default function NewOpportunity() {
                 }}
                 className="w-full bg-[#F4F5F7] border border-transparent focus:border-blue-500 focus:bg-white rounded-lg px-4 py-3 text-sm text-gray-900 outline-none transition-colors cursor-pointer"
               />
+            </div>
+
+            <div>
+              <label className="block text-xs font-medium text-gray-900 mb-2">
+                Preferred Time
+              </label>
+              <div className="relative">
+                <select
+                  value={preferredTime}
+                  onChange={(e) => setPreferredTime(e.target.value)}
+                  className="w-full cursor-pointer appearance-none rounded-lg border border-transparent bg-[#F4F5F7] px-4 py-3 pr-10 text-sm text-gray-900 outline-none transition-colors focus:border-blue-500 focus:bg-white"
+                >
+                  <option value="" disabled>
+                    Select time
+                  </option>
+                  {PREFERRED_TIME_OPTIONS.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
+                  <ChevronDown size={16} className="text-gray-400" />
+                </div>
+              </div>
             </div>
 
             <div>

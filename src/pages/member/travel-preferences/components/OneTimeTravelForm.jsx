@@ -2,7 +2,13 @@ import React from 'react';
 import { Plus, ChevronDown } from 'lucide-react';
 import DirectionFields from './DirectionFields';
 
-export default function OneTimeTravelForm({ form, onChange, onAdd, isAdding = false }) {
+export default function OneTimeTravelForm({
+  form,
+  onChange,
+  onAdd,
+  isAdding = false,
+  duplicateMessage = null,
+}) {
   return (
     <div className="space-y-6">
       <div>
@@ -60,10 +66,16 @@ export default function OneTimeTravelForm({ form, onChange, onAdd, isAdding = fa
         </div>
       </div>
 
+      {duplicateMessage && (
+        <p className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+          {duplicateMessage}
+        </p>
+      )}
+
       <button
         type="button"
         onClick={onAdd}
-        disabled={isAdding}
+        disabled={isAdding || Boolean(duplicateMessage)}
         className="flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white py-3.5 text-sm font-semibold text-gray-700 shadow-sm transition-colors hover:border-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60"
       >
         <Plus size={16} />

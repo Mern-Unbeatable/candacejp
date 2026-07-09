@@ -60,13 +60,16 @@ export function formatOpportunityStatus(status) {
   return STATUS_LABELS[status] ?? status ?? '—'
 }
 
-export function formatOpportunityDeparture(date) {
+export function formatOpportunityDeparture(date, preferredTime) {
   if (!date) return '—'
-  return new Date(date).toLocaleDateString('en-US', {
+
+  const formattedDate = new Date(date).toLocaleDateString('en-US', {
     month: 'short',
     day: 'numeric',
     year: 'numeric',
   })
+
+  return preferredTime ? `${formattedDate} (${preferredTime})` : formattedDate
 }
 
 export function formatOpportunityPrice(price) {
@@ -80,7 +83,7 @@ export function mapOpportunityRow(opportunity) {
     ...opportunity,
     route: formatOpportunityRoute(opportunity),
     type: formatOpportunityTripType(opportunity.tripType),
-    departure: formatOpportunityDeparture(opportunity.departureDate),
+    departure: formatOpportunityDeparture(opportunity.departureDate, opportunity.preferredTime),
     status: formatOpportunityStatus(opportunity.status),
     statusCode: opportunity.status,
     totalSeat: opportunity.totalSeat ?? opportunity.totalCapacity,

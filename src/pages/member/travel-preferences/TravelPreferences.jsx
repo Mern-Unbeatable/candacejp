@@ -28,6 +28,86 @@ const EMPTY_ONE_TIME_FORM = {
   time: '',
 };
 
+const ROUTE_CODE_TO_LABEL = {
+  NYC: 'New York',
+  TAMPA: 'Tampa',
+};
+
+function toRouteLabel(code) {
+  return ROUTE_CODE_TO_LABEL[code] ?? code;
+}
+
+function dedupeByKey(items, getKey) {
+  const seen = new Set();
+
+  return items.filter((item) => {
+    const key = getKey(item);
+    if (seen.has(key)) {
+      return false;
+    }
+
+    seen.add(key);
+    return true;
+  });
+}
+
+function getRecurringDisplayKey(item) {
+  return `${item.from}|${item.to}|${item.day}|${item.time}`;
+}
+
+function getOneTimeDisplayKey(item) {
+  const dateKey = item.preferredDate
+    ? String(item.preferredDate).split('T')[0]
+    : item.date;
+
+  return `${item.from}|${item.to}|${dateKey}|${item.time}`;
+}
+
+function formatFormDate(dateStr) {
+  const [year, month, day] = dateStr.split('-').map(Number);
+
+  return new Intl.DateTimeFormat('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  }).format(new Date(year, month - 1, day));
+}
+
+function formatRecurringDuplicateMessage({ from, to, day, time }) {
+  return `You already have this saved: ${toRouteLabel(from)} → ${toRouteLabel(to)} on ${day} (${time}).`;
+}
+
+function formatOneTimeDuplicateMessage({ from, to, date, time }) {
+  return `You already have this saved: ${toRouteLabel(from)} → ${toRouteLabel(to)} on ${formatFormDate(date)} (${time}).`;
+}
+function isDuplicateRecurring(form, saved) {
+  const from = toRouteLabel(form.from);
+  const to = toRouteLabel(form.to);
+
+  return saved.some(
+    (item) => item.from === from
+      && item.to === to
+      && item.day === form.day
+      && item.time === form.time,
+  );
+}
+
+function isDuplicateOneTime(form, saved) {
+  const from = toRouteLabel(form.from);
+  const to = toRouteLabel(form.to);
+
+  return saved.some((item) => {
+    const itemDateKey = item.preferredDate
+      ? String(item.preferredDate).split('T')[0]
+      : null;
+
+    return item.from === from
+      && item.to === to
+      && itemDateKey === form.date
+      && item.time === form.time;
+  });
+}
+
 function mapRecurringPreference(item) {
   return {
     id: item.id,
@@ -45,6 +125,7 @@ function mapOneTimePreference(item) {
     from: item.from,
     to: item.to,
     date: item.date,
+    preferredDate: item.preferredDate,
     time: item.time || item.preferredTime,
     status: item.status,
   };
@@ -60,14 +141,48 @@ export default function TravelPreferences() {
   const { mutateAsync: createPreference } = useCreateMemberTravelPreferenceMutation();
   const { mutateAsync: deletePreference } = useDeleteMemberTravelPreferenceMutation();
 
-  const savedRecurring = useMemo(
+  const allRecurring = useMemo(
     () => (data?.recurring ?? []).map(mapRecurringPreference),
     [data?.recurring],
   );
-  const savedOneTime = useMemo(
+  const allOneTime = useMemo(
     () => (data?.oneTime ?? []).map(mapOneTimePreference),
     [data?.oneTime],
   );
+  const savedRecurring = useMemo(
+    () => dedupeByKey(allRecurring, getRecurringDisplayKey),
+    [allRecurring],
+  );
+  const savedOneTime = useMemo(
+    () => dedupeByKey(allOneTime, getOneTimeDisplayKey),
+    [allOneTime],
+  );
+
+  const recurringDuplicateMessage = useMemo(() => {
+    const { from, to, day, time } = recurringForm;
+    if (!from || !to || !day || !time || from === to) {
+      return null;
+    }
+
+    if (!isDuplicateRecurring(recurringForm, allRecurring)) {
+      return null;
+    }
+
+    return formatRecurringDuplicateMessage(recurringForm);
+  }, [recurringForm, allRecurring]);
+
+  const oneTimeDuplicateMessage = useMemo(() => {
+    const { from, to, date, time } = oneTimeForm;
+    if (!from || !to || !date || !time || from === to) {
+      return null;
+    }
+
+    if (!isDuplicateOneTime(oneTimeForm, allOneTime)) {
+      return null;
+    }
+
+    return formatOneTimeDuplicateMessage(oneTimeForm);
+  }, [oneTimeForm, allOneTime]);
 
   useEffect(() => {
     document.title = 'Travel Preferences - Member | RAVEN';
@@ -121,6 +236,11 @@ export default function TravelPreferences() {
       return;
     }
 
+    if (isDuplicateRecurring(recurringForm, allRecurring)) {
+      toast.error(formatRecurringDuplicateMessage(recurringForm));
+      return;
+    }
+
     setAddingType('RECURRING');
     try {
       await createPreference({
@@ -149,6 +269,11 @@ export default function TravelPreferences() {
 
     if (from === to) {
       toast.error('Origin and destination must be different.');
+      return;
+    }
+
+    if (isDuplicateOneTime(oneTimeForm, allOneTime)) {
+      toast.error(formatOneTimeDuplicateMessage(oneTimeForm));
       return;
     }
 
@@ -192,6 +317,7 @@ export default function TravelPreferences() {
           onChange={handleChangeRecurringForm}
           onAdd={handleAddRecurring}
           isAdding={addingType === 'RECURRING'}
+          duplicateMessage={recurringDuplicateMessage}
         />
 
         <OneTimeTravelForm
@@ -199,6 +325,7 @@ export default function TravelPreferences() {
           onChange={handleChangeOneTimeForm}
           onAdd={handleAddOneTime}
           isAdding={addingType === 'ONE_TIME'}
+          duplicateMessage={oneTimeDuplicateMessage}
         />
       </div>
 

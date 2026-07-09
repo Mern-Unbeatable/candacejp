@@ -6,9 +6,18 @@ export default function NotificationCard({
   onMarkAsRead,
   isMarkingRead = false,
 }) {
-  const getBadgeConfig = (type) => {
+  const getBadgeConfig = (type, isRead) => {
     switch (type) {
       case 'new':
+        if (isRead) {
+          return {
+            icon: <Sparkles size={14} className="text-gray-500" />,
+            iconBg: 'bg-gray-100',
+            badgeText: 'Opportunity',
+            badgeStyle: 'bg-gray-100 text-gray-600',
+          };
+        }
+
         return {
           icon: <Sparkles size={14} className="text-[#257AFC]" />,
           iconBg: 'bg-blue-50',
@@ -46,8 +55,8 @@ export default function NotificationCard({
     }
   };
 
-  const config = getBadgeConfig(notification.type);
   const isUnread = !notification.isRead;
+  const config = getBadgeConfig(notification.type, notification.isRead);
 
   return (
     <div

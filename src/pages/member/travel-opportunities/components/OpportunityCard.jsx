@@ -47,7 +47,9 @@ export default function OpportunityCard({
             <Calendar size={16} className="text-gray-400" />
             <p className="text-sm font-medium text-gray-900">{flight.departureDate}</p>
           </div>
-          {/* <p className="text-xs md:text-sm text-gray-600">{flight.departureTime}</p> */}
+          {flight.departureTime && flight.departureTime !== '—' && (
+            <p className="text-xs md:text-sm text-gray-600">{flight.departureTime}</p>
+          )}
         </div>
 
         <div>

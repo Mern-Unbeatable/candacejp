@@ -145,7 +145,7 @@ export default function OpportunitiesTable({
               <th className="py-4 px-6 text-sm font-semibold text-gray-900">Trip Type</th>
               <th className="py-4 px-6 text-sm font-semibold text-gray-900">Preferred Departure</th>
               <th className="py-4 px-6 text-sm font-semibold text-gray-900">Total Seat</th>
-              <th className="py-4 px-6 text-sm font-semibold text-gray-900">Total Booked</th>
+              <th className="py-4 px-6 text-sm font-semibold text-gray-900">Total Opportunities</th>
               <th className="py-4 px-6 text-sm font-semibold text-gray-900">Available Seat</th>
               <th className="py-4 px-6 text-sm font-semibold text-gray-900">Status</th>
               <th className="py-4 px-6 text-sm font-semibold text-gray-900 text-center">Action</th>

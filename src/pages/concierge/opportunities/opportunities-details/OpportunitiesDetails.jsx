@@ -104,7 +104,7 @@ export default function OpportunitiesDetails() {
 
       label: formatOpportunityRoute(opportunity),
 
-      departure: formatOpportunityDeparture(opportunity?.departureDate),
+      departure: formatOpportunityDeparture(opportunity?.departureDate, opportunity?.preferredTime),
 
     },
 

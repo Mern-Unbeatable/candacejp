@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Save } from 'lucide-react';
+import useNominatim from '../../../../hooks/useNominatim';
 
 const EMPTY_FORM = {
   firstName: '',
@@ -14,10 +15,13 @@ const EMPTY_FORM = {
 
 export default function PersonalInfoForm({ profile, onSave, isSaving = false }) {
   const [form, setForm] = useState(EMPTY_FORM);
+  const [zipEdited, setZipEdited] = useState(false);
+  const { location } = useNominatim(form.zipCode);
 
   useEffect(() => {
     if (!profile) return;
 
+    setZipEdited(false);
     setForm({
       firstName: profile.firstName || '',
       lastName: profile.lastName || '',
@@ -30,8 +34,25 @@ export default function PersonalInfoForm({ profile, onSave, isSaving = false }) 
     });
   }, [profile]);
 
+  useEffect(() => {
+    if (!zipEdited || (!location.city && !location.state)) {
+      return;
+    }
+
+    setForm((prev) => ({
+      ...prev,
+      city: location.city || prev.city,
+      state: location.state || prev.state,
+    }));
+  }, [location, zipEdited]);
+
   const handleChange = (event) => {
     const { name, value } = event.target;
+
+    if (name === 'zipCode') {
+      setZipEdited(true);
+    }
+
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
