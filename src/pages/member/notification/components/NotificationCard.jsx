@@ -7,22 +7,22 @@ export default function NotificationCard({
   isMarkingRead = false,
 }) {
   const getBadgeConfig = (type, isRead) => {
+    if (!isRead) {
+      return {
+        icon: <Sparkles size={14} className="text-[#257AFC]" />,
+        iconBg: 'bg-blue-50',
+        badgeText: 'New',
+        badgeStyle: 'bg-[#257AFC] text-white',
+      };
+    }
+
     switch (type) {
       case 'new':
-        if (isRead) {
-          return {
-            icon: <Sparkles size={14} className="text-gray-500" />,
-            iconBg: 'bg-gray-100',
-            badgeText: 'Opportunity',
-            badgeStyle: 'bg-gray-100 text-gray-600',
-          };
-        }
-
         return {
-          icon: <Sparkles size={14} className="text-[#257AFC]" />,
-          iconBg: 'bg-blue-50',
-          badgeText: 'New',
-          badgeStyle: 'bg-[#257AFC] text-white',
+          icon: <Sparkles size={14} className="text-gray-500" />,
+          iconBg: 'bg-gray-100',
+          badgeText: 'Opportunity',
+          badgeStyle: 'bg-gray-100 text-gray-600',
         };
       case 'pending':
         return {
@@ -35,7 +35,7 @@ export default function NotificationCard({
         return {
           icon: <CheckCircle size={14} className="text-[#257AFC]" />,
           iconBg: 'bg-blue-50',
-          badgeText: 'Confirmed',
+          badgeText: 'Confirmation Notification',
           badgeStyle: 'bg-green-100 text-green-500',
         };
       case 'cancelled':
