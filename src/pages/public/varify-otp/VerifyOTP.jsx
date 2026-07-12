@@ -33,24 +33,47 @@ export default function VerifyOTP() {
   const [isLoading, setIsLoading] = useState(false)
   const inputRefs = useRef([])
 
+  const fillOtp = (code) => {
+    const cleaned = String(code).replace(/\D/g, '').slice(0, 5)
+    if (!cleaned) return
+    const newOtp = ['', '', '', '', '']
+    for (let i = 0; i < cleaned.length; i++) {
+      newOtp[i] = cleaned[i]
+    }
+    setOtp(newOtp)
+    const focusIndex = Math.min(cleaned.length, 4)
+    if (inputRefs.current[focusIndex]) {
+      inputRefs.current[focusIndex].focus()
+    }
+  }
+
+  const handlePaste = (e) => {
+    e.preventDefault()
+    const pastedData = e.clipboardData.getData('text')
+    fillOtp(pastedData)
+  }
+
   const handleChange = (index, value) => {
-    // Only allow numbers
-    if (value && !/^\d+$/.test(value)) return
+    const cleaned = value.replace(/\D/g, '')
+    if (value && !cleaned) return
+
+    if (cleaned.length > 1) {
+      fillOtp(cleaned)
+      return
+    }
 
     const newOtp = [...otp]
-    newOtp[index] = value
+    newOtp[index] = cleaned
     setOtp(newOtp)
 
-    // Move to next input if value is entered
-    if (value && index < 4) {
-      inputRefs.current[index + 1].focus()
+    if (cleaned && index < 4) {
+      inputRefs.current[index + 1]?.focus()
     }
   }
 
   const handleKeyDown = (index, e) => {
-    // Move to previous input on backspace if current is empty
     if (e.key === 'Backspace' && !otp[index] && index > 0) {
-      inputRefs.current[index - 1].focus()
+      inputRefs.current[index - 1]?.focus()
     }
   }
 
@@ -108,7 +131,7 @@ export default function VerifyOTP() {
 
         <div className="w-full max-w-xl px-8 py-12 mt-10 lg:mt-0">
           <h2 className="mb-2 font-serif text-3xl font-medium text-gray-900">Verify Email</h2>
-          <p className="mb-8 text-sm text-gray-500">We have sent a 5-digit verification code to <span className="font-semibold text-gray-800">{email}</span></p>
+          <p className="mb-6 text-sm text-gray-500">We have sent a 5-digit verification code to <span className="font-semibold text-gray-800">{email}</span></p>
 
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
@@ -125,6 +148,7 @@ export default function VerifyOTP() {
                     ref={(el) => inputRefs.current[index] = el}
                     onChange={(e) => handleChange(index, e.target.value)}
                     onKeyDown={(e) => handleKeyDown(index, e)}
+                    onPaste={handlePaste}
                     className="w-10 md:w-16 h-10 md:h-16 text-center text-xl font-semibold rounded-md border border-gray-300 text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                   />
                 ))}
