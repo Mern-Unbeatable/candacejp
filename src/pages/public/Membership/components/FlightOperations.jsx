@@ -54,35 +54,22 @@ const FlightOperations = () => {
             <p>
               Experience the pinnacle of executive travel between the financial
               heartbeat of{" "}
-              <a
-                href="#"
-                className="text-[#2563EB] hover:underline font-medium"
-              >
-                New York
-              </a>{" "}
-              and the sun-drenched shores of Tampa. We use only the highest
-              rated operators to ensure an experience engineered for the
-              discerning traveler who values time as their most precious asset.
+              <span className="text-[#2563EB] font-medium">New York</span> and
+              the sun-drenched shores of{" "}
+              <span className="text-[#2563EB] font-medium">Tampa</span>. We use
+              only the highest rated operators to ensure an experience
+              engineered for the discerning traveler who values time as their
+              most precious asset.
             </p>
             <p>
               By utilizing airports such as Teterboro{" "}
-              <a
-                href="#"
-                className="text-[#2563EB] hover:underline font-medium"
-              >
-                (TEB)
-              </a>{" "}
-              in New Jersey, we bypass the congestion of major hubs, offering
-              direct access just minutes from Manhattan. And we ensure a
-              seamless transition to the Guild Coast's premier business and
-              leisure destination of{" "}
-              <a
-                href="#"
-                className="text-[#2563EB] hover:underline font-medium"
-              >
-                Tampa
-              </a>{" "}
-              using airports such as{" "}
+              <span className="text-[#2563EB] font-medium">(TEB)</span> in New
+              Jersey, we bypass the congestion of major hubs, offering direct
+              access just minutes from Manhattan. And we ensure a seamless
+              transition to the Guild Coast's premier business and leisure
+              destination of{" "}
+              <span className="text-[#2563EB] font-medium">Tampa</span> using
+              airports such as{" "}
               <span className="text-[#2563EB] font-medium">TPA</span> and Tampa
               Executive.
             </p>
