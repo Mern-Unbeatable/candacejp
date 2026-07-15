@@ -6,6 +6,7 @@ import {
   useUpdateAdminMemberMutation,
 } from "../../../../hooks/api/useAdminQueries";
 import { getApiErrorMessage } from "../../../../hooks/useApiError";
+import useNominatim from "../../../../hooks/useNominatim";
 import { showSuccessAlert } from "../../../../utils/paymentAlerts";
 
 const emptyForm = {
@@ -21,14 +22,17 @@ const emptyForm = {
 
 export default function MemberDetailsModal({ memberId, mode = "view", onClose }) {
   const [form, setForm] = useState(emptyForm);
+  const [zipEdited, setZipEdited] = useState(false);
   const isViewMode = mode === "view";
 
   const { data: member, isLoading, isError } = useAdminMemberQuery(memberId);
   const { mutateAsync: updateMember, isPending } = useUpdateAdminMemberMutation();
+  const { location } = useNominatim(isViewMode ? "" : form.zipCode);
 
   useEffect(() => {
     if (!member) return;
 
+    setZipEdited(false);
     setForm({
       firstName: member.firstName || "",
       lastName: member.lastName || "",
@@ -41,8 +45,21 @@ export default function MemberDetailsModal({ memberId, mode = "view", onClose })
     });
   }, [member]);
 
+  useEffect(() => {
+    if (!zipEdited || (!location.city && !location.state)) return;
+
+    setForm((prev) => ({
+      ...prev,
+      city: location.city || prev.city,
+      state: location.state || prev.state,
+    }));
+  }, [location, zipEdited]);
+
   const handleChange = (event) => {
     const { name, value } = event.target;
+    if (name === "zipCode") {
+      setZipEdited(true);
+    }
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
