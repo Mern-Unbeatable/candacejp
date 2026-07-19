@@ -84,10 +84,16 @@ export default function useAuth() {
     return authApi.verifyPayment(sessionId)
   }, [])
 
-  const handleLogout = useCallback(() => {
-    dispatch(logout())
-    toast.success('Logged out')
-    navigate('/login', { replace: true })
+  const handleLogout = useCallback(async () => {
+    try {
+      await authApi.logout()
+    } catch {
+      // Clear local auth even if the session already expired server-side.
+    } finally {
+      dispatch(logout())
+      toast.success('Logged out')
+      navigate('/login', { replace: true })
+    }
   }, [dispatch, navigate])
 
   return {
