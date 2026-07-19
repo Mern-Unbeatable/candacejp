@@ -43,7 +43,7 @@ export function useLogoutMutation() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async () => undefined,
+    mutationFn: authApi.logout,
     onSuccess: () => {
       dispatch(logout())
       queryClient.clear()
@@ -77,7 +77,15 @@ export function useUpdateProfileMutation() {
 }
 
 export function useChangePasswordMutation() {
+  const dispatch = useDispatch()
+  const queryClient = useQueryClient()
+
   return useMutation({
     mutationFn: authApi.changePassword,
+    onSuccess: () => {
+      // The backend revokes every Better Auth session after password change.
+      dispatch(logout())
+      queryClient.clear()
+    },
   })
 }
