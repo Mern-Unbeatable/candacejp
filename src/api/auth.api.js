@@ -1,8 +1,17 @@
 import { http } from '../lib/api/http'
+import { betterAuthClient } from '../lib/auth/betterAuthClient'
 
 export const authApi = {
   login(credentials) {
     return http.post('/auth/login', credentials)
+  },
+
+  async logout() {
+    const { data, error } = await betterAuthClient.signOut()
+    if (error) {
+      throw new Error(error.message || 'Failed to sign out')
+    }
+    return data
   },
 
   register(data) {
